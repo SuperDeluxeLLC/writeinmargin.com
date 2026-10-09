@@ -31,9 +31,9 @@
 .bd-acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.1em;margin-top:.7em}
 @container win (max-width:30rem){.bd-acts{grid-template-columns:minmax(0,1fr)}}
 .bd-act{min-width:0}
-.bd-act__h{font:500 .78em/1.2 var(--ui);color:var(--app-faded);margin:0 0 .6em .2em}
+.bd-act__h{font:600 .74em/1.2 var(--ui);letter-spacing:.17em;text-transform:uppercase;color:var(--app-faded);margin:0 0 .7em .2em}
 .bd-list{display:grid;gap:.6em;align-content:start;min-height:6em;position:relative}
-.bd-card{position:relative;background:var(--app-card);border-radius:var(--r-card);padding:.8em .9em .85em;
+.bd-card{position:relative;background:var(--app-card);border-radius:1.2em;padding:.95em 1.1em;
   cursor:grab;user-select:none;-webkit-user-select:none;outline:1.5px solid transparent;outline-offset:-1.5px;
   transition:outline-color var(--dur-2) var(--ease),background-color var(--dur-2) var(--ease)}
 .bd-card:hover{outline-color:var(--app-rule)}
@@ -42,18 +42,19 @@
 .bd-card.is-moved{animation:bd-moved 1.4s var(--ease) both}
 @keyframes bd-moved{0%{background:var(--tile-on)}100%{background:var(--app-card)}}
 .bd-card__top{display:flex;align-items:center;gap:.5em}
-.bd-no{font-size:.78em;color:var(--app-faded);min-width:1ch}
+.bd-no{min-width:1ch}
 .bd-grip{margin-left:auto;margin-right:.3em;width:.5em;height:1em;opacity:0;touch-action:none;
   border-inline:2px dotted var(--app-faded);transition:opacity var(--dur-1)}
 .bd-card:hover .bd-grip,.bd-card:focus-visible .bd-grip{opacity:.7}
 @media (pointer:coarse){.bd-grip{opacity:.7}}
 .bd-card__top .ring{margin-left:auto}
 .bd-grip+.ring{margin-left:0}
-.bd-slug{font:700 .8em/1.25 var(--script);text-transform:uppercase;margin:.5em 0 .2em;overflow-wrap:anywhere}
-.bd-syn{font-size:.9em;line-height:1.35}
-.bd-foot{display:flex;align-items:center;flex-wrap:wrap;gap:.35em;margin-top:.6em}
-.bd-pp{margin-left:auto;font-size:.76em}
-.bd-tags{margin-top:.45em}
+/* a card as the app draws it (CardsView): see .app-scene-n, .app-chip, .app-thread and .app-foot in site.css */
+.bd-slug{font:500 .86em/1.3 var(--script);text-transform:uppercase;margin:.75em 0 .3em;overflow-wrap:anywhere}
+.bd-syn{font-size:1em;line-height:1.35}
+.bd-who{display:flex;flex-wrap:wrap;gap:.35em;margin-top:.7em}
+.bd-th{display:flex;margin-top:.45em}
+.bd-foot{margin:.75em 0 0}
 .app-chip.own{border-color:var(--app-ink);color:var(--app-ink)}
 /* the ring: nothing yet, rough, good, cut? */
 .ring{display:inline-block;position:relative;flex:none;width:1.15em;height:1.15em;border-radius:50%;

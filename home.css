@@ -51,22 +51,22 @@
 .rg__screen{display:grid;grid-template-columns:minmax(0,1fr);gap:1.1em;padding:1.1em;align-items:start;min-height:22em;
   transition:grid-template-columns var(--dur-3) var(--ease)}
 .rg[data-stop="2"] .rg__screen,.rg[data-stop="3"] .rg__screen{grid-template-columns:minmax(0,.5fr) minmax(0,1fr)}
-.rg__side{display:none;min-width:0}
+.rg__side{display:none;min-width:0;padding-right:1.1em;border-right:1px solid var(--app-rule)}
 .rg[data-stop="2"] .rg__board,.rg[data-stop="3"] .rg__notes{display:block;animation:slide-in var(--dur-3) var(--ease) both}
 @keyframes slide-in{from{transform:translateX(-1.2em);opacity:0}}
-.rg__side .hw__h{margin:.1em .1em .5em}
-.rg__cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6em}
-.rg__cards--one{grid-template-columns:minmax(0,1fr)}
-.rg__card{position:relative;padding:.7em .8em;min-height:6em}
-.rg__slug{font:700 .78em/1.3 var(--script);text-transform:uppercase;margin:.4em 1.6em 0 0;color:var(--app-ink)}
-.rg__ring{position:absolute;right:.7em;top:.7em;width:1.1em;height:1.1em;border-radius:50%;border:1.5px solid var(--app-faded);overflow:hidden}
+/* the panels as the app draws them: the Board's cards (CardsView) and the Notes list (NotesPlace) */
+.rg__cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7em}
+.rg__card{padding:.95em 1.1em}
+.rg__top{display:flex;align-items:center}
+.rg__slug{font:500 .86em/1.3 var(--script);text-transform:uppercase;margin:.7em 0 .25em;color:var(--app-ink);overflow-wrap:anywhere}
+.rg__what{font-size:.95em;line-height:1.35}
+.rg__who{display:flex;flex-wrap:wrap;gap:.35em;margin-top:.65em}
+.rg__th{display:flex;margin-top:.45em}
+.rg__foot{margin:.7em 0 0}
+.rg__ring{margin-left:auto;position:relative;width:1.1em;height:1.1em;border-radius:50%;border:1.5px solid var(--app-faded);overflow:hidden}
 .rg__ring.is-half::after{content:"";position:absolute;inset:0;background:var(--app-ink);clip-path:inset(0 50% 0 0)}
 .rg__ring.is-half,.rg__ring.is-done{border-color:var(--app-ink)}
 .rg__ring.is-done{background:var(--app-ink)}
-.rg__note{font-size:.9em;padding:.7em .85em}
-.rg__note p:last-child{margin-top:.3em}
-.rg__note--blue{border-left:3px solid var(--note-blue)}
-.rg__note--red{border-left:3px solid var(--accent)}
 .wy__pages{display:grid;grid-template-columns:minmax(0,1fr);gap:1.2em;min-width:0}
 .wy__pg{display:none;min-width:0}
 .rg .wy__pg--a{display:block}
@@ -122,24 +122,29 @@
 .bd__acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9em;align-items:start;max-width:44em}
 .bd__act{min-width:0;padding:.45em;border-radius:var(--r-card);min-height:9em;transition:background-color var(--dur-2)}
 .bd__act.is-over{background:var(--tile)}
-.bd__ah{margin:0 0 .6em .3em}
+/* an act's head, as the app sets one on a beat sheet's board: ACT ONE, small, tracked, faded */
+.bd__ah{margin:0 0 .7em .3em;font:600 .74em/1.2 var(--ui);letter-spacing:.17em;text-transform:uppercase;color:var(--app-faded)}
 .bd__cards{display:grid;gap:.6em;min-height:4em;align-content:start}
-.bcard{position:relative;background:var(--app-card);border-radius:var(--r-card);padding:.75em .85em .8em 1.55em;
+/* a card as the app draws it (CardsView): see .app-scene-n, .app-chip, .app-thread and .app-foot in site.css */
+.bcard{position:relative;background:var(--app-card);border-radius:1.2em;padding:.95em 1.1em;
   color:var(--app-ink);cursor:grab;-webkit-user-select:none;user-select:none;min-width:0}
 .bcard[data-c="aqua"]{--cc:var(--hand-aqua)}.bcard[data-c="lavender"]{--cc:var(--hand-lavender)}.bcard[data-c="pink"]{--cc:var(--hand-pink)}.bcard[data-c="lime"]{--cc:var(--hand-lime)}
 .bcard[data-c] .bcard__n::after{content:"";display:inline-block;width:.62em;height:.62em;margin-left:.6em;border-radius:50%;background:var(--cc);vertical-align:-.02em}
 .bcard:focus-visible{outline:2px solid var(--app-ink);outline-offset:2px}
 .bcard.is-drag{position:absolute;z-index:20;cursor:grabbing;outline:2px solid var(--app-ink);margin:0}
 .bcard--ph{background:transparent;border:1.5px dashed var(--hair);padding:0;min-height:3.4em}
-.bcard__grip{position:absolute;left:.5em;top:.7em;width:.7em;height:1.5em;touch-action:none;cursor:grab;opacity:.5;
+.bcard__grip{position:absolute;left:.3em;top:.85em;width:.6em;height:1.4em;touch-action:none;cursor:grab;opacity:0;transition:opacity var(--dur-1);
   border-left:2px dotted var(--app-faded);border-right:2px dotted var(--app-faded)}
-.bcard__top{display:flex;align-items:center;justify-content:space-between}
+.bcard:hover .bcard__grip,.bcard:focus-visible .bcard__grip{opacity:.5}
+@media (pointer:coarse){.bcard__grip{opacity:.5}}
+.bcard__top{display:flex;align-items:center}
 .bcard__n{margin:0}
-.bcard__len{margin:0 .75em 0 auto;font:500 .78em/1 var(--ui);font-variant-numeric:tabular-nums;color:var(--app-faded)}
-.bcard__slug{font:700 .76em/1.3 var(--script);text-transform:uppercase;margin:.5em 0 .25em;overflow-wrap:anywhere}
-.bcard__beat{font-size:.86em;line-height:1.35}
-.bcard__who{display:flex;gap:.35em;margin-top:.55em;flex-wrap:wrap}
-.bcard__th{font-size:.76em;color:var(--app-faded);margin-top:.5em}
+.bcard__top .bring{margin-left:auto}
+.bcard__slug{font:500 .86em/1.3 var(--script);-webkit-text-stroke:.024em currentColor;text-transform:uppercase;margin:.75em 0 .3em;overflow-wrap:anywhere}
+.bcard__beat{font-size:1em;line-height:1.35}
+.bcard__who{display:flex;gap:.35em;margin-top:.7em;flex-wrap:wrap}
+.bcard__th{display:flex;margin-top:.45em}
+.bcard__foot{margin:.75em 0 0}
 .bring{display:inline-block;position:relative;width:1.15em;height:1.15em;padding:0;border-radius:50%;border:1.5px solid var(--app-faded);flex:none;overflow:hidden;
   transition:background-color var(--dur-1)}
 .bring[data-ring="1"],.bring[data-ring="2"]{border-color:var(--app-ink)}
@@ -147,10 +152,15 @@
 .bring[data-ring="2"]{background:var(--app-ink)}
 .bring[data-ring="2"]::after{content:"";position:absolute;left:32%;top:14%;width:26%;height:50%;border:solid var(--app-card);border-width:0 1.6px 1.6px 0;transform:rotate(40deg)}
 button.bring{cursor:pointer;min-width:24px;min-height:24px}
-.bd__order{margin-top:1em;font-size:.8em;line-height:1.6;color:var(--app-faded)}
-.bd__order .app-eyebrow{margin-right:.5em}
-.bd__order #bd-order{overflow-wrap:anywhere}
-.bd__pane .hw__hint{margin-top:.3em}
+/* the board's foot, as the app's: Select, the counts in the middle, Threads at the right */
+.bd__foot{display:flex;align-items:center;gap:1em;margin-top:1.2em;padding-top:.7em;font:400 .85em/1.2 var(--ui);color:var(--app-ink)}
+.bd__stats{margin-inline:auto;color:var(--app-faded)}
+.bd__stats b{font-weight:400;color:var(--app-ink);margin-left:.3em;font-variant-numeric:tabular-nums}
+.bd__stats i{display:inline-block;width:1px;height:1em;background:var(--app-rule);margin:0 .8em;vertical-align:-.15em}
+.bd__thr{color:var(--app-faded)}
+/* what the demo shows, said under the window: the script's order, following the cards */
+.bd__order{margin:.7rem 0 0;font:400 var(--fs-cap)/var(--lh-cap) var(--ui);color:var(--quiet);overflow-wrap:anywhere}
+.bd__order .hw__hint{margin-left:.5em}
 /* the outline, as the board can also be read: a thread as knots down its edge */
 .ol{position:relative;display:block;padding:.2em .2em}
 .ol__thread{position:absolute;left:1.2em;width:1.5px;background:var(--app-ink);opacity:.6;margin-top:.2em}

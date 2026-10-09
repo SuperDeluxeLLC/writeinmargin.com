@@ -21,19 +21,33 @@
   function ico(id) { return '<svg class="ic" aria-hidden="true"><use href="#i-' + id + '"/></svg>'; }
   function short(slug) { return slug.replace(/^(Int|Ext)\. /, ''); }
 
-  function cardHTML(s, n) {
+  /* A card as the app draws it (CardsView): SCENE n and its ring, the heading, what happens, the people as
+     chips with their initials in their own colours, the thread as a pill, and its length and pages at the foot. */
+  var CAST = { Tom: 'tom', May: 'may' };
+  function who(c, lead) { return '<span class="app-chip who-' + (CAST[c] || 'x') + (lead ? ' own' : '') + '"><i>' + c.charAt(0) + '</i>' + c + '</span>'; }
+  function eighths(len) { var m = /^(?:(\d+)\s*)?(?:(\d)\/8)?$/.exec(len) || []; return (+(m[1] || 0)) * 8 + (+(m[2] || 0)); }
+  function pages(ids) {      // the pages each scene runs over, in the order the board has them: p. 3, or pp. 3–4
+    var at = 0, out = {};
+    ids.forEach(function (id) {
+      var len = eighths(scene(id).len), a = Math.floor(at / 8) + 1, b = Math.floor((at + len - 1) / 8) + 1;
+      out[id] = a === b ? 'p. ' + a : 'pp. ' + a + '\u2013' + b; at += len;
+    });
+    return out;
+  }
+  function cardHTML(s, n, pp) {
     return '<div class="bcard" data-id="' + s.id + '"' + (s.c ? ' data-c="' + s.c + '"' : '') + ' tabindex="0" aria-label="Scene ' + n + ', ' + esc(s.slug) + '. Arrow keys move it.">' +
-      '<div class="bcard__top"><span class="bcard__grip" aria-hidden="true"></span><span class="app-eyebrow bcard__n">' + n + '</span><span class="bcard__len">' + s.len + '</span>' +
+      '<div class="bcard__top"><span class="bcard__grip" aria-hidden="true"></span><span class="app-scene-n bcard__n">' + n + '</span>' +
       '<button type="button" class="bring" data-ring="' + s.ring + '" aria-label="Scene ' + n + ', ' + RING[s.ring] + '. Press to change."></button></div>' +
       '<p class="bcard__slug">' + esc(s.slug) + '</p><p class="bcard__beat">' + esc(s.beat) + '</p>' +
-      '<div class="bcard__who">' + s.cast.map(function (c) { return '<span class="app-chip">' + c + '</span>'; }).join('') + '</div>' +
-      (s.th ? '<p class="bcard__th">' + esc(s.th) + '</p>' : '') + '</div>';
+      '<div class="bcard__who">' + s.cast.map(function (c, i) { return who(c); }).join('') + '</div>' +
+      (s.knot ? '<div class="bcard__th"><span class="app-thread">the lighter</span></div>' : '') +
+      '<p class="bcard__foot app-foot">' + s.len + ' &middot; <span class="bcard__pp">' + (pp || '') + '</span></p></div>';
   }
   function boardHTML(acts) {
-    var n = 0;
+    var n = 0, pp = pages([].concat.apply([], acts.map(function (a) { return a.ids; })));
     return acts.map(function (a, i) {
       return '<section class="bd__act" data-act="' + i + '" aria-label="' + a.name + '"><p class="app-eyebrow bd__ah">' + a.name + '</p><div class="bd__cards">' +
-        a.ids.map(function (id) { return cardHTML(scene(id), ++n); }).join('') + '</div></section>';
+        a.ids.map(function (id) { return cardHTML(scene(id), ++n, pp[id]); }).join('') + '</div></section>';
     }).join('');
   }
   function orderLine(acts) {
@@ -125,10 +139,11 @@
       acts = $$('.bd__act', host).map(function (el, i) {
         return { name: ACTS[i].name, ids: $$('.bcard:not(.bcard--ph)', el).map(function (c) { return +c.getAttribute('data-id'); }) };
       });
-      var n = 0;
+      var n = 0, pp = pages(cards().map(function (c) { return +c.getAttribute('data-id'); }));
       $$('.bcard:not(.bcard--ph)', host).forEach(function (c) {
         n++; var s = scene(+c.getAttribute('data-id'));
         $('.bcard__n', c).textContent = n;
+        $('.bcard__pp', c).textContent = pp[s.id];      // the pages follow the card, as the app's do
         c.setAttribute('aria-label', 'Scene ' + n + ', ' + s.slug + '. Arrow keys move it.');
         var rb = $('.bring', c); rb.setAttribute('aria-label', 'Scene ' + n + ', ' + RING[s.ring] + '. Press to change.');
       });

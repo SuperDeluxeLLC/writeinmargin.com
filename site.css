@@ -83,14 +83,14 @@
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --well:#000000;--page:#0E0E0E;--card:#0E0E0E;--ink:#D9D4C7;--faded:#7F7C74;--accent:#FF4A3D;
-    --app-well:var(--well);
+    --app-well:var(--page);--app-card:color-mix(in srgb,var(--page) 97%,#fff);--app-chip-fill:color-mix(in srgb,var(--page) 90%,#fff);
     --device:#1A1A1A;--device-edge:#333333;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --well:#000000;--page:#0E0E0E;--card:#0E0E0E;--ink:#D9D4C7;--faded:#7F7C74;--accent:#FF4A3D;
-  --app-well:var(--well);
+  --app-well:var(--page);--app-card:color-mix(in srgb,var(--page) 97%,#fff);--app-chip-fill:color-mix(in srgb,var(--page) 90%,#fff);
   --device:#1A1A1A;--device-edge:#333333;
   color-scheme:dark;
 }
@@ -103,7 +103,10 @@
   --tile-on:color-mix(in srgb,var(--ink) 15%,transparent);    /* the one that is on */
   --focus:var(--ink);
   /* the app's parts, drawn inside a frame, follow the paper (dark sets --app-well to the desk above) */
-  --app-well:var(--page);--app-card:var(--card);--app-ink:var(--ink);--app-faded:var(--faded);
+  /* as the app colours them (MarginColor): a card is the paper lightened 18% (notesCard), a chip's fill the
+     paper darkened 9.5%, a capsule the faded ink at 10% */
+  --app-well:var(--page);--app-card:color-mix(in srgb,var(--page) 82%,#fff);--app-chip-fill:color-mix(in srgb,var(--page) 90.5%,#000);
+  --app-tint:color-mix(in srgb,var(--app-faded) 10%,transparent);--app-ink:var(--ink);--app-faded:var(--faded);
   --app-rule:var(--hair);--app-chip:var(--well);
 }
 
@@ -422,11 +425,45 @@ figure.demo>figcaption.cap:first-child{margin-top:0;margin-bottom:var(--sp-3)}
   .win--rail:not(.win--rail-keep) .rail__r{width:1px;height:calc(var(--tile) * .5);margin:0 min(.15em,.5cqw)}
 }
 /* a few of the app's own parts: a card on the well, a label, a chip */
-.app-card{background:var(--app-card);border-radius:var(--r-card);padding:.9em 1em;color:var(--app-ink)}
+.app-card{background:var(--app-card);border-radius:1.2em;padding:.9em 1.05em;color:var(--app-ink)}
 .app-eyebrow{font:500 .78em/1.2 var(--ui);color:var(--app-faded)}
-.app-chip{display:inline-block;font:500 .78em/1 var(--ui);padding:.4em .75em;border:1px solid var(--app-rule);
-  border-radius:99px;color:var(--app-faded);background:transparent;white-space:nowrap}
-.app-chip.on{background:var(--app-ink);color:var(--app-card);border-color:var(--app-ink)}
+/* A chip as the app draws one (SceneCardPeople): a capsule of faded ink at 10%, no edge, the name in ink;
+   a person's chip leads with their initial in their own colour on a 22% tint of it; the lead wears a ring. */
+.app-chip{display:inline-flex;align-items:center;gap:.35em;font:400 .8em/1.25 var(--ui);padding:.2em .65em;border:0;
+  border-radius:99px;color:var(--app-ink);background:var(--app-tint);white-space:nowrap}
+.app-chip>i{flex:none;display:grid;place-items:center;width:1.5em;height:1.5em;margin-left:-.42em;border-radius:50%;
+  font:700 .7em/1 var(--ui);font-style:normal;color:var(--who,var(--app-faded));background:color-mix(in srgb,var(--who,var(--app-faded)) 22%,transparent)}
+.app-chip.own{box-shadow:inset 0 0 0 1.3px var(--app-ink)}
+.app-chip.on{background:var(--app-ink);color:var(--app-card)}
+[data-who="tom"],.who-tom{--who:var(--hand-lavender)}[data-who="may"],.who-may{--who:var(--hand-lime)}
+/* a thread on a card (CardThreadPills): a dot in the thread's colour and its name in italics, on the chip fill */
+.app-thread{display:inline-flex;align-items:center;gap:.4em;font:italic 400 .8em/1.25 var(--ui);padding:.2em .7em;border-radius:99px;
+  color:var(--app-ink);background:var(--app-chip-fill);white-space:nowrap}
+.app-thread::before{content:"";flex:none;width:.6em;height:.6em;border-radius:50%;background:var(--th,var(--hand-coral))}
+/* a card's number, as the app sets it: SCENE 1, small, tracked, in ink at 70% */
+.app-scene-n{font:500 .74em/1.2 var(--ui);letter-spacing:.06em;text-transform:uppercase;font-variant-numeric:tabular-nums;
+  color:color-mix(in srgb,var(--app-ink) 70%,transparent)}
+.app-scene-n::before{content:"Scene "}
+/* a card's foot: its length and its page, faded */
+.app-foot{font:400 .8em/1.2 var(--ui);font-variant-numeric:tabular-nums;color:var(--app-faded)}
+/* a panel's head, as the app sets it: its name large and bold, the other tab faded beside it, the size
+   buttons and the close after them */
+.app-ph{display:flex;align-items:center;gap:.9em;margin:.2em 0 .8em}
+.app-ph b{font:700 1.7em/1 var(--ui);letter-spacing:-.01em;color:var(--app-ink)}
+.app-ph span{font:700 1.7em/1 var(--ui);letter-spacing:-.01em;color:color-mix(in srgb,var(--app-faded) 55%,transparent)}
+.app-ph i{margin-left:auto;display:flex;gap:.55em;align-items:center;color:var(--app-faded);font-style:normal}
+.app-ph i svg{width:1.05em;height:1.05em;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.app-search{display:flex;align-items:center;gap:.5em;padding:.6em .8em;border-radius:.9em;background:var(--app-chip-fill);
+  font:400 .95em/1.2 var(--ui);color:var(--app-faded);margin-bottom:.8em}
+.app-search kbd{margin-left:auto;font:400 .8em/1 var(--ui);color:var(--app-faded);border:0;background:none;padding:0}
+/* Notes as the app keeps them (NotesPlace): NOTES · THE PROJECT tracked small, the jot line in Iowan over a
+   rule in ink, then each note in Iowan with its age under it and a hairline between */
+.app-notes__eye{font:500 .72em/1.2 var(--ui);letter-spacing:.17em;text-transform:uppercase;color:var(--app-faded);margin:0 0 .5em}
+.app-notes__jot{font:400 1.15em/1.3 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;color:color-mix(in srgb,var(--app-faded) 70%,transparent);
+  padding:.55em 0;border-bottom:1.5px solid var(--app-ink)}
+.app-notes__row{padding:.75em 0;border-bottom:1px solid var(--app-rule)}
+.app-notes__row p{margin:0;font:400 1.05em/1.35 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;color:var(--app-ink)}
+.app-notes__row small{display:block;margin-top:.25em;font:400 .8em/1.2 var(--ui);color:var(--app-faded)}
 .app-faded{color:var(--app-faded)}
 .app-rule{border-top:1px solid var(--app-rule)}
 
