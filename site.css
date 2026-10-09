@@ -218,7 +218,7 @@ kbd{font:500 .8em/1 var(--ui);letter-spacing:.02em;display:inline-block;padding:
 .sec>.col+.rows,.sec>.rows+.col{margin-top:var(--sp-block)}
 .sec>.col>h2+p,.sec>.col>h3+p{margin-top:var(--sp-2)}
 /* the hero: the one line, the sentence under it, the three ways */
-.hero{padding-block:clamp(3rem,9vw,6.5rem) 0}
+.hero{padding-block:clamp(1.75rem,4vw,3rem) 0}
 .hero h1{max-width:20ch}
 .hero .lede{margin-top:var(--sp-4)}
 .hero__note{margin-top:var(--sp-5);font:400 var(--fs-cap)/var(--lh-cap) var(--ui);color:var(--quiet)}

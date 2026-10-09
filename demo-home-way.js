@@ -14,6 +14,7 @@
   var tabs = { kb: $('#tab-kb'), menu: $('#tab-menu'), touch: $('#tab-touch') };
   var keys = ['kb', 'menu', 'touch'];
   var current = 'kb', userPicked = false, cycle = 0;
+  var R = window.MarginRange, only = null;      // only: the one stop a visitor picked, or null for the whole tour
   var rg = $('#rg'), ctl = $('#rg-ctl'), stopsEl = $$('[role="radio"]', ctl);
 
   function set(el, o) { Object.keys(o).forEach(function (k) { el.setAttribute('data-' + k, o[k]); }); }
@@ -25,7 +26,7 @@
   }
   function final(key) {
     var el = panels[key];
-    if (key === 'kb') { setStop(1); $('.sh__typed', el).textContent = 'new draft'; filter(el, 'new draft'); steps(el, 9); return; }
+    if (key === 'kb') { if (R) R.finish(only === null ? 1 : only); else { setStop(1); $('.sh__typed', el).textContent = 'new draft'; filter(el, 'new draft'); } steps(el, 9); return; }
     else if (key === 'menu') set(el, { a: 1, b: 1, panel: 0, 'new': 1, menu: 0 });
     else set(el, { a: 1, b: 1, panel: 0, 'new': 1 });
     steps(el, 9);
@@ -38,7 +39,7 @@
   /* the shelf filters as you type, like the real one */
   function filter(el, q) {
     var words = q.toLowerCase().split(/\s+/).filter(Boolean), first = null;
-    $$('.sh__row', el).forEach(function (r) {
+    $$('.sh__row:not([data-x])', el).forEach(function (r) {   // rows the stops add themselves (data-x) are theirs to show
       var hay = (r.getAttribute('data-k') + ' ' + r.textContent).toLowerCase();
       var ok = words.every(function (w) { return hay.indexOf(w) >= 0; });
       r.hidden = !ok; r.classList.remove('is-on');
@@ -89,18 +90,14 @@
   }
 
   var scripts = {
+    /* the window's five stops, each played (demo-home-range.js): the whole tour, or the one picked */
     kb: async function (c) {
-      var el = panels.kb;
-      setStop(0); steps(el, 0);
-      $('.sh__typed', el).textContent = ''; filter(el, '');
-      if (!await c.sleep(700)) return;
-      setStop(1); steps(el, 1);
-      if (!await c.sleep(900)) return;
-      if (!await typeInShelf(c, el, 'new draft', 85)) return;
-      if (!await c.sleep(800)) return;
-      setStop(0, { a: 0, b: 1 }); steps(el, 2);         // return: Draft 2a, alone
-      if (!await c.sleep(1500)) return;
-      setStop(4); steps(el, 4);                        // ⌥⌘\: the two, level
+      if (!R) return;
+      var list = only === null ? [0, 1, 2, 3, 4] : [only];
+      for (var k = 0; k < list.length; k++) {
+        if (!await R.play(list[k], c)) return;
+        if (k < list.length - 1 && !await c.sleep(1200)) return;
+      }
     },
     menu: async function (c) {
       var el = panels.menu;
@@ -140,11 +137,8 @@
     reset: function () { /* each script blanks its own route */ },
     play: function (c) { return scripts[current](c); },
     // left alone, it walks the three routes in turn; the moment you pick one, it stops
-    after: function () {
-      if (userPicked || current === 'touch') return;
-      var my = ++cycle, next = keys[keys.indexOf(current) + 1];
-      setTimeout(function () { if (my === cycle && !userPicked) select(next, false, true); }, 1600);
-    }
+    // the tour ends on the split; the other two routes are not shown on this page
+    after: function () {}
   });
 
   function select(key, focus, auto) {
@@ -169,6 +163,7 @@
   $('#ways-tabs').hidden = false; $('#ways-replay').hidden = false;
   ways.classList.add('is-live');
   panels.kb.classList.add('is-on');
+  if (R) R.init({ setStop: setStop, filter: filter });
   keys.forEach(final);
 
   /* ---- the range: the keyboard window, opened out from bare to full by a segmented control ------------ */
@@ -181,12 +176,18 @@
     });
     if (i !== 1) { var t = $('.sh__typed', rg); t.textContent = ''; filter(rg, ''); }
   }
+  /* picking a stop plays that stop, from its start */
+  function pick(n) {
+    only = n; userPicked = true; cycle++;
+    if (!R || MS.reduced) { player.settle(); if (!R) setStop(n); steps(panels.kb, 9); return; }
+    current = 'kb'; player.play();
+  }
   stopsEl.forEach(function (b, n) {
-    b.addEventListener('click', function () { player.settle(); setStop(n); steps(panels.kb, 9); });
+    b.addEventListener('click', function () { pick(n); });
     b.addEventListener('keydown', function (e) {
       var d = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
       if (!d) return; e.preventDefault();
-      var m = (n + d + stopsEl.length) % stopsEl.length; player.settle(); setStop(m); stopsEl[m].focus();
+      var m = (n + d + stopsEl.length) % stopsEl.length; pick(m); stopsEl[m].focus();
     });
   });
   ctl.hidden = false; $('#rg-cap').hidden = false;

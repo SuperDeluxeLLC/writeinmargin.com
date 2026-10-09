@@ -91,6 +91,7 @@
   /* a phone's window has no room beside the panel: the panel has the window to itself */
   .rg:is([data-stop="2"],[data-stop="3"]) .rg__pages{display:none}
   .rg:is([data-stop="2"],[data-stop="3"]) .rg__side{padding-right:0;border-right:0}
+  .rg.is-half[data-stop="3"] .rg__screen{grid-template-columns:minmax(0,1fr)}
   .rg[data-a="1"][data-b="1"] .rg__pages{grid-template-columns:minmax(0,1fr)}
 }
 /* how much is open around the page: a row of controls under the frame */
@@ -371,3 +372,111 @@ button.bring{cursor:pointer;min-width:24px;min-height:24px}
 .policy__date{margin-bottom:var(--sp-3)}
 .stack>.hero__note{margin-top:var(--sp-4)}
 .ap-rows .rg__ring{margin:0;width:.95em;height:.95em}
+
+/* ---- the hero, playing: a pointer, the keys under the window, the page the board's order is read on, the notes ---- */
+.rg__screen{position:relative}
+/* the divider beside a panel runs the window's full height, as the app's does */
+.rg__side{align-self:stretch}
+.rg__pointer{position:absolute;left:0;top:0;z-index:30;width:1.15em;height:1.6em;pointer-events:none;
+  background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 20'%3E%3Cpath d='M1 1v15.5l4-3.6 2.6 5.6 2.4-1.1-2.6-5.5 5.3-.3z' fill='%23111' stroke='%23fff' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E");
+  transition:transform .7s cubic-bezier(.4,0,.2,1);will-change:transform}
+/* the keys: each press as it lands and what it did, in a row of its own under the window, so it covers nothing */
+.rg__keys{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.35em;min-height:2.9rem;margin:.9rem 0 0;
+  font:400 1rem/1.3 var(--ui);color:var(--faded);text-align:center}
+.rg__keys kbd{display:inline-grid;place-items:center;min-width:1.95em;height:1.95em;padding:0 .5em;border:1px solid var(--hair);border-bottom-width:2px;
+  border-radius:.4em;background:var(--well);color:var(--ink);font:600 .95em/1 var(--ui)}
+.rg__keys kbd.is-word{font-weight:500;font-size:.88em;letter-spacing:.01em}
+.rg__keys span{margin-left:.5em}
+.rg__keys.is-on kbd{animation:key-down .34s var(--ease) both}
+.rg__keys.is-on span{animation:key-say .34s var(--ease) both}
+@keyframes key-down{0%{transform:translateY(2px);border-bottom-width:1px;background:var(--tile-on)}}
+@keyframes key-say{from{opacity:0}}
+/* the cast under a cue line: the ⌘K shelf, set into the page */
+.sh.sh--cue{display:block;animation:key-say .2s var(--ease) both}
+.sh--cue .sh__row b{text-transform:uppercase}
+/* a card or a line lifted by the pointer */
+.rg__ghost{position:absolute;z-index:25;pointer-events:none;background:var(--app-card);border:1px solid var(--app-ink);border-radius:.5em;
+  padding:.3em .6em;font:500 .8em/1.3 var(--script);-webkit-text-stroke:.024em currentColor;text-transform:uppercase;color:var(--app-ink);
+  transition:transform .9s cubic-bezier(.4,0,.2,1);white-space:nowrap}
+.ap-rows li.is-gap{background:transparent;outline:1.5px dashed var(--app-rule);outline-offset:-1.5px}
+.ap-rows li.is-lifted{opacity:.25}
+.ap-rows li.is-moved,.rg__run .is-moved,.sc-dlg.is-merged,.ap-note.is-new,.ap-pnotes li.is-new{animation:rg-moved 1.6s var(--ease) both}
+@keyframes rg-moved{0%,40%{background:color-mix(in srgb,var(--hl) 55%,transparent)}100%{background:transparent}}
+/* the page beside the board: the whole script in the board's order, scrolled to where the board is */
+.rg__run{display:none;min-width:0}
+.rg[data-stop="2"] .rg__run{display:block;align-self:stretch;overflow:hidden;position:relative}
+.rg[data-stop="2"] .rg__pages{display:none}
+.rg__run .sc-act{color:var(--app-ink)}
+.rg__run>.sheet-wrap>.sheet>div{border-radius:.2em}
+/* words on the page: selected by a drag, then highlighted */
+.rg__sel{background:color-mix(in srgb,#4a7fd4 30%,transparent)}
+.rg .sheet mark.ap-hl{font-weight:inherit;padding:0 .04em;border-radius:.15em}
+/* the notes written on the page, as Notes lists them under On the page */
+.ap-pnotes{margin-top:.65em;padding:0 .2em}
+.ap-pnotes ul{list-style:none;margin:.35em 0 0;padding:0}
+.ap-pnotes li{display:flex;align-items:baseline;gap:.6em;padding:.2em 0;font:400 .8em/1.35 var(--script);border-radius:.2em}
+.ap-pnotes em{margin-left:auto;flex:none;font:400 .85em/1 var(--ui);font-style:normal;color:var(--app-faded)}
+/* a note opened: half the window, as the app opens one, the page the other half; its highlight on top */
+.rg.is-half[data-stop="3"] .rg__screen{grid-template-columns:minmax(0,calc(50% - 1.4em)) minmax(0,1fr)}
+.ap-editor{margin-top:.7em}
+.ap-editor__bar{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 .7em;font:500 .85em/1.2 var(--ui);color:var(--app-ink)}
+.ap-editor__bar em{font:400 .75em/1 var(--ui);font-style:normal;color:var(--app-faded)}
+.ap-editor__body{min-height:12em;padding:.9em 1em;border:1px solid var(--app-rule);border-radius:1em;font:400 .82em/1.6 var(--script);color:var(--app-ink)}
+.rg.is-half .ap-editor__body{min-height:24em;font-size:.92em}
+.ap-editor__body p{margin:0;min-height:1.6em}
+.ap-editor__q{margin-bottom:.8em!important;font-family:var(--ui)}
+.ap-editor__q .ap-sc{font-size:.8em}
+.md-mk{color:var(--app-faded);font-weight:400}
+.md-h1{font-size:1.45em;line-height:1.3;font-weight:500;-webkit-text-stroke:.024em currentColor}
+.md-h1 .md-mk{-webkit-text-stroke:0}
+.ap-editor__body b{font-weight:500;-webkit-text-stroke:.024em currentColor}
+.md-box{display:inline-block;width:.85em;height:.85em;margin-right:.45em;border:1.5px solid var(--app-faded);border-radius:.2em;vertical-align:-.1em}
+.md-dot{display:inline-block;width:.35em;height:.35em;margin:0 .6em .15em .25em;border-radius:50%;background:var(--app-ink)}
+.rg__notes.is-editing>:not(.app-ph):not(.ap-editor){display:none}
+/* a file from outside the app, carried in by the pointer */
+.rg__file{position:absolute;left:0;top:0;z-index:28;display:grid;justify-items:center;gap:.3em;width:7em;pointer-events:none;
+  transition:transform 1.2s cubic-bezier(.4,0,.2,1)}
+.rg__file svg{width:2.4em;height:3em;fill:var(--app-card);stroke:var(--app-ink);stroke-width:1.1;stroke-linejoin:round}
+.rg__file b{padding:.15em .5em;border-radius:.3em;background:var(--app-ink);color:var(--app-well);font:500 .7em/1.2 var(--ui);white-space:nowrap}
+/* the column taking it: its edge says it will, and words in the middle say where it goes */
+.rg__notes{position:relative}
+.rg__notes.is-drop{outline:1.5px solid var(--app-ink);outline-offset:-2px;border-radius:.8em}
+.ib-drop{position:absolute;left:50%;top:34%;z-index:20;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:.45em;width:max-content;max-width:88%;
+  padding:.9em 1.1em;background:var(--app-card);border:1px solid var(--app-rule);border-radius:1em;text-align:center;font:600 .78em/1.3 var(--ui);color:var(--app-ink)}
+.ib-drop svg{width:1.7em;height:1.7em;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+/* the Inbox, opened by what arrived: each piece, what it is, where it would go, why; and the ways on */
+.rg__notes .ap-inbox{display:block}
+.ap-inbox__head{display:flex;align-items:center;justify-content:space-between}
+.ap-inbox.is-open{padding:.65em .75em .75em;color:var(--app-ink)}
+.ib__name{display:block;margin:.2em 0 .55em;font:700 1.2em/1.15 var(--ui);color:var(--app-ink)}
+.ib__row{display:grid;grid-template-columns:1.1em minmax(0,1fr) auto;gap:.5em;margin:0 -.35em .3em;padding:.55em .5em;border-radius:.6em;
+  background:var(--app-chip-fill);animation:slide-in var(--dur-3) var(--ease) both}
+.ib__row+.ib__row{animation-delay:.2s}
+.ib__row svg{width:1.1em;height:1.1em;color:var(--app-faded)}
+.ib__row>i{font:400 .9em/1 var(--ui);font-style:normal;color:var(--app-faded)}
+.ib__row p{margin:0}
+.ib__src{font:600 .6em/1.3 var(--ui);letter-spacing:.09em;text-transform:uppercase;color:var(--app-faded)}
+.ib__words{margin:.2em 0 .35em!important;font:400 .82em/1.35 var(--ui);color:var(--app-ink)}
+.ib__to{display:flex;flex-wrap:wrap;align-items:center;gap:.35em;font:400 .76em/1.3 var(--ui);color:var(--app-ink)}
+.ib__chip{padding:.05em .5em;border:1.5px solid var(--app-ink);border-radius:.5em;font-weight:600}
+.ib__why{margin-top:.3em!important;font:400 .72em/1.3 var(--ui);color:var(--app-faded)}
+.ib__foot{margin:.5em -.75em -.75em;padding:.6em .75em .7em;border-top:1px solid var(--app-rule);border-radius:0 0 .9em .9em;background:var(--app-chip-fill)}
+.ib__foot p{margin:0;font:400 .72em/1.35 var(--ui);color:var(--app-ink)}
+.ib__foot .ib__eye{margin-bottom:.15em;font:600 .62em/1.3 var(--ui);letter-spacing:.09em;text-transform:uppercase;color:var(--app-faded)}
+.ib__btns{display:flex;flex-wrap:wrap;gap:.35em;margin-top:.55em!important}
+.ib__btn{padding:.4em .75em;border-radius:.55em;background:var(--app-card);font:500 1em/1 var(--ui);transition:transform .15s}
+.ib__btn.is-keep{background:var(--app-ink);color:var(--app-well)}
+.ib__btn.is-press{transform:scale(.94)}
+/* the split: what changed in the new draft is marked on both sides; the draft's name, what it changed, the shut */
+.wy__pg--a .sc-dlg.was{background:var(--tile-on);border-radius:.2em}
+.hw__name{position:relative}
+.hw__count{font:400 .92em/1 ui-monospace,"SF Mono",Menlo,monospace;font-style:normal;color:var(--app-faded)}
+.hw__x{position:absolute;right:.4em;top:50%;transform:translateY(-50%);font:400 1.15em/1 var(--ui);font-style:normal;color:var(--app-faded)}
+.rg__menu{position:absolute;z-index:29;min-width:13em;padding:.3em;background:var(--app-card);border:1px solid var(--app-rule);border-radius:.55em;
+  font:400 .8em/1.2 var(--ui);color:var(--app-ink)}
+.rg__menu b{display:block;padding:.45em .65em;border-radius:.35em;font-weight:400}
+.rg__menu b.is-on{background:var(--app-ink);color:var(--app-well)}
+@container (max-width:36rem){
+  .rg[data-stop="2"] .rg__run{display:none}
+  .rg.is-half[data-stop="3"] .rg__screen{grid-template-columns:minmax(0,1fr)}
+}
