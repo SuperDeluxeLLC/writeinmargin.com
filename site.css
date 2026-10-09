@@ -434,6 +434,8 @@ figure.demo>figcaption.cap:first-child{margin-top:0;margin-bottom:var(--sp-3)}
 .app-chip>i{flex:none;display:grid;place-items:center;width:1.5em;height:1.5em;margin-left:-.42em;border-radius:50%;
   font:700 .7em/1 var(--ui);font-style:normal;color:var(--who,var(--app-faded));background:color-mix(in srgb,var(--who,var(--app-faded)) 22%,transparent)}
 .app-chip.own{box-shadow:inset 0 0 0 1.3px var(--app-ink)}
+/* a person on a full-size card: their initial in a disc of their own colour (SceneCardPersonDisc) */
+.app-disc{display:inline-grid;place-items:center;width:1.55em;height:1.55em;border-radius:50%;font:700 .68em/1 var(--ui);color:var(--who,var(--app-faded));background:color-mix(in srgb,var(--who,var(--app-faded)) 22%,transparent)}
 .app-chip.on{background:var(--app-ink);color:var(--app-card)}
 [data-who="tom"],.who-tom{--who:var(--hand-lavender)}[data-who="may"],.who-may{--who:var(--hand-lime)}
 /* a thread on a card (CardThreadPills): a dot in the thread's colour and its name in italics, on the chip fill */
@@ -451,11 +453,61 @@ figure.demo>figcaption.cap:first-child{margin-top:0;margin-bottom:var(--sp-3)}
 .app-ph{display:flex;align-items:center;gap:.9em;margin:.2em 0 .8em}
 .app-ph b{font:700 1.7em/1 var(--ui);letter-spacing:-.01em;color:var(--app-ink)}
 .app-ph span{font:700 1.7em/1 var(--ui);letter-spacing:-.01em;color:color-mix(in srgb,var(--app-faded) 55%,transparent)}
-.app-ph i{margin-left:auto;display:flex;gap:.55em;align-items:center;color:var(--app-faded);font-style:normal}
+.app-ph i{margin-left:auto;display:flex;gap:.3em;align-items:center;color:var(--app-faded);font-style:normal}
+.app-ph i em{display:grid;place-items:center;width:1.7em;height:1.45em;border-radius:.4em}
+.app-ph i em.on{background:var(--tile-on);color:var(--app-ink)}
+.app-ph i u{width:1px;height:1.1em;margin:0 .3em;background:var(--app-rule)}
 .app-ph i svg{width:1.05em;height:1.05em;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
 .app-search{display:flex;align-items:center;gap:.5em;padding:.6em .8em;border-radius:.9em;background:var(--app-chip-fill);
   font:400 .95em/1.2 var(--ui);color:var(--app-faded);margin-bottom:.8em}
 .app-search kbd{margin-left:auto;font:400 .8em/1 var(--ui);color:var(--app-faded);border:0;background:none;padding:0}
+.app-search svg{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round}
+/* A panel as the app lays one out down the side (the Board's and the Notes' at their narrow size): small
+   tracked heads, the script's headings in DM Mono's bold, groups in outlined cards with a title and their
+   actions, rows with a ring, a number and a length in a capsule; the Notes' inbox, to-do and stacks. */
+:is(.ap-eye,.ap-group,.ap-inbox,.ap-searchrow,.ap-here,.ap-next) svg{fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.ap-eye{display:flex;align-items:center;gap:.4em;margin:0;font:600 .62em/1.35 var(--ui);letter-spacing:.09em;text-transform:uppercase;color:var(--app-faded)}
+.ap-eye svg{width:1.35em;height:1.35em;flex:none}
+.ap-slug{margin:.25em 0 0;font:500 .8em/1.3 var(--script);-webkit-text-stroke:.024em currentColor;text-transform:uppercase;color:var(--app-ink)}
+.ap-here{border:1px solid var(--app-rule);border-radius:.9em;padding:.6em .75em}
+.ap-next{padding:.55em .75em .3em}
+.ap-group{border:1px solid var(--app-rule);border-radius:1em;padding:.75em .8em .6em;margin-top:.65em}
+.ap-group__head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;row-gap:.25em}
+.ap-group__head b{grid-column:1;display:flex;align-items:center;gap:.25em;font:600 1.05em/1.2 var(--ui);color:var(--app-ink)}
+.ap-group__head b svg{width:.85em;height:.85em;color:var(--app-faded)}
+.ap-act{grid-column:2;grid-row:1/3;display:flex;gap:.35em;color:var(--app-faded)}
+.ap-act svg{width:1.2em;height:1.2em}
+.ap-rows{list-style:none;margin:.55em 0 0;padding:0}
+.ap-rows li{display:grid;grid-template-columns:1em 1.3em minmax(0,1fr) auto;align-items:center;gap:.5em;padding:.32em .35em;border-radius:.5em}
+.ap-rows li.is-here{background:var(--tile-on)}
+.ap-rows .ap-slug{margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ap-n{font:400 .76em/1 var(--ui);font-variant-numeric:tabular-nums;color:var(--app-faded)}
+.ap-len{font:italic 400 .7em/1 var(--ui);padding:.25em .55em;border-radius:99px;background:var(--app-chip-fill);color:var(--app-ink);white-space:nowrap}
+.ap-searchrow{display:flex;gap:.45em}
+.ap-searchrow .app-search{flex:1;margin:0}
+.ap-sq{display:grid;place-items:center;width:2.4em;border-radius:.9em;background:var(--app-chip-fill);color:var(--app-ink)}
+.ap-sq svg{width:1.05em;height:1.05em;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ap-inbox{display:flex;align-items:center;justify-content:space-between;margin-top:.6em;padding:.55em .75em;border:1px solid var(--app-rule);border-radius:.9em;color:var(--app-faded)}
+.ap-inbox>span svg{width:1em;height:1em;display:block}
+.ap-add{margin:.5em 0 .35em;font:400 .82em/1.3 var(--ui);color:var(--app-faded)}
+.ap-todo{list-style:none;margin:0;padding:.45em 0 0;border-top:1px solid var(--app-rule)}
+.ap-todo li{display:flex;align-items:center;gap:.5em;padding:.22em 0;font:400 .85em/1.3 var(--ui);color:var(--app-ink)}
+.ap-todo i{flex:none;display:grid;place-items:center;width:1.05em;height:1.05em;border-radius:50%;border:1.5px solid var(--app-faded);font:700 .7em/1 var(--ui);font-style:normal}
+.ap-todo li.is-done{color:var(--app-faded)}
+.ap-todo li.is-done i{background:var(--app-ink);border-color:var(--app-ink);color:var(--app-well)}
+.ap-todo li.is-done i::after{content:"\2713"}
+.ap-todo em{margin-left:auto;font:italic 400 .8em/1 var(--ui);padding:.2em .55em;border-radius:99px;background:var(--app-chip-fill);color:var(--app-faded)}
+.ap-note{margin-top:.6em}
+.ap-note p,.ap-sub p:not(.ap-eye){margin:0 0 .3em;font:400 .86em/1.35 var(--ui);color:var(--app-ink)}
+.ap-hl{background:color-mix(in srgb,var(--c) 75%,transparent);color:var(--hl-ink);font-weight:500;padding:.05em .15em;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone}
+.ap-meta{display:flex;align-items:center;gap:.6em;font:400 .75em/1 var(--ui);color:var(--app-faded)}
+.ap-sc{font-style:italic;padding:.2em .5em;border-radius:99px;background:var(--app-chip-fill);color:var(--app-ink)}
+.ap-sub{margin:0 -.8em;padding:.5em .8em .25em;border-top:1px solid var(--app-rule)}
+.ap-sub--line{display:grid;grid-template-columns:4.5em minmax(0,1fr);gap:.5em}
+.ap-sub .ap-eye{margin-bottom:.2em}
+.ap-sub--line .ap-eye{display:block}
+.ap-sub--line .ap-hl{display:inline-block;margin-top:.25em;letter-spacing:.06em}
 /* Notes as the app keeps them (NotesPlace): NOTES · THE PROJECT tracked small, the jot line in Iowan over a
    rule in ink, then each note in Iowan with its age under it and a hairline between */
 .app-notes__eye{font:500 .72em/1.2 var(--ui);letter-spacing:.17em;text-transform:uppercase;color:var(--app-faded);margin:0 0 .5em}

@@ -50,7 +50,8 @@
 #way-menu,#way-touch{display:none!important}
 .rg__screen{display:grid;grid-template-columns:minmax(0,1fr);gap:1.1em;padding:1.1em;align-items:start;min-height:22em;
   transition:grid-template-columns var(--dur-3) var(--ease)}
-.rg[data-stop="2"] .rg__screen,.rg[data-stop="3"] .rg__screen{grid-template-columns:minmax(0,.5fr) minmax(0,1fr)}
+/* a panel at its narrow size, as the app opens one: a strip down the side, the page beside it */
+.rg[data-stop="2"] .rg__screen,.rg[data-stop="3"] .rg__screen{grid-template-columns:minmax(0,19em) minmax(0,1fr)}
 .rg__side{display:none;min-width:0;padding-right:1.1em;border-right:1px solid var(--app-rule)}
 .rg[data-stop="2"] .rg__board,.rg[data-stop="3"] .rg__notes{display:block;animation:slide-in var(--dur-3) var(--ease) both}
 @keyframes slide-in{from{transform:translateX(-1.2em);opacity:0}}
@@ -119,12 +120,28 @@
 /* 3. The board: cards you move, the script following ------------------------------------------ */
 .bd__screen{padding:1.1em}
 .bd__pane[hidden]{display:none}
-.bd__acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9em;align-items:start;max-width:44em}
+/* the board full size, as the app opens it: the head, THE SHAPE, then one grid of the scenes */
+.bd__acts{display:grid;grid-template-columns:minmax(0,1fr);gap:.9em}
+.bd__sh{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 .7em}
+.bd__sh b{font:600 1.15em/1.2 var(--ui);color:var(--app-ink)}
+.bd__sh span{font:400 .8em/1 var(--ui);color:var(--app-faded);font-variant-numeric:tabular-nums}
+.bd__shape{margin:0 0 1.2em}
+.bd__shape-h{display:flex;align-items:baseline;gap:.7em;margin:0 0 .45em;font:400 .72em/1.2 var(--ui);color:var(--app-faded)}
+.bd__shape-h b{font-weight:600;letter-spacing:.17em;text-transform:uppercase;color:var(--app-ink)}
+.bd__shape-h i{margin-left:auto;display:flex;gap:.4em;font-style:normal}
+.bd__shape-h em{font:600 .9em/1 var(--ui);letter-spacing:.14em;text-transform:uppercase;font-style:normal;padding:.35em .7em;border-radius:99px;background:var(--app-chip-fill);color:var(--app-faded)}
+.bd__lane{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.8em;align-items:start}
+.bd__lane-l{font:600 .62em/1 var(--ui);letter-spacing:.17em;text-transform:uppercase;color:var(--app-faded);padding-top:.5em}
+.bd__lane-box{border:1px solid var(--app-rule);border-radius:.35em;overflow:hidden;background:color-mix(in srgb,var(--app-chip-fill) 35%,transparent)}
+.bd__lane-box p{margin:0;padding:.35em .6em;font:600 .64em/1.2 var(--ui);letter-spacing:.12em;text-transform:uppercase;color:var(--app-ink);background:var(--app-chip-fill)}
+.bd__lane-box svg{display:block;width:100%;height:4.2em}
+.bd__line{fill:none;stroke:var(--accent);stroke-width:2;vector-effect:non-scaling-stroke}
+.bd__lane-box circle{fill:var(--app-well);stroke:var(--app-faded);stroke-width:1.2;vector-effect:non-scaling-stroke}
 .bd__act{min-width:0;padding:.45em;border-radius:var(--r-card);min-height:9em;transition:background-color var(--dur-2)}
 .bd__act.is-over{background:var(--tile)}
 /* an act's head, as the app sets one on a beat sheet's board: ACT ONE, small, tracked, faded */
 .bd__ah{margin:0 0 .7em .3em;font:600 .74em/1.2 var(--ui);letter-spacing:.17em;text-transform:uppercase;color:var(--app-faded)}
-.bd__cards{display:grid;gap:.6em;min-height:4em;align-content:start}
+.bd__cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,16.5em),1fr));gap:.7em;min-height:4em;align-content:start}
 /* a card as the app draws it (CardsView): see .app-scene-n, .app-chip, .app-thread and .app-foot in site.css */
 .bcard{position:relative;background:var(--app-card);border-radius:1.2em;padding:.95em 1.1em;
   color:var(--app-ink);cursor:grab;-webkit-user-select:none;user-select:none;min-width:0}
@@ -159,7 +176,7 @@ button.bring{cursor:pointer;min-width:24px;min-height:24px}
 .bd__stats i{display:inline-block;width:1px;height:1em;background:var(--app-rule);margin:0 .8em;vertical-align:-.15em}
 .bd__thr{color:var(--app-faded)}
 /* what the demo shows, said under the window: the script's order, following the cards */
-.bd__order{margin:.7rem 0 0;font:400 var(--fs-cap)/var(--lh-cap) var(--ui);color:var(--quiet);overflow-wrap:anywhere}
+.bd__order{margin-top:.7rem;font:400 var(--fs-cap)/var(--lh-cap) var(--ui);color:var(--quiet);overflow-wrap:anywhere}
 .bd__order .hw__hint{margin-left:.5em}
 /* the outline, as the board can also be read: a thread as knots down its edge */
 .ol{position:relative;display:block;padding:.2em .2em}
@@ -344,3 +361,4 @@ button.bring{cursor:pointer;min-width:24px;min-height:24px}
 .policy[open] summary{margin-bottom:var(--sp-3)}
 .policy__date{margin-bottom:var(--sp-3)}
 .stack>.hero__note{margin-top:var(--sp-4)}
+.ap-rows .rg__ring{margin:0;width:.95em;height:.95em}

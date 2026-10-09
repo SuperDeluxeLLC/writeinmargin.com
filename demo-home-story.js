@@ -13,7 +13,8 @@
     { id: 5, slug: 'Ext. pier - night', beat: 'He waits. She is late.', cast: ['Tom'], ring: 0, len: '1 1/8' },
     { id: 6, slug: 'Int. bar - night', beat: 'The lighter, finally lit.', cast: ['Tom', 'May'], ring: 1, len: '1' }
   ];
-  var ACTS = [{ name: 'Act one', ids: [1, 2, 3] }, { name: 'Act two', ids: [4, 5, 6] }];
+  // The board as the app opens it full size: one grid of the scenes, in the script's order.
+  var ACTS = [{ name: 'Scenes', ids: [1, 2, 3, 4, 5, 6] }];
   var RING = ['nothing yet', 'rough', 'good'];
 
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
@@ -24,7 +25,8 @@
   /* A card as the app draws it (CardsView): SCENE n and its ring, the heading, what happens, the people as
      chips with their initials in their own colours, the thread as a pill, and its length and pages at the foot. */
   var CAST = { Tom: 'tom', May: 'may' };
-  function who(c, lead) { return '<span class="app-chip who-' + (CAST[c] || 'x') + (lead ? ' own' : '') + '"><i>' + c.charAt(0) + '</i>' + c + '</span>'; }
+  // on the full board the people are their initials, each in a disc of their own colour, as the app draws them
+  function who(c) { return '<span class="app-disc who-' + (CAST[c] || 'x') + '" title="' + c + '">' + c.charAt(0) + '</span>'; }
   function eighths(len) { var m = /^(?:(\d+)\s*)?(?:(\d)\/8)?$/.exec(len) || []; return (+(m[1] || 0)) * 8 + (+(m[2] || 0)); }
   function pages(ids) {      // the pages each scene runs over, in the order the board has them: p. 3, or pp. 3–4
     var at = 0, out = {};
@@ -34,6 +36,7 @@
     });
     return out;
   }
+  function whole(ids) { var e = ids.reduce(function (t, id) { return t + eighths(scene(id).len); }, 0), w = Math.floor(e / 8), r = e % 8; return (w ? w : '') + (w && r ? ' ' : '') + (r ? r + '/8' : ''); }
   function cardHTML(s, n, pp) {
     return '<div class="bcard" data-id="' + s.id + '"' + (s.c ? ' data-c="' + s.c + '"' : '') + ' tabindex="0" aria-label="Scene ' + n + ', ' + esc(s.slug) + '. Arrow keys move it.">' +
       '<div class="bcard__top"><span class="bcard__grip" aria-hidden="true"></span><span class="app-scene-n bcard__n">' + n + '</span>' +
@@ -46,7 +49,7 @@
   function boardHTML(acts) {
     var n = 0, pp = pages([].concat.apply([], acts.map(function (a) { return a.ids; })));
     return acts.map(function (a, i) {
-      return '<section class="bd__act" data-act="' + i + '" aria-label="' + a.name + '"><p class="app-eyebrow bd__ah">' + a.name + '</p><div class="bd__cards">' +
+      return '<section class="bd__act" data-act="' + i + '" aria-label="' + a.name + '"><div class="bd__sh"><b>' + a.name + '</b><span>' + whole(a.ids) + ' pp</span></div><div class="bd__cards">' +
         a.ids.map(function (id) { return cardHTML(scene(id), ++n, pp[id]); }).join('') + '</div></section>';
     }).join('');
   }
@@ -152,7 +155,7 @@
     }
     function announce(card) {
       var act = card.closest('.bd__act'), n = $('.bcard__n', card).textContent;
-      live.textContent = 'Scene ' + n + ', ' + scene(+card.getAttribute('data-id')).slug + ', is now in ' + act.getAttribute('aria-label') + ', number ' + (1 + $$('.bcard', act).indexOf(card)) + '.';
+      live.textContent = 'Scene ' + n + ', ' + scene(+card.getAttribute('data-id')).slug + ', is now scene ' + (1 + $$('.bcard', act).indexOf(card)) + '.';
     }
 
     /* pointer: lift a card, the others make room, it settles where you let go */
@@ -186,7 +189,8 @@
       var act = actAt(e.clientX, e.clientY), list = $('.bd__cards', act), ref = null;
       $$('.bd__act', host).forEach(function (a) { a.classList.toggle('is-over', a === act); });
       var sibs = $$('.bcard', list).filter(function (c) { return c !== drag.card && c !== drag.ph; });
-      for (var i = 0; i < sibs.length; i++) { var r = sibs[i].getBoundingClientRect(); if (e.clientY < r.top + r.height / 2) { ref = sibs[i]; break; } }
+      // a grid: the card goes before the first card that comes after the pointer, reading left to right, row by row
+      for (var i = 0; i < sibs.length; i++) { var r = sibs[i].getBoundingClientRect(); if (e.clientY < r.top || (e.clientY <= r.bottom && e.clientX < r.left + r.width / 2)) { ref = sibs[i]; break; } }
       var ph = drag.ph;
       var nx = ph.nextElementSibling; if (nx === drag.card) nx = nx.nextElementSibling;
       if (ph.parentNode === list && nx === ref) return;
@@ -207,18 +211,15 @@
     host.addEventListener('pointerup', function () { drop(false); });
     host.addEventListener('pointercancel', function () { drop(true); });
 
-    /* keyboard: arrows move the focused card; left and right change act */
+    /* keyboard: left and up move the focused card one place earlier, right and down one place later */
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && drag) drop(true); });
     host.addEventListener('keydown', function (e) {
       var card = e.target.closest && e.target.classList.contains('bcard') ? e.target : null; if (!card) return;
       var all = $$('.bd__act', host), act = card.closest('.bd__act'), ai = all.indexOf(act), list = card.parentNode;
       var sibs = $$('.bcard', list), i = sibs.indexOf(card), tgt = list, ref = null;
-      if (e.key === 'ArrowUp') { if (i === 0) return; ref = sibs[i - 1]; }
-      else if (e.key === 'ArrowDown') { if (i === sibs.length - 1) return; ref = sibs[i + 2] || null; }
-      else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-        var nx = all[ai + (e.key === 'ArrowLeft' ? -1 : 1)]; if (!nx) return;
-        tgt = $('.bd__cards', nx); var ts = $$('.bcard', tgt); ref = ts[Math.min(i, ts.length)] || null;
-      } else return;
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { if (i === 0) return; ref = sibs[i - 1]; }
+      else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { if (i === sibs.length - 1) return; ref = sibs[i + 2] || null; }
+      else return;
       e.preventDefault();
       flip(cards(), function () { tgt.insertBefore(card, ref); });
       sync(); card.focus(); announce(card);
