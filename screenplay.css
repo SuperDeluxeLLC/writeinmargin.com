@@ -181,7 +181,7 @@ button.ring::before{content:"";position:absolute;inset:-.7em}
 .rv-stack{position:relative;max-width:calc(39.78rem + 2px);margin-inline:auto}
 .rv-back{display:none}
 .rv-wrap{position:relative}
-#rv-sheet{--sheet-max:.78rem;margin-inline:0;transition:background-color var(--dur-3) var(--ease)}
+#rv-sheet{--sheet-max:.94rem;margin-inline:0;transition:background-color var(--dur-3) var(--ease)}
 #rv-sheet .rv::after{font-size:1.3em;line-height:1;margin-top:-.1em;transition:color var(--dur-3) var(--ease)}
 .sc-rvh{margin-right:1.4ch;letter-spacing:.02em}
 /* the narrow sheet: the pass's head takes its own line above the page number, and the page starts under both */
@@ -227,7 +227,7 @@ button.pass[aria-pressed="true"]{outline:2px solid var(--sp-print);outline-offse
 .ls{display:grid;grid-template-columns:minmax(0,1fr)}
 @container win (min-width:46rem){.ls{grid-template-columns:minmax(0,1fr) minmax(13em,.34fr)}}
 .ls-wrap{padding:clamp(.9em,2.4cqw,1.5em)}
-#ls-sheet{--sheet-max:.84rem}
+#ls-sheet{--sheet-max:1rem}
 #ls-sheet>div{position:relative}
 .ls-aside{background:var(--app-card);padding:1.1em 1.2em;border-top:1px solid var(--app-rule)}
 @container win (min-width:46rem){.ls-aside{border-top:0;border-left:1px solid var(--app-rule)}}
