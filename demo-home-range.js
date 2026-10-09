@@ -61,6 +61,8 @@
   }
   function moveTo(p) { pointer.hidden = false; pointer.style.transform = 'translate(' + p.x + 'px,' + p.y + 'px)'; }
   function pointerOff() { pointer.hidden = true; pointer.style.transition = ''; }
+  var draftEl = $('#rg-draft', rg);
+  function draft(name) { if (draftEl) draftEl.textContent = name; }
 
   /* ---- 0. a bare page: a scene typed, the cast under a cue, a wrinkle, a parenthetical, a transition ---- */
   var lines = pageA ? $$(':scope > div:not(.sh)', pageA).map(function (el) {
@@ -79,7 +81,7 @@
   function cueShelf(after, rows) {
     var sh = document.createElement('div'); sh.className = 'sh sh--cue'; sh.setAttribute('data-tmp', '');
     sh.innerHTML = rows.map(function (r) { return '<div class="sh__row"><i></i><b>' + esc(r[0]) + '</b><em>' + esc(r[1] || '') + '</em></div>'; }).join('') +
-      '<p class="sh__foot">↑↓ move &nbsp; return takes it &nbsp; esc back to the page</p>';
+      '<p class="sh__foot">↑↓ move &nbsp; return takes it &nbsp; esc leaves</p>';
     after.parentNode.insertBefore(sh, after.nextSibling);
     return sh;
   }
@@ -89,7 +91,7 @@
     if (after) el.appendChild(document.createTextNode(after));
   }
   async function bare(c) {
-    hooks.setStop(0);
+    hooks.setStop(0); draft('Draft 2');
     lines.forEach(function (l) { l.el.hidden = true; });
     var head = line('sc-act'); head.appendChild(caret());
     if (!await c.sleep(800)) return false;
@@ -169,7 +171,7 @@
     } else { hooks.filter(rg, t); todoRow.hidden = true; addedRow.hidden = true; }
   }
   async function cmdk(c) {
-    pageAWhole(); hooks.setStop(1);
+    pageAWhole(); hooks.setStop(1); draft('Draft 2');
     typed.textContent = ''; shelfShow('');
     keys(['⌘', 'K'], 'opens under the line you are on');
     if (!await c.sleep(1300)) return false;
@@ -183,7 +185,7 @@
     if (!await typeIn(c, typed, 'new draft', { speed: 90, each: shelfShow })) return false;
     if (!await c.sleep(700)) return false;
     keys(['⏎'], 'Draft 2a, off Draft 2');
-    hooks.setStop(0, { a: 0, b: 1 });                // return: Draft 2a, on its own
+    hooks.setStop(0, { a: 0, b: 1 }); draft('Draft 2a');   // return: Draft 2a, on its own
     return c.sleep(2600);
   }
 
@@ -238,7 +240,7 @@
   function goHere(k) { here = k; $$('li', rows).forEach(function (li, n) { li.classList.toggle('is-here', n === k); }); herePanel(); scrollRunTo(k, true); }
   function boardStart() { order = SCENES.map(function (_, i) { return i; }); here = 0; renderBoard(); if (runBox) runBox.scrollTop = 0; }
   async function board(c) {
-    pageAWhole(); hooks.setStop(2); boardStart();
+    pageAWhole(); hooks.setStop(2); boardStart(); draft('Draft 2');
     keys(['⌥', '⌘', '2'], 'the board, beside the page');
     if (!await c.sleep(1500)) return false;
     var from = $('li[data-id="6"]', rows), to = $('li[data-id="2"]', rows);
@@ -268,37 +270,62 @@
     return c.sleep(2400);
   }
 
-  /* ---- 3. notes: four ways in, and one note opened to half the window ---------------------------------- */
+  /* ---- 3. notes: words highlighted, as the app does it, and the note they make; notes on the page; the Inbox --- */
   var notes = $('.rg__notes', rg), todos = $('#rg-todos', rg), todoCount = $('#rg-todo-count', rg);
   var inbox = $('#rg-inbox', rg), inboxN = $('#rg-inbox-n', rg), inboxOpen = $('#rg-inbox-open', rg), keepAll = $('#rg-keep', rg);
-  var hlNote = $('#rg-hlnote', rg), editor = $('#rg-editor', rg), md = $('#rg-md', rg), drop = $('#rg-drop', rg), file = $('.rg__file', rg);
+  var loose = $('#rg-loose', rg), looseN = $$('.rg-loose-n', rg), back = $('.nt-back', rg), cardsView = $('.nt-views [data-v="cards"]', rg);
+  var hlNote = $('#rg-hlnote', rg), hlBody = $('#rg-hlbody', rg), md = $('#rg-md', rg), wordsN = $('#rg-words', rg);
+  var drop = $('#rg-drop', rg), file = $('.rg__file', rg);
   var pnotes = $('#rg-pnotes', rg), pnotesN = $('#rg-pnotes-n', rg), pnotesList = $('#rg-pnotes-list', rg);
   var actLine = lines[1] && lines[1].el, mayLine = lines[3] && lines[3].el;
   var todosHTML = todos ? todos.innerHTML : '';
+  /* the pens, as the app lists them; a new writer's is coral */
+  var PENS = ['#5EC0CC', '#F26AA8', '#C2D936', '#FA8E8E', '#93C84C', '#B6A0D9', '#FFE14D'], PEN = '#FA8E8E';
+  function view(v) { notes.setAttribute('data-view', v); rg.classList.toggle('is-half', v === 'open'); }
+  function looseCount(n) { looseN.forEach(function (e) { e.textContent = 'Not in a stack · ' + n + (n === 1 ? ' note' : ' notes'); }); }
   function notesStart() {
     if (!notes) return;
-    rg.classList.remove('is-half');
-    notes.classList.remove('is-editing', 'is-drop'); editor.hidden = true; md.innerHTML = '';
-    todos.innerHTML = todosHTML; todoCount.textContent = 'To do · 1 open · 2 done';
+    view('top'); notes.classList.remove('is-drop');
+    todos.innerHTML = todosHTML; todoCount.textContent = 'To do · 1 open';
     inboxN.textContent = 'Inbox · nothing waiting'; inbox.classList.remove('is-open'); inboxOpen.hidden = true;
-    hlNote.hidden = true; hlNote.classList.remove('is-new');
-    pnotes.hidden = true; pnotesList.innerHTML = '';
+    hlNote.hidden = true; hlNote.classList.remove('is-new'); hlBody.innerHTML = ''; looseCount(1); loose.classList.remove('is-new');
+    pnotes.hidden = true; pnotesList.innerHTML = ''; md.innerHTML = ''; wordsN.textContent = '6';
     drop.hidden = true; file.hidden = true; keepAll.classList.remove('is-press');
   }
-  /* A line of Markdown as the editor dresses it: the marks kept, faded; a heading set large; **bold** bold
-     once it closes; a checkbox drawn; a dash a bullet. */
+  /* The row the lines part for over words selected (HighlightBar): Highlight and its key, the pens with the one
+     in use underlined, a hairline, then the asks. Set into the page above the words' line. */
+  function partedRow(before) {
+    var r = document.createElement('div'); r.className = 'pr'; r.setAttribute('data-tmp', '');
+    r.innerHTML = '<div class="pr__line"><b>Highlight</b><kbd>⇧⌘H</kbd><span class="pr__pens">' +
+      PENS.map(function (h) { return '<span' + (h === PEN ? ' class="is-on"' : '') + '><i style="--p:' + h + '"></i><u></u></span>'; }).join('') +
+      '</span></div><div class="pr__line"><span class="pr__ask">Note</span><s>/</s><span class="pr__ask">Note for the team</span><s>/</s><span class="pr__ask">Ask the room</span></div>';
+    before.parentNode.insertBefore(r, before);
+    return r;
+  }
+  /* A line of the note as the app's Formatted view sets it: a mark goes once it is a mark — "# " a heading,
+     "- [ ] " a box, "- " a bullet, **words** bold once they close — and until then it is typed as it is. */
   function dress(line) {
     var h = esc(line);
-    if (/^# /.test(line)) return '<p class="md-h1"><span class="md-mk">#</span> ' + h.slice(2) + '</p>';
+    if (/^# /.test(line)) return '<p class="md-h1">' + h.slice(2) + '</p>';
     if (/^- \[ \] /.test(line)) h = '<span class="md-box"></span>' + h.slice(6);
-    else if (/^- /.test(line)) h = '<span class="md-dot"></span>' + h.slice(2);
-    h = h.replace(/\*\*([^*]+)\*\*/g, '<span class="md-mk">**</span><b>$1</b><span class="md-mk">**</span>');
+    else if (/^- (?!\[)/.test(line)) h = '<span class="md-dot"></span>' + h.slice(2);
+    h = h.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
     return '<p>' + h + '</p>';
   }
-  /* what each line's Markdown is, said under the window as it is typed */
-  var MARKS = [[/^# $/, ['#'], 'a heading'], [/\*\*[^*]+\*\*$/, ['*', '*'], 'bold'], [/^- \[ \] $/, ['-', '[', ']'], 'a box to tick'], [/^- $/, ['-'], 'a list']];
+  /* the same note on its card: the heading bold, a box a circle, a bullet a dash */
+  function cardLines(text) {
+    return text.split('\n').map(function (l) {
+      if (/^# /.test(l)) return '<h4>' + esc(l.slice(2)) + '</h4>';
+      var h = esc(l).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+      if (/^- \[ \] /.test(l)) return '<p><span class="md-box"></span>' + h.slice(6) + '</p>';
+      if (/^- /.test(l)) return '<p>– ' + h.slice(2) + '</p>';
+      return '<p>' + h + '</p>';
+    }).join('');
+  }
+  var MARKS = [[/^# $/, ['#'], 'a heading'], [/\*\*[^*]+\*\*$/, ['*', '*'], 'bold'], [/^- \[ \] $/, ['-', '[', ']'], 'a box to tick · it goes to To do'], [/^- (?!\[)$/, ['-'], 'a list']];
+  var NOTE = '# Why he keeps it\nIt was **her** father’s.\n- [ ] find a brass Zippo\n- the pier, at dawn';
   async function noteWrite(c, text) {
-    var done = [], ls = text.split('\n');
+    var done = [], ls = text.split('\n'), count = 6;
     for (var i = 0; i < ls.length; i++) {
       var cur = '';
       if (i) keys(['⏎']);
@@ -307,16 +334,17 @@
         md.innerHTML = done.concat([dress(cur)]).join('');
         var last = md.lastElementChild; if (last) last.appendChild(caret());
         for (var m = 0; m < MARKS.length; m++) if (MARKS[m][0].test(cur)) { keys(MARKS[m][1], MARKS[m][2]); break; }
+        if (cur.charAt(cur.length - 1) === ' ') wordsN.textContent = String(++count);
         if (!await c.sleep(55 + Math.random() * 45)) return false;
       }
-      done.push(dress(ls[i]));
+      done.push(dress(ls[i])); wordsN.textContent = String(++count);
       if (!await c.sleep(320)) return false;
     }
     md.innerHTML = done.join('');
     return true;
   }
   /* A note written into the page: {{ }} the writer's own, red and never printed; [[ ]] in the script, blue,
-     for whoever reads it. Typed at the end of a line, and listed in Notes under On the page. */
+     for whoever reads it. Loose lists them under On the page, with the page they are on. */
   async function pageNote(c, el, words, own) {
     var span = document.createElement('span'); span.className = 'nt-m ' + (own ? 'nt-m--red' : 'nt-m--blue');
     el.appendChild(document.createTextNode(' ')); el.appendChild(span);
@@ -324,64 +352,80 @@
     keys(open.split(''), own ? 'a note to yourself · never printed' : 'a note in the script · for whoever reads it');
     if (!await typeIn(c, span, open + words + shut, { speed: 60 })) return false;
     var li = document.createElement('li'); li.className = 'is-new';
-    li.innerHTML = '<span class="nt-m ' + (own ? 'nt-m--red' : 'nt-m--blue') + '">' + esc(open + words + shut) + '</span><em>p. 1</em>';
+    li.innerHTML = '<span>' + esc(open + words + shut) + '</span><span>p. 1</span>';
     pnotesList.appendChild(li); pnotes.hidden = false;
     pnotesN.textContent = 'On the page · ' + pnotesList.children.length;
     return true;
   }
+  async function press(c, el, fx, fy, wait) {
+    moveTo(at(el, fx == null ? 0.5 : fx, fy == null ? 0.5 : fy));
+    return c.sleep(wait || 850);
+  }
   async function notesPlay(c) {
-    pageAWhole(); notesStart(); hooks.setStop(3);
+    pageAWhole(); notesStart(); hooks.setStop(3); draft('Draft 2');
     keys(['⇧', '⌘', 'I'], 'Notes, beside the page');
-    if (!await c.sleep(1300)) return false;
+    if (!await c.sleep(1400)) return false;
 
-    // 1. words on the page, selected and highlighted: kept as a note, with its scene
-    var full = actLine.textContent, word = 'a brass lighter on the bar', i0 = full.indexOf(word);
-    function paint(n, mark) {
-      actLine.innerHTML = esc(full.slice(0, i0)) + (mark ? '<mark class="ap-hl" data-hand="aqua">' : '<span class="rg__sel">') +
-        esc(full.slice(i0, i0 + n)) + (mark ? '</mark>' : '</span>') + esc(full.slice(i0 + n));
-      return $(mark ? 'mark' : '.rg__sel', actLine);
+    // words selected on the page: the lines part above them and the highlight row stands in the room
+    var full = actLine.textContent, word = 'a brass lighter on the bar', i0 = full.indexOf(word), sel;
+    function paint(n, pen) {
+      actLine.innerHTML = esc(full.slice(0, i0)) + (pen ? '<mark class="hl" style="--pen:' + PEN + '">' : '') +
+        (n ? '<span class="rg__sel">' + esc(full.slice(i0, i0 + n)) + '</span>' : '<span class="rg__sel"></span>') +
+        (pen ? '</mark>' : '') + esc(full.slice(i0 + n));
+      return $('.rg__sel', actLine);
     }
-    var sel = paint(0);
-    moveTo(at(sel, 0, 0.7));
-    if (!await c.sleep(1000)) return false;
+    sel = paint(0);
+    if (!await press(c, sel, 0, 0.7, 1000)) return false;
     keys(['drag'], 'words on the page');
     pointer.style.transition = 'transform .1s linear';
-    for (var n = 1; n <= word.length; n++) {
-      sel = paint(n); moveTo(at(sel, 1, 0.7));
-      if (!await c.sleep(38)) return false;
-    }
+    for (var n = 1; n <= word.length; n++) { sel = paint(n); moveTo(at(sel, 1, 0.7)); if (!await c.sleep(36)) return false; }
     pointer.style.transition = '';
-    if (!await c.sleep(450)) return false;
-    paint(word.length, true); pointerOff(); keys(['⇧', '⌘', 'H'], 'highlight');
-    if (!await c.sleep(900)) return false;
-    hlNote.hidden = false; hlNote.classList.add('is-new'); keys([], 'kept in Notes, with its scene');
-    if (!await c.sleep(1500)) return false;
-
-    // 2. and 3. notes typed straight onto the page
-    if (!await pageNote(c, actLine, 'he wants her to ask', true)) return false;
-    if (!await c.sleep(900)) return false;
-    if (!await pageNote(c, mayLine, 'softer?', false)) return false;
-    if (!await c.sleep(1200)) return false;
-
-    // the highlight's note, opened: half the window, the page the other half, and written in
-    moveTo(at(hlNote, 0.3, 0.35));
-    if (!await c.sleep(900)) return false;
-    pointerOff(); rg.classList.add('is-half'); notes.classList.add('is-editing'); editor.hidden = false;
-    keys([], 'a note opens to half the window');
-    if (!await c.sleep(1000)) return false;
-    if (!await noteWrite(c, '# Why he keeps it\nIt was **her** father’s.\n- [ ] find a brass Zippo\n- the pier, at dawn')) return false;
+    var row = partedRow(actLine); moveTo(at(sel, 1, 0.7));
+    keys([], 'the lines part · Highlight, the pens, a note');
+    if (!await c.sleep(1700)) return false;
+    paint(word.length, true); keys(['⇧', '⌘', 'H'], 'highlight · in the last pen used');
     if (!await c.sleep(1300)) return false;
-    rg.classList.remove('is-half'); notes.classList.remove('is-editing'); editor.hidden = true; keys(['esc'], 'back to Notes');
-    if (!await c.sleep(900)) return false;
+    // a click away: the row goes, the pen stays, and the words are a note in Loose
+    if (!await press(c, lines[4].el, 0.9, 0.5, 700)) return false;
+    row.remove();
+    actLine.innerHTML = esc(full.slice(0, i0)) + '<mark class="hl" style="--pen:' + PEN + '">' + esc(word) + '</mark>' + esc(full.slice(i0 + word.length));
+    looseCount(2); loose.classList.add('is-new'); keys([], 'kept as a note in Loose, with its scene');
+    if (!await c.sleep(1300)) return false;
 
-    // 4. a file from outside the app, dropped on the column: the Inbox reads it and says what each piece is
+    // Loose opened, the note on it; the note opened, to half the window
+    if (!await press(c, loose, 0.3, 0.6)) return false;
+    view('stack'); hlNote.hidden = false; hlNote.classList.add('is-new');
+    if (!await c.sleep(1500)) return false;
+    if (!await press(c, hlNote, 0.7, 0.5)) return false;
+    pointerOff(); view('open'); keys([], 'a note opens to half the window');
+    if (!await c.sleep(1100)) return false;
+    if (!await noteWrite(c, NOTE)) return false;
+    if (!await c.sleep(1200)) return false;
+    if (!await press(c, cardsView, 0.5, 0.5, 700)) return false;
+    view('stack'); hlBody.innerHTML = cardLines(NOTE); pointerOff(); keys([], 'back to cards');
+    if (!await c.sleep(1300)) return false;
+
+    // notes typed straight onto the page, listed on Loose
+    if (!await pageNote(c, actLine, 'he wants her to ask', true)) return false;
+    if (!await c.sleep(800)) return false;
+    if (!await pageNote(c, mayLine, 'softer?', false)) return false;
+    if (!await c.sleep(1300)) return false;
+
+    // back to the stacks: the note's box is a to-do now, with the note it came from
+    if (!await press(c, back, 0.3, 0.5, 700)) return false;
+    view('top'); pointerOff();
+    var li = document.createElement('li'); li.className = 'is-new'; li.innerHTML = '<i></i><span>find a brass Zippo</span><em>a brass lighter on the bar</em>';
+    todos.appendChild(li); todoCount.textContent = 'To do · 2 open'; keys([], 'the box in the note is a to-do');
+    if (!await c.sleep(1900)) return false;
+
+    // a file from outside the app, dropped on the column: the Inbox reads it and says what each piece is
     var s = screen.getBoundingClientRect(), cy = s.height * 0.4;
     file.style.transition = 'none'; file.style.transform = 'translate(' + (s.width + 40) + 'px,' + cy + 'px)'; file.hidden = false;
     pointer.style.transition = 'none'; moveTo({ x: s.width + 70, y: cy + 30 });
     void file.offsetWidth; file.style.transition = ''; pointer.style.transition = '';
     keys(['drag'], 'a file, from outside Margin');
     if (!await c.sleep(120)) return false;
-    var t = at(notes, 0.42, 0.56);
+    var t = at(notes, 0.42, 0.62);
     file.style.transform = 'translate(' + t.x + 'px,' + t.y + 'px)'; moveTo({ x: t.x + 30, y: t.y + 30 });
     if (!await c.sleep(1200)) return false;
     notes.classList.add('is-drop'); drop.hidden = false;
@@ -390,15 +434,13 @@
     inbox.classList.add('is-open'); inboxOpen.hidden = false; inboxN.textContent = 'Inbox · 2 new · from 1 place';
     keys([], 'cut into pieces · each says what it is, where it would go, and why');
     if (!await c.sleep(3400)) return false;
-    // kept: each goes where it said
-    moveTo(at(keepAll, 0.5, 0.55));
-    if (!await c.sleep(900)) return false;
+    if (!await press(c, keepAll, 0.5, 0.55, 850)) return false;
     keepAll.classList.add('is-press');
     if (!await c.sleep(250)) return false;
     keepAll.classList.remove('is-press'); pointerOff();
     inbox.classList.remove('is-open'); inboxOpen.hidden = true; inboxN.textContent = 'Inbox · nothing waiting';
-    var kept = document.createElement('li'); kept.className = 'is-new'; kept.innerHTML = '<i></i>Ask the harbour master about filming at dawn<em>Loose</em>';
-    todos.insertBefore(kept, todos.firstChild); todoCount.textContent = 'To do · 2 open · 2 done';
+    var kept = document.createElement('li'); kept.className = 'is-new'; kept.innerHTML = '<i></i><span>Ask the harbour master about filming at dawn</span>';
+    todos.appendChild(kept); todoCount.textContent = 'To do · 3 open';
     keys([], 'kept · the to-do in To do, the question in the Bible');
     return c.sleep(2600);
   }
@@ -422,7 +464,7 @@
     if (menu) menu.hidden = true;
   }
   async function split(c) {
-    pageAWhole(); splitStart(); hooks.setStop(4);
+    pageAWhole(); splitStart(); hooks.setStop(4); draft('Draft 2a');
     keys(['⌥', '⌘', '\\'], 'the draft before, beside it');
     if (!await c.sleep(1500)) return false;
     moveTo(at(bLine, 1, 0.6));
@@ -465,7 +507,7 @@
     play: function (n, c) { reset(); return PLAY[n](c); },
     /* the finished state of a stop: what the static page shows, for reduced motion and when a stop is let go */
     finish: function (n) {
-      reset(); hooks.setStop(n);
+      reset(); hooks.setStop(n); draft(n === 4 ? 'Draft 2a' : 'Draft 2');
       if (n === 1 && typed) { typed.textContent = 'new draft'; shelfShow('new draft'); }
       if (REST[n]) { keys(REST[n][0], REST[n][1]); keysEl.classList.remove('is-on'); }
     }

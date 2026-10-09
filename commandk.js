@@ -30,7 +30,7 @@
     var sprint = $('#ck-sprint', hero), line = $('#ck-line', hero);
     var names = $$('[data-name]', hero);
     var ticker = null;
-    var MOVE = keys(['↑↓ move', 'return takes it', 'esc back to the page']);
+    var MOVE = keys(['↑↓ move', 'return takes it', 'esc leaves']);
     var ADDED = keys(['return adds it', '/ another list', 'esc done']);
     var HINT = ['', 'Type the next and press return · / another list · esc when you’re done', '', 'is-hint'];
     var LISTS = [['To do', 'Loose · To do', '3 to do', 'is-on'], ['To do', 'Act two · To do', '5 to do'], ['To do', 'Derek · To do', '2 to do']];
@@ -161,8 +161,8 @@
   if (rd) {
     var typedR = $('#ckr-typed', rd), whoR = $('#ckr-who', rd), convo = $('#ckr-convo', rd), footR = $('#ckr-foot', rd);
     var rowsR = $('.ck-rows', rd);
-    var ASK = keys(['↑↓ move', 'return asks', '⇧return asks in a new room', '⌘return goes on in the room', 'esc back to the page']);
-    var READING = keys(['⌘. stops', '⌘return goes on in the room', 'esc back to the page, and it keeps answering']);
+    var ASK = keys(['↑↓ move', 'return asks', '⇧return asks in a new room', '⌘return goes on in the room', 'esc leaves']);
+    var READING = keys(['⌘. stops', '⌘return goes on in the room', 'esc leaves, and it keeps answering']);
     var AFTER = [['Note', 'Keep as a note', 'Loose (in no stack) · / picks a stack', 'is-on'], ['Room', 'Go on in the room', '⌘return'], ['Room', 'Start a new room', '⇧return asks in one']];
     var THINKING = [['Room', 'Stop', '⌘.', 'is-on'], ['Room', 'Go on in the room', '⌘return']];
     var TURNS = [

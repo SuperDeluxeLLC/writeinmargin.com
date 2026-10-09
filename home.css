@@ -400,7 +400,7 @@ button.bring{cursor:pointer;min-width:24px;min-height:24px}
   transition:transform .9s cubic-bezier(.4,0,.2,1);white-space:nowrap}
 .ap-rows li.is-gap{background:transparent;outline:1.5px dashed var(--app-rule);outline-offset:-1.5px}
 .ap-rows li.is-lifted{opacity:.25}
-.ap-rows li.is-moved,.rg__run .is-moved,.sc-dlg.is-merged,.ap-note.is-new,.ap-pnotes li.is-new{animation:rg-moved 1.6s var(--ease) both}
+.ap-rows li.is-moved,.rg__run .is-moved,.sc-dlg.is-merged{animation:rg-moved 1.6s var(--ease) both}
 @keyframes rg-moved{0%,40%{background:color-mix(in srgb,var(--hl) 55%,transparent)}100%{background:transparent}}
 /* the page beside the board: the whole script in the board's order, scrolled to where the board is */
 .rg__run{display:none;min-width:0}
@@ -408,65 +408,11 @@ button.bring{cursor:pointer;min-width:24px;min-height:24px}
 .rg[data-stop="2"] .rg__pages{display:none}
 .rg__run .sc-act{color:var(--app-ink)}
 .rg__run>.sheet-wrap>.sheet>div{border-radius:.2em}
-/* words on the page: selected by a drag, then highlighted */
-.rg__sel{background:color-mix(in srgb,#4a7fd4 30%,transparent)}
-.rg .sheet mark.ap-hl{font-weight:inherit;padding:0 .04em;border-radius:.15em}
-/* the notes written on the page, as Notes lists them under On the page */
-.ap-pnotes{margin-top:.65em;padding:0 .2em}
-.ap-pnotes ul{list-style:none;margin:.35em 0 0;padding:0}
-.ap-pnotes li{display:flex;align-items:baseline;gap:.6em;padding:.2em 0;font:400 .8em/1.35 var(--script);border-radius:.2em}
-.ap-pnotes em{margin-left:auto;flex:none;font:400 .85em/1 var(--ui);font-style:normal;color:var(--app-faded)}
-/* a note opened: half the window, as the app opens one, the page the other half; its highlight on top */
-.rg.is-half[data-stop="3"] .rg__screen{grid-template-columns:minmax(0,calc(50% - 1.4em)) minmax(0,1fr)}
-.ap-editor{margin-top:.7em}
-.ap-editor__bar{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 .7em;font:500 .85em/1.2 var(--ui);color:var(--app-ink)}
-.ap-editor__bar em{font:400 .75em/1 var(--ui);font-style:normal;color:var(--app-faded)}
-.ap-editor__body{min-height:12em;padding:.9em 1em;border:1px solid var(--app-rule);border-radius:1em;font:400 .82em/1.6 var(--script);color:var(--app-ink)}
-.rg.is-half .ap-editor__body{min-height:24em;font-size:.92em}
-.ap-editor__body p{margin:0;min-height:1.6em}
-.ap-editor__q{margin-bottom:.8em!important;font-family:var(--ui)}
-.ap-editor__q .ap-sc{font-size:.8em}
-.md-mk{color:var(--app-faded);font-weight:400}
-.md-h1{font-size:1.45em;line-height:1.3;font-weight:500;-webkit-text-stroke:.024em currentColor}
-.md-h1 .md-mk{-webkit-text-stroke:0}
-.ap-editor__body b{font-weight:500;-webkit-text-stroke:.024em currentColor}
-.md-box{display:inline-block;width:.85em;height:.85em;margin-right:.45em;border:1.5px solid var(--app-faded);border-radius:.2em;vertical-align:-.1em}
-.md-dot{display:inline-block;width:.35em;height:.35em;margin:0 .6em .15em .25em;border-radius:50%;background:var(--app-ink)}
-.rg__notes.is-editing>:not(.app-ph):not(.ap-editor){display:none}
 /* a file from outside the app, carried in by the pointer */
 .rg__file{position:absolute;left:0;top:0;z-index:28;display:grid;justify-items:center;gap:.3em;width:7em;pointer-events:none;
   transition:transform 1.2s cubic-bezier(.4,0,.2,1)}
 .rg__file svg{width:2.4em;height:3em;fill:var(--app-card);stroke:var(--app-ink);stroke-width:1.1;stroke-linejoin:round}
 .rg__file b{padding:.15em .5em;border-radius:.3em;background:var(--app-ink);color:var(--app-well);font:500 .7em/1.2 var(--ui);white-space:nowrap}
-/* the column taking it: its edge says it will, and words in the middle say where it goes */
-.rg__notes{position:relative}
-.rg__notes.is-drop{outline:1.5px solid var(--app-ink);outline-offset:-2px;border-radius:.8em}
-.ib-drop{position:absolute;left:50%;top:34%;z-index:20;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:.45em;width:max-content;max-width:88%;
-  padding:.9em 1.1em;background:var(--app-card);border:1px solid var(--app-rule);border-radius:1em;text-align:center;font:600 .78em/1.3 var(--ui);color:var(--app-ink)}
-.ib-drop svg{width:1.7em;height:1.7em;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
-/* the Inbox, opened by what arrived: each piece, what it is, where it would go, why; and the ways on */
-.rg__notes .ap-inbox{display:block}
-.ap-inbox__head{display:flex;align-items:center;justify-content:space-between}
-.ap-inbox.is-open{padding:.65em .75em .75em;color:var(--app-ink)}
-.ib__name{display:block;margin:.2em 0 .55em;font:700 1.2em/1.15 var(--ui);color:var(--app-ink)}
-.ib__row{display:grid;grid-template-columns:1.1em minmax(0,1fr) auto;gap:.5em;margin:0 -.35em .3em;padding:.55em .5em;border-radius:.6em;
-  background:var(--app-chip-fill);animation:slide-in var(--dur-3) var(--ease) both}
-.ib__row+.ib__row{animation-delay:.2s}
-.ib__row svg{width:1.1em;height:1.1em;color:var(--app-faded)}
-.ib__row>i{font:400 .9em/1 var(--ui);font-style:normal;color:var(--app-faded)}
-.ib__row p{margin:0}
-.ib__src{font:600 .6em/1.3 var(--ui);letter-spacing:.09em;text-transform:uppercase;color:var(--app-faded)}
-.ib__words{margin:.2em 0 .35em!important;font:400 .82em/1.35 var(--ui);color:var(--app-ink)}
-.ib__to{display:flex;flex-wrap:wrap;align-items:center;gap:.35em;font:400 .76em/1.3 var(--ui);color:var(--app-ink)}
-.ib__chip{padding:.05em .5em;border:1.5px solid var(--app-ink);border-radius:.5em;font-weight:600}
-.ib__why{margin-top:.3em!important;font:400 .72em/1.3 var(--ui);color:var(--app-faded)}
-.ib__foot{margin:.5em -.75em -.75em;padding:.6em .75em .7em;border-top:1px solid var(--app-rule);border-radius:0 0 .9em .9em;background:var(--app-chip-fill)}
-.ib__foot p{margin:0;font:400 .72em/1.35 var(--ui);color:var(--app-ink)}
-.ib__foot .ib__eye{margin-bottom:.15em;font:600 .62em/1.3 var(--ui);letter-spacing:.09em;text-transform:uppercase;color:var(--app-faded)}
-.ib__btns{display:flex;flex-wrap:wrap;gap:.35em;margin-top:.55em!important}
-.ib__btn{padding:.4em .75em;border-radius:.55em;background:var(--app-card);font:500 1em/1 var(--ui);transition:transform .15s}
-.ib__btn.is-keep{background:var(--app-ink);color:var(--app-well)}
-.ib__btn.is-press{transform:scale(.94)}
 /* the split: what changed in the new draft is marked on both sides; the draft's name, what it changed, the shut */
 .wy__pg--a .sc-dlg.was{background:var(--tile-on);border-radius:.2em}
 .hw__name{position:relative}
@@ -479,4 +425,187 @@ button.bring{cursor:pointer;min-width:24px;min-height:24px}
 @container (max-width:36rem){
   .rg[data-stop="2"] .rg__run{display:none}
   .rg.is-half[data-stop="3"] .rg__screen{grid-template-columns:minmax(0,1fr)}
+}
+
+/* ---- the hero, measured as the app is: in the app's own points at the app's window, 1312 wide ---------- */
+@property --pt{syntax:"<length>";inherits:true;initial-value:1px}
+.rg{container-name:rgwin}
+.rg>*{--pt:calc(100cqw / 1312)}
+@container rgwin (min-width:36rem){
+  /* the window's height follows its width, as the app's 1312 by 718 */
+  .rg__screen{height:calc(668 * var(--pt));padding:0;gap:0}
+  .rg[data-stop="3"] .rg__screen{grid-template-columns:calc(440 * var(--pt)) minmax(0,1fr)}
+  .rg.is-half[data-stop="3"] .rg__screen{grid-template-columns:calc((656 - 70) * var(--pt)) minmax(0,1fr)}
+  .rg[data-stop="2"] .rg__screen{grid-template-columns:calc(440 * var(--pt)) minmax(0,1fr)}
+  .rg__side{padding:0 calc(16 * var(--pt)) 0 calc(20 * var(--pt))}
+  /* the page as the app lays it: the 6in column at the page's size, set in the middle of what is left, its
+     indents in the page's own units; narrower than that, the column narrows and the words wrap */
+  .rg .sheet{font-size:calc(20 * var(--pt));width:36em;max-width:calc(100% - 48 * var(--pt));margin:0 auto;
+    padding:calc(130 * var(--pt)) 0 3em}
+  .rg .sc-cue{margin-left:13.2em}
+  .rg .sc-par{margin-left:9.6em;max-width:calc(100% - 9.6em - 11.4em)}
+  .rg .sc-dlg{margin-left:6em;max-width:calc(100% - 15em)}
+  .rg .sc-slug[data-n]::before,.rg .sc-slug[data-n]::after{display:none}
+  .rg .hw__name{position:absolute;top:calc(24 * var(--pt));left:0;right:0;margin:0}
+  .rg .wy__pg{position:relative}
+}
+.win__title b{font-weight:600}
+.rg .win__title{font-weight:400;color:var(--app-faded)}
+.rg .win__title b{color:var(--app-ink)}
+
+/* ---- words selected on the page: the lines part above them, and the room holds the highlight row ------ */
+.rg__sel{background:Highlight}
+/* the row, as the app sets it (PartedRow, HighlightBar): the page's face at the page's size, the 3pt rules of
+   ⌘K's shelf over and under, running 4.5em out either side of the column; the highlighter and its pens,
+   a hairline, then the asks */
+.pr{margin:calc(var(--sc-after) + var(--sc-blank) + .6em) -4.5em 0;border-block:.15em solid color-mix(in srgb,var(--app-ink) 9%,transparent);
+  animation:pr-open .22s var(--ease) both}
+@keyframes pr-open{from{opacity:0;max-height:0}to{max-height:6em}}
+.pr__line{display:flex;align-items:center;height:2.75em;padding-left:4.5em;white-space:nowrap}
+.pr__line+.pr__line{border-top:.025em solid color-mix(in srgb,var(--app-faded) 25%,transparent)}
+.pr__line b{font-weight:500;-webkit-text-stroke:.024em currentColor;margin-left:.4em}
+.pr__line kbd{margin-left:.4em;font:400 .85em/1 var(--script);color:var(--app-faded);border:0;background:none;padding:0}
+.pr__pens{display:flex;gap:.2em;margin-left:.9em}
+.pr__pens i{position:relative;width:1em;height:.45em;background:var(--p);clip-path:polygon(.25em 0,100% 0,calc(100% - .25em) 100%,0 100%)}
+.pr__pens i.is-on::after{content:"";position:absolute}
+.pr__pens span{display:grid;justify-items:center;gap:.15em}
+.pr__pens u{display:block;width:.75em;height:.075em;background:transparent}
+.pr__pens .is-on u{background:color-mix(in srgb,var(--app-ink) 60%,transparent)}
+.pr__line s{text-decoration:none;color:var(--app-faded);margin:0 .05em}
+.pr__line span.pr__ask{padding:0 .3em}
+.pr+.sc-act{margin-top:.5em}
+/* the pen on the page: one straight swipe of a chisel highlighter, ends cut on the slant, landing strong and
+   lifting lighter (PenStroke) — round the words, not moving them */
+.rg .sheet mark.hl{--wash:linear-gradient(90deg,color-mix(in srgb,var(--pen) 62%,transparent),color-mix(in srgb,var(--pen) 53%,transparent) 8%,
+    color-mix(in srgb,var(--pen) 48%,transparent) 30%,color-mix(in srgb,var(--pen) 32%,transparent) 80%,color-mix(in srgb,var(--pen) 21%,transparent));
+  color:inherit;padding:.15em .2em;margin:0 -.2em;-webkit-box-decoration-break:clone;box-decoration-break:clone;
+  /* each line its own stroke, its ends cut on the slant: the page's own tone laid over two corners */
+  background:linear-gradient(to bottom right,var(--page) 50%,transparent 0) left top/.22em 100% no-repeat,
+    linear-gradient(to top left,var(--page) 50%,transparent 0) right top/.22em 100% no-repeat,var(--wash)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .rg .sheet mark.hl{color:var(--app-well);--wash:linear-gradient(color-mix(in srgb,var(--pen) 90%,transparent),color-mix(in srgb,var(--pen) 90%,transparent))}}
+:root[data-theme="dark"] .rg .sheet mark.hl{color:var(--app-well);--wash:linear-gradient(color-mix(in srgb,var(--pen) 90%,transparent),color-mix(in srgb,var(--pen) 90%,transparent))}
+/* the page is clipped at its own edge, as the app's page view is */
+.rg .wy__pg{overflow:clip}
+/* a note or a row that has just arrived glides in, as the app's do; nothing flashes */
+.nt-note.is-new,.nt-onpage li.is-new,.nt-todos li.is-new{animation:nt-arrive .45s var(--ease) both}
+@keyframes nt-arrive{from{opacity:0;transform:translateY(-.4em)}}
+
+/* ---- Notes, as the app draws it (NotesPlace): the stacks, a stack opened, a note opened at half ----------- */
+.rg__notes{position:relative;font-size:calc(15 * var(--pt))}
+.nt-head{display:flex;align-items:center;gap:calc(22 * var(--pt));height:calc(56 * var(--pt));margin-top:0}
+.nt-head b{font:700 calc(30 * var(--pt))/1 var(--app-ui);letter-spacing:-.01em;color:var(--app-ink)}
+.nt-head span{font:700 calc(30 * var(--pt))/1 var(--app-ui);letter-spacing:-.01em;color:color-mix(in srgb,var(--app-faded) 55%,transparent)}
+.nt-views{margin-left:auto;display:flex;align-items:center;gap:calc(2 * var(--pt));color:var(--app-faded)}
+.nt-views em{display:grid;place-items:center;width:calc(32 * var(--pt));height:calc(28 * var(--pt));border-radius:calc(7 * var(--pt))}
+.nt-views em.is-on{background:var(--tile-on);color:var(--app-ink)}
+.nt-views u{width:1px;height:calc(16 * var(--pt));margin:0 calc(8 * var(--pt));background:var(--app-rule)}
+.nt-views svg{width:calc(16 * var(--pt));height:calc(16 * var(--pt));fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.rg__notes svg{fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.nt-eye{display:flex;align-items:center;gap:calc(5 * var(--pt));margin:0;font:600 calc(10.5 * var(--pt))/1.3 var(--app-ui);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--app-faded);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nt-eye svg{width:calc(13 * var(--pt));height:calc(13 * var(--pt));flex:none}
+.nt-search{display:flex;gap:calc(10 * var(--pt));margin-top:calc(9 * var(--pt))}
+.nt-search p{flex:1;display:flex;align-items:center;gap:calc(9 * var(--pt));margin:0;height:calc(43 * var(--pt));padding:0 calc(16 * var(--pt));
+  border-radius:calc(14 * var(--pt));background:var(--app-chip-fill);color:var(--app-faded);font:400 calc(15.5 * var(--pt))/1 var(--app-ui)}
+.nt-search p svg{width:calc(15 * var(--pt));height:calc(15 * var(--pt))}
+.nt-search kbd{margin-left:auto;font:400 calc(11.5 * var(--pt))/1 var(--app-ui);color:var(--app-faded);background:none;border:0;padding:0}
+.nt-search>span{display:grid;place-items:center;width:calc(46 * var(--pt));border-radius:calc(14 * var(--pt));border:1px solid var(--app-rule);color:var(--app-ink)}
+.nt-search>span svg{width:calc(16 * var(--pt));height:calc(16 * var(--pt))}
+.nt-inbox{margin-top:calc(13 * var(--pt));padding:0 calc(18 * var(--pt));border:1px solid var(--app-rule);border-radius:calc(23 * var(--pt))}
+.nt-inbox__head{display:flex;align-items:center;justify-content:space-between;height:calc(44 * var(--pt))}
+.nt-inbox__head i{display:flex;align-items:center;gap:calc(20 * var(--pt));color:var(--app-faded)}
+.nt-inbox__head i svg{width:calc(17 * var(--pt));height:calc(17 * var(--pt))}
+.nt-inbox.is-open{border-radius:calc(20 * var(--pt));padding-bottom:calc(14 * var(--pt))}
+.nt-card{position:relative;margin-top:calc(12 * var(--pt));padding:calc(18 * var(--pt)) calc(18 * var(--pt)) calc(16 * var(--pt));
+  border:1px solid var(--app-rule);border-radius:calc(20 * var(--pt));background:var(--app-card)}
+.nt-title{display:flex;align-items:center;gap:calc(4 * var(--pt));margin-top:calc(6 * var(--pt));font:600 calc(20 * var(--pt))/1.15 var(--app-ui);color:var(--app-ink)}
+.nt-title svg{width:calc(13 * var(--pt));height:calc(13 * var(--pt));color:var(--app-faded)}
+.nt-stack .nt-title{font-size:calc(22 * var(--pt));font-weight:700}
+.nt-acts{position:absolute;top:calc(14 * var(--pt));right:calc(16 * var(--pt));display:flex;gap:calc(10 * var(--pt));color:var(--app-faded);font-style:normal}
+.nt-acts svg{width:calc(22 * var(--pt));height:calc(22 * var(--pt))}
+.nt-todos{list-style:none;margin:calc(14 * var(--pt)) 0 0;padding:0}
+.nt-todos li{display:flex;align-items:center;gap:calc(10 * var(--pt));min-height:calc(26 * var(--pt));font:400 calc(15 * var(--pt))/1.3 var(--app-ui);color:var(--app-ink);border-radius:calc(4 * var(--pt))}
+.nt-todos li>i{flex:none;width:calc(15 * var(--pt));height:calc(15 * var(--pt));border-radius:50%;border:1.5px solid var(--app-faded)}
+.nt-todos li em{margin-left:auto;max-width:48%;padding:calc(2 * var(--pt)) calc(8 * var(--pt));border-radius:calc(8 * var(--pt));background:var(--tuck);
+  font:italic 400 calc(12.5 * var(--pt))/1.2 var(--app-ui);color:var(--app-faded);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nt-add{margin:calc(4 * var(--pt)) 0 0;font:400 calc(15 * var(--pt))/1.4 var(--app-ui);color:color-mix(in srgb,var(--app-faded) 70%,transparent)}
+.nt-new{display:grid;place-items:center;height:calc(39 * var(--pt));margin:calc(12 * var(--pt)) 0 0;border:1.5px dashed var(--app-rule);border-radius:calc(20 * var(--pt));
+  font:500 calc(14 * var(--pt))/1 var(--app-ui);color:var(--app-ink)}
+.nt-back{display:flex;align-items:center;gap:calc(6 * var(--pt));height:calc(43 * var(--pt));margin:calc(9 * var(--pt)) 0 0;font:400 calc(15 * var(--pt))/1 var(--app-ui);color:var(--app-faded)}
+.nt-back svg{width:calc(15 * var(--pt));height:calc(15 * var(--pt))}
+.nt-note{--nt-note:var(--app-chip-fill);margin-top:calc(14 * var(--pt));padding:calc(12 * var(--pt)) calc(14 * var(--pt));border-radius:calc(12 * var(--pt));background:var(--nt-note)}
+.nt-note p{margin:0}
+.nt-note__t{font:600 calc(15 * var(--pt))/1.35 var(--app-ui);color:var(--app-ink)}
+.nt-note__b{font:400 calc(14.5 * var(--pt))/1.55 var(--app-ui);color:var(--app-ink)}
+.nt-note__b:empty{display:none}
+.nt-note__b h4{margin:calc(4 * var(--pt)) 0 0;font:600 calc(14.5 * var(--pt))/1.5 var(--app-ui)}
+.nt-note__f{display:flex;align-items:center;gap:calc(8 * var(--pt));margin-top:calc(8 * var(--pt))!important;font:400 calc(12.5 * var(--pt))/1 var(--app-ui);color:var(--app-faded)}
+.nt-card{--tuck:color-mix(in srgb,var(--app-well) 89.5%,#000)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .nt-card{--tuck:color-mix(in srgb,var(--app-well) 82%,#000)}}
+:root[data-theme="dark"] .nt-card{--tuck:color-mix(in srgb,var(--app-well) 82%,#000)}
+/* a scene's pill (SFPill): soft ink, italic, on the tuck */
+.nt-sc{padding:calc(2 * var(--pt)) calc(8 * var(--pt));border-radius:calc(8 * var(--pt));background:var(--tuck);color:color-mix(in srgb,var(--app-ink) 78%,transparent);font-style:italic}
+/* the pen under a note's title: the page's stroke, a little out from the words; after dark at nearly full
+   strength, the words on it dark (PenWashUnder) */
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .nt-note__t .nt-pen{color:var(--app-well);--pen-a:90%}}
+:root[data-theme="dark"] .nt-note__t .nt-pen{color:var(--app-well);--pen-a:90%}
+.nt-note__t .nt-pen{padding:calc(2 * var(--pt)) calc(5 * var(--pt));margin:0 calc(-5 * var(--pt));-webkit-box-decoration-break:clone;box-decoration-break:clone;
+  background:linear-gradient(to bottom right,var(--nt-note) 50%,transparent 0) left top/calc(4 * var(--pt)) 100% no-repeat,
+    linear-gradient(to top left,var(--nt-note) 50%,transparent 0) right top/calc(4 * var(--pt)) 100% no-repeat,
+    linear-gradient(90deg,color-mix(in srgb,var(--pen) var(--pen-a,62%),transparent),color-mix(in srgb,var(--pen) var(--pen-a,48%),transparent) 30%,color-mix(in srgb,var(--pen) var(--pen-a,32%),transparent) 80%,color-mix(in srgb,var(--pen) var(--pen-a,21%),transparent))}
+.nt-onpage{margin-top:calc(16 * var(--pt))}
+.nt-onpage ul{list-style:none;margin:calc(8 * var(--pt)) 0 0;padding:0}
+.nt-onpage li{display:flex;justify-content:space-between;gap:calc(10 * var(--pt));padding:calc(5 * var(--pt)) 0;font:400 calc(14 * var(--pt))/1.3 var(--app-ui);color:var(--app-faded)}
+/* the three faces, one at a time */
+.rg__notes:not([data-view="top"]) .nt-top,.rg__notes:not([data-view="stack"]) .nt-stackview,.rg__notes:not([data-view="open"]) .nt-open{display:none}
+.rg__notes[data-view="open"] .nt-views em.is-on{background:transparent;color:var(--app-faded)}
+.rg__notes[data-view="open"] .nt-views em[data-v="half"]{background:var(--tile-on);color:var(--app-ink)}
+/* a note opened, at half the window: the page of the note, no card */
+.nt-open{display:flex;flex-direction:column;height:calc(100% - 106 * var(--pt))}
+.nt-open__bar{display:flex;align-items:center;gap:calc(12 * var(--pt));margin:calc(20 * var(--pt)) 0 0 calc(32 * var(--pt))}
+.nt-open__bar .nt-eye{flex:1;min-width:0}
+.nt-open__bar em{font:400 calc(13 * var(--pt))/1 var(--app-ui);font-style:normal;color:var(--app-faded);white-space:nowrap}
+.nt-open__bar>svg{width:calc(17 * var(--pt));height:calc(17 * var(--pt));color:var(--app-faded);flex:none}
+.nt-open__body{flex:1;margin:calc(26 * var(--pt)) 0 0 calc(32 * var(--pt));font:400 calc(16 * var(--pt))/1.55 var(--app-ui);color:var(--app-ink)}
+.nt-open__body blockquote{margin:0 0 calc(10 * var(--pt));padding-left:calc(16 * var(--pt));border-left:calc(2 * var(--pt)) solid color-mix(in srgb,var(--app-faded) 60%,transparent);color:var(--app-faded)}
+.nt-open__body p{margin:0;min-height:1.55em}
+.nt-open__body .md-h1{font:700 calc(28 * var(--pt))/1.3 var(--app-ui)}
+.nt-open__body b{font-weight:700}
+.md-box{display:inline-block;width:calc(14 * var(--pt));height:calc(14 * var(--pt));margin-right:calc(10 * var(--pt));border:1.5px solid var(--app-faded);border-radius:50%;vertical-align:-.12em}
+.md-dot{display:inline-block;width:calc(5 * var(--pt));height:calc(5 * var(--pt));margin:0 calc(14 * var(--pt)) .2em calc(6 * var(--pt));border-radius:50%;background:var(--app-ink)}
+.nt-open .nt-new{margin:0 0 calc(16 * var(--pt))}
+/* a file from outside: the column takes it, and says where it goes */
+.rg__notes.is-drop{outline:1.5px solid var(--app-ink);outline-offset:-2px;border-radius:calc(14 * var(--pt))}
+.ib-drop{position:absolute;left:50%;top:34%;z-index:20;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:calc(10 * var(--pt));width:max-content;max-width:88%;
+  padding:calc(18 * var(--pt)) calc(26 * var(--pt));background:var(--app-card);border:1px solid var(--app-rule);border-radius:calc(20 * var(--pt));text-align:center;
+  font:600 calc(16 * var(--pt))/1.3 var(--app-ui);color:var(--app-ink)}
+.ib-drop svg{width:calc(26 * var(--pt));height:calc(26 * var(--pt))}
+/* the Inbox, opened by what came in (InboxCard): each piece on its own fill, what it is, where, why; the ways on */
+.ib__name{display:block;margin:calc(2 * var(--pt)) 0 calc(12 * var(--pt));font:700 calc(22 * var(--pt))/1.1 var(--app-ui);color:var(--app-ink)}
+.ib__row{display:grid;grid-template-columns:calc(18 * var(--pt)) minmax(0,1fr) auto;gap:calc(10 * var(--pt));margin-bottom:calc(4 * var(--pt));padding:calc(12 * var(--pt));
+  border-radius:calc(12 * var(--pt));background:var(--app-chip-fill);animation:slide-in var(--dur-3) var(--ease) both}
+.ib__row+.ib__row{animation-delay:.2s}
+.ib__row svg{width:calc(17 * var(--pt));height:calc(17 * var(--pt));color:var(--app-faded)}
+.ib__row>i{font:400 calc(16 * var(--pt))/1 var(--app-ui);font-style:normal;color:var(--app-faded)}
+.ib__row p{margin:0}
+.ib__src{font:600 calc(10.5 * var(--pt))/1.3 var(--app-ui);letter-spacing:.07em;text-transform:uppercase;color:var(--app-faded)}
+.ib__words{margin:calc(4 * var(--pt)) 0 calc(6 * var(--pt))!important;font:400 calc(15.5 * var(--pt))/1.35 var(--app-ui);color:var(--app-ink)}
+.ib__to{display:flex;flex-wrap:wrap;align-items:center;gap:calc(6 * var(--pt));font:400 calc(14 * var(--pt))/1.3 var(--app-ui);color:var(--app-ink)}
+.ib__chip{padding:calc(1 * var(--pt)) calc(8 * var(--pt));border:1.5px solid var(--app-ink);border-radius:calc(8 * var(--pt));font-weight:600}
+.ib__why{margin-top:calc(6 * var(--pt))!important;font:400 calc(12.5 * var(--pt))/1.3 var(--app-ui);color:var(--app-faded)}
+.ib__foot{margin:calc(10 * var(--pt)) calc(-18 * var(--pt)) calc(-14 * var(--pt));padding:calc(12 * var(--pt)) calc(18 * var(--pt)) calc(14 * var(--pt));
+  border-top:1px solid var(--app-rule);border-radius:0 0 calc(20 * var(--pt)) calc(20 * var(--pt));background:var(--app-chip-fill)}
+.ib__foot p{margin:0;font:400 calc(13 * var(--pt))/1.35 var(--app-ui);color:var(--app-ink)}
+.ib__foot .ib__eye{margin-bottom:calc(3 * var(--pt));font:600 calc(10.5 * var(--pt))/1.3 var(--app-ui);letter-spacing:.07em;text-transform:uppercase;color:var(--app-faded)}
+.ib__btns{display:flex;flex-wrap:wrap;gap:calc(8 * var(--pt));margin-top:calc(10 * var(--pt))!important}
+.ib__btn{padding:calc(8 * var(--pt)) calc(14 * var(--pt));border-radius:calc(10 * var(--pt));background:var(--app-card);font:500 calc(14 * var(--pt))/1 var(--app-ui);transition:transform .15s}
+.ib__btn.is-keep{background:var(--app-ink);color:var(--app-well)}
+.ib__btn.is-press{transform:scale(.94)}
+@container rgwin (min-width:36rem){
+  .rg .rail{width:calc(70 * var(--pt));font-size:calc(26 * var(--pt))}
+}
+/* on a phone the panel has the window to itself, at the app's panel width */
+@container rgwin (max-width:36rem){
+  .rg>*{--pt:calc(100cqw / 440)}
+  .rg__side{padding:0 calc(16 * var(--pt))}
 }

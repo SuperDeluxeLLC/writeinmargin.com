@@ -207,6 +207,8 @@ kbd{font:500 .8em/1 var(--ui);letter-spacing:.02em;display:inline-block;padding:
 /* 5. Layout: two columns of width, one of flow ------------------------------------------ */
 .col{width:min(100% - 2*var(--gutter),var(--col));max-width:none;margin-inline:auto}
 .col--demo{width:min(100% - 2*var(--gutter),var(--col-demo))}
+/* a page's first demo is the size of an app window on a laptop, not the screen itself */
+.hero>.frame.col--demo{width:min(100% - 2*var(--gutter),1100px)}
 .stack>*+*{margin-top:var(--stack,var(--sp-4))}
 .cluster{display:flex;flex-wrap:wrap;gap:var(--sp-3) var(--sp-4);align-items:center}
 .center{text-align:center;margin-inline:auto}
