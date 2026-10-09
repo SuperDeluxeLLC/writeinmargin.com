@@ -70,7 +70,7 @@
   --card:#FFFFFF;      /* a card, a frame, a window */
   --ink:#2E2C28;
   --faded:#8A857A;     /* the app's faded ink: labels, the frame's strip, hairlines. Not body text */
-  --accent:#B5432F;    /* red pencil: links, ⌘K, where you are */
+  --accent:#FF4A3D;    /* signal red, Newsprint's own: the caret, links, ⌘K, where you are */
   --hl:#E9FF1F;--hl-ink:#1E1C14;   /* the app's highlighter and the ink that reads on it */
   --device:#161616;--device-edge:#3A3A3A;
   color-scheme:light;
@@ -114,7 +114,7 @@
    commandk.css) until each is rewritten to the names above. New work uses the names above;
    this block goes when the last page does. */
 :root{
-  --desk:var(--well);--rule:var(--hair);--rule-page:var(--hair);--hair-page:var(--hair-soft);--coral:var(--accent);
+  --desk:var(--well);--rule:var(--hair);--rule-page:var(--hair);--hair-page:var(--hair-soft);
   --red:var(--accent);--teal:var(--quiet);--faint:var(--faded);--hand:var(--ui);
   --fs--2:var(--fs-small);--fs--1:var(--fs-cap);--fs-0:var(--fs-body);--fs-1:var(--fs-h3);--fs-2:var(--fs-h3);
   --fs-3:var(--fs-h2);--fs-4:var(--fs-display);--fs-5:var(--fs-display);
@@ -139,7 +139,7 @@
   --rev-ivory:#B5AE96;   --rev-paper-ivory:#F6F1E3;
   /* the Pencil's six marker colours */
   --hand-aqua:#5EC0CC;--hand-pink:#F26AA8;--hand-lime:#C2D936;
-  --hand-coral:#FA8E8E;--hand-limeade:#93C84C;--hand-lavender:#B6A0D9;
+  --hand-limeade:#93C84C;--hand-lavender:#B6A0D9;
 }
 
 /* 3. Reset and base ---------------------------------------------------------- */
@@ -209,6 +209,10 @@ kbd{font:500 .8em/1 var(--ui);letter-spacing:.02em;display:inline-block;padding:
 .col--demo{width:min(100% - 2*var(--gutter),var(--col-demo))}
 /* a page's first demo is the size of an app window on a laptop, not the screen itself */
 .hero>.frame.col--demo{width:min(100% - 2*var(--gutter),1100px)}
+/* and it is the window alone on the page: no card round it, no margin of white between the two */
+.hero>.frame{background:transparent;border-radius:0;overflow:visible}
+.hero>.frame>.frame__body:has(.win,.ipad){padding:0}
+.hero>.frame>.frame__bar{padding-inline:0}
 .stack>*+*{margin-top:var(--stack,var(--sp-4))}
 .cluster{display:flex;flex-wrap:wrap;gap:var(--sp-3) var(--sp-4);align-items:center}
 .center{text-align:center;margin-inline:auto}
@@ -268,13 +272,13 @@ kbd{font:500 .8em/1 var(--ui);letter-spacing:.02em;display:inline-block;padding:
   align-items:baseline;gap:var(--sp-2) var(--sp-5);font:400 var(--fs-cap)/var(--lh-cap) var(--ui);color:var(--quiet)}
 .site-footer .brand{padding:0;min-height:0;font-size:1.125rem;color:var(--ink)}
 /* The caret after the wordmark: the paper's accent, as the app draws its caret on the page. Drawn, so no reader hears it. */
-.brand::after{content:"";flex:none;width:.1em;height:1.15em;margin-left:.06em;border-radius:.03em;background:var(--accent)}
+.brand::after{content:"";flex:none;width:.1em;height:1.15em;margin-left:.06em;border-radius:99px;background:var(--accent)}
 /* Typed in once a visit (base.js): the name waits unseen, keeping its room, until the m and its caret
    are drawn; the caret then rides in the flow before the letters still to come, which stay hidden. */
 .wordmark-to-type .site-header .brand:not(.is-typing){color:transparent}
 .wordmark-to-type .site-header .brand:not(.is-typing)::after,.brand.is-typing::after{visibility:hidden}
 .brand.is-typing::after{content:none}
-.brand-caret{flex:none;width:.1em;height:1.15em;margin-left:.06em;border-radius:.03em;background:var(--accent)}
+.brand-caret{flex:none;width:.1em;height:1.15em;margin-left:.06em;border-radius:99px;background:var(--accent)}
 .brand-caret.on{animation:caret 1.05s steps(1) infinite}
 .brand-rest{visibility:hidden}
 /* The header's caret behaves as a real one: it blinks while it waits, holds steady while a letter
@@ -446,7 +450,7 @@ figure.demo>figcaption.cap:first-child{margin-top:0;margin-bottom:var(--sp-3)}
 /* a thread on a card (CardThreadPills): a dot in the thread's colour and its name in italics, on the chip fill */
 .app-thread{display:inline-flex;align-items:center;gap:.4em;font:italic 400 .8em/1.25 var(--ui);padding:.2em .7em;border-radius:99px;
   color:var(--app-ink);background:var(--app-chip-fill);white-space:nowrap}
-.app-thread::before{content:"";flex:none;width:.6em;height:.6em;border-radius:50%;background:var(--th,var(--hand-coral))}
+.app-thread::before{content:"";flex:none;width:.6em;height:.6em;border-radius:50%;background:var(--th,var(--hand-pink))}
 /* a card's number, as the app sets it: SCENE 1, small, tracked, in ink at 70% */
 .app-scene-n{font:500 .74em/1.2 var(--ui);letter-spacing:.06em;text-transform:uppercase;font-variant-numeric:tabular-nums;
   color:color-mix(in srgb,var(--app-ink) 70%,transparent)}
@@ -571,7 +575,7 @@ figure.demo>figcaption.cap:first-child{margin-top:0;margin-bottom:var(--sp-3)}
 .sc-slug.rv::after{right:var(--sheet-star)}
 .sc-slug[data-n].rv::after{content:"*"}
 /* the caret, in the accent */
-.caret{display:inline-block;width:.12em;height:1.05em;background:var(--accent);vertical-align:-.17em;margin-left:1px}
+.caret{display:inline-block;border-radius:99px;width:.175em;height:1.05em;background:var(--accent);vertical-align:-.17em;margin-left:1px}
 .caret.on{animation:caret 1.05s steps(1) infinite}
 @keyframes caret{50%{opacity:0}}
 /* a printed page wears the stock it was printed on */
@@ -608,7 +612,7 @@ figure.demo>figcaption.cap:first-child{margin-top:0;margin-bottom:var(--sp-3)}
 .hands{display:flex;gap:.5rem;flex-wrap:wrap}
 .hand-dot{width:1.1rem;height:1.1rem;border-radius:50%;background:var(--c)}
 [data-hand="aqua"]{--c:var(--hand-aqua)}[data-hand="pink"]{--c:var(--hand-pink)}[data-hand="lime"]{--c:var(--hand-lime)}
-[data-hand="coral"]{--c:var(--hand-coral)}[data-hand="limeade"]{--c:var(--hand-limeade)}[data-hand="lavender"]{--c:var(--hand-lavender)}
+[data-hand="limeade"]{--c:var(--hand-limeade)}[data-hand="lavender"]{--c:var(--hand-lavender)}
 
 /* 13. Get the beta (ids and classes beta.js depends on: .way .here .cta .meta .sum) -------------------- */
 .get{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:var(--sp-5) var(--sp-6)}

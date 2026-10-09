@@ -279,8 +279,8 @@
   var pnotes = $('#rg-pnotes', rg), pnotesN = $('#rg-pnotes-n', rg), pnotesList = $('#rg-pnotes-list', rg);
   var actLine = lines[1] && lines[1].el, mayLine = lines[3] && lines[3].el;
   var todosHTML = todos ? todos.innerHTML : '';
-  /* the pens, as the app lists them; a new writer's is coral */
-  var PENS = ['#5EC0CC', '#F26AA8', '#C2D936', '#FA8E8E', '#93C84C', '#B6A0D9', '#FFE14D'], PEN = '#FA8E8E';
+  /* the pens, as the app lists them; a new writer's is the yellow */
+  var PENS = ['#5EC0CC', '#F26AA8', '#C2D936', '#93C84C', '#B6A0D9', '#FFE14D'], PEN = '#FFE14D';
   function view(v) { notes.setAttribute('data-view', v); rg.classList.toggle('is-half', v === 'open'); }
   function looseCount(n) { looseN.forEach(function (e) { e.textContent = 'Not in a stack · ' + n + (n === 1 ? ' note' : ' notes'); }); }
   function notesStart() {
