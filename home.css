@@ -48,7 +48,9 @@
 
 /* 1. The hero: the keyboard window, opened out from bare to split ----------------------------- */
 #way-menu,#way-touch{display:none!important}
-.rg__screen{display:grid;grid-template-columns:minmax(0,1fr);gap:1.1em;padding:1.1em;align-items:start;min-height:22em;
+/* one size at every stop, as an app window keeps its size whatever is open in it: the tallest stop's height,
+   and what does not fit is cut off at the window's edge */
+.rg__screen{display:grid;grid-template-columns:minmax(0,1fr);gap:1.1em;padding:1.1em;align-items:start;height:39.5em;overflow:hidden;
   transition:grid-template-columns var(--dur-3) var(--ease)}
 /* a panel at its narrow size, as the app opens one: a strip down the side, the page beside it */
 .rg[data-stop="2"] .rg__screen,.rg[data-stop="3"] .rg__screen{grid-template-columns:minmax(0,19em) minmax(0,1fr)}
@@ -82,8 +84,13 @@
 #hw[data-view="compare"] .rail{display:none}
 .rg[data-stop="2"] .rail__t[data-k="board"],.rg[data-stop="3"] .rail__t[data-k="notes"]{background:var(--tile-on);color:var(--app-ink)}
 @container (max-width:36rem){
-  .rg__screen{padding:.8em;min-height:0}
+  .rg__screen{padding:.8em;height:34em}
   .rg[data-stop="2"] .rg__screen,.rg[data-stop="3"] .rg__screen{grid-template-columns:minmax(0,1fr)}
+  /* on a phone the rail would take a row of its own and the window would grow with it: the hero has none there */
+  .rg .rail{display:none}
+  /* a phone's window has no room beside the panel: the panel has the window to itself */
+  .rg:is([data-stop="2"],[data-stop="3"]) .rg__pages{display:none}
+  .rg:is([data-stop="2"],[data-stop="3"]) .rg__side{padding-right:0;border-right:0}
   .rg[data-a="1"][data-b="1"] .rg__pages{grid-template-columns:minmax(0,1fr)}
 }
 /* how much is open around the page: a row of controls under the frame */

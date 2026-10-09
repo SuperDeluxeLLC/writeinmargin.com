@@ -365,7 +365,10 @@ figure.demo>figcaption.cap:first-child{margin-top:0;margin-bottom:var(--sp-3)}
    the screen's font-size, which follows the device's width, so it keeps its proportions. -------- */
 .win,.ipad{container-type:inline-size;color:var(--app-ink);font-family:var(--ui)}
 .win{background:var(--app-well);border:1px solid var(--hair);border-radius:var(--r-card);overflow:hidden;width:100%}
-.frame__body--flush>.win,.stage__body--flush>.win{border:0;border-radius:0}
+/* A drawn app window is a Mac window that is not full screen: it stands in its frame with room round it,
+   rounded at every corner, with its hairline edge (and no shadow). */
+.win{border-radius:.85em}
+:is(.frame__body--flush,.stage__body--flush):has(.win){padding:clamp(.75rem,2vw,1.5rem)}
 /* the bar is the page's own paper, the document's name in the middle and no line under it */
 .win__bar{display:grid;grid-template-columns:minmax(max-content,1fr) minmax(0,auto) minmax(max-content,1fr);align-items:center;
   column-gap:.9em;height:2.6em;padding:0 .9em;font-size:clamp(var(--ui-min,9px),1.5cqw,var(--ui-max,19px));
