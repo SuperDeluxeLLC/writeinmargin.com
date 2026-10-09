@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <defs>
-    <linearGradient id="t" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#212121"/><stop offset="1" stop-color="#000000"/></linearGradient>
+    <linearGradient id="t" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F0EEE9"/><stop offset="1" stop-color="#DDDAD4"/></linearGradient>
     <radialGradient id="l" cx=".5" cy="-.15" r=".9"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/></radialGradient>
-    <filter id="s" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="1.2" stdDeviation="1.1" flood-color="#000" flood-opacity=".9"/></filter>
+    <filter id="s" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy=".5" stdDeviation=".6" flood-color="#000" flood-opacity=".18"/></filter>
   </defs>
   <rect width="64" height="64" rx="14" fill="url(#t)"/>
   <rect width="64" height="64" rx="14" fill="url(#l)"/>
-  <rect x=".4" y=".4" width="63.2" height="63.2" rx="13.6" fill="none" stroke="rgba(255,255,255,.14)" stroke-width=".8"/>
+  <rect x=".4" y=".4" width="63.2" height="63.2" rx="13.6" fill="none" stroke="rgba(46,44,40,.14)" stroke-width=".8"/>
   <g filter="url(#s)">
-    <path d="M16.61 41.50L19.04 27.62Q19.26 26.39 17.99 26.39L17.43 26.39L18.07 22.95L20.76 22.95Q21.84 22.95 22.44 23.51Q23.04 24.07 23.04 25.01L23.04 25.04L23.23 25.04Q23.79 23.85 24.78 23.17Q25.77 22.50 27.23 22.50Q28.61 22.50 29.55 23.17Q30.48 23.85 30.75 25.08L30.90 25.08Q31.34 23.96 32.39 23.23Q33.44 22.50 34.97 22.50Q37.03 22.50 38.06 23.96Q39.09 25.42 38.67 27.62L36.21 41.50L32.47 41.50L34.75 28.41Q34.97 27.32 34.56 26.65Q34.15 25.98 33.18 25.98Q32.17 25.98 31.46 26.76Q30.75 27.55 30.52 28.97L28.28 41.50L24.54 41.50L26.82 28.41Q27.04 27.32 26.63 26.65Q26.22 25.98 25.25 25.98Q24.24 25.98 23.53 26.76Q22.82 27.55 22.59 28.97L20.35 41.50Z" fill="#E8E8E8"/>
-    <rect x="42.99" y="14.00" width="4.4" height="36.0" rx="1.1" fill="#7A5CFF"/>
+    <path d="M16.61 41.50L19.04 27.62Q19.26 26.39 17.99 26.39L17.43 26.39L18.07 22.95L20.76 22.95Q21.84 22.95 22.44 23.51Q23.04 24.07 23.04 25.01L23.04 25.04L23.23 25.04Q23.79 23.85 24.78 23.17Q25.77 22.50 27.23 22.50Q28.61 22.50 29.55 23.17Q30.48 23.85 30.75 25.08L30.90 25.08Q31.34 23.96 32.39 23.23Q33.44 22.50 34.97 22.50Q37.03 22.50 38.06 23.96Q39.09 25.42 38.67 27.62L36.21 41.50L32.47 41.50L34.75 28.41Q34.97 27.32 34.56 26.65Q34.15 25.98 33.18 25.98Q32.17 25.98 31.46 26.76Q30.75 27.55 30.52 28.97L28.28 41.50L24.54 41.50L26.82 28.41Q27.04 27.32 26.63 26.65Q26.22 25.98 25.25 25.98Q24.24 25.98 23.53 26.76Q22.82 27.55 22.59 28.97L20.35 41.50Z" fill="#2E2C28"/>
+    <rect x="42.99" y="14.00" width="4.4" height="36.0" rx="2.2" fill="#FF4A3D"/>
   </g>
 </svg>
