@@ -75,9 +75,11 @@
 .rg[data-b="1"] .wy__pg--b{display:block;animation:page-in var(--dur-3) var(--ease) both}
 @keyframes page-in{from{transform:translateX(1.2em);opacity:0}}
 .rg[data-a="1"][data-b="1"] .rg__pages{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
-/* the bare page and ⌘K are the page alone, as in the app: no rail. With a panel out the
+/* the bare page, ⌘K and the split are the page alone, as in the app: no rail. With a panel out the
    rail is back, and the panel's tile is lit. */
-.rg:is([data-stop="0"],[data-stop="1"]) .rail{display:none}
+.rg:is([data-stop="0"],[data-stop="1"],[data-stop="4"]) .rail{display:none}
+/* comparing two drafts is the split with the draft before: no rail there either */
+#hw[data-view="compare"] .rail{display:none}
 .rg[data-stop="2"] .rail__t[data-k="board"],.rg[data-stop="3"] .rail__t[data-k="notes"]{background:var(--tile-on);color:var(--app-ink)}
 @container (max-width:36rem){
   .rg__screen{padding:.8em;min-height:0}
