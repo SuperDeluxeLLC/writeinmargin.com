@@ -1,0 +1,551 @@
+/* ==========================================================================
+   Margin site: site.css
+   One stylesheet for every page. Reference: DESIGN-NOTES.md.
+
+   The site is a reflection of the app at rest: a page on a grey well,
+   white rounded cards, one family of type, sentence case, one accent, and
+   nothing decorative. Newsprint by day, Ink black by night, both taken
+   from the app's own paper tokens.
+
+   Rules this file keeps:
+   - No shadows, no gradients, no italics for flavour, no ornament.
+   - One accent: links, the ⌘K mark and "where you are". Nothing else.
+   - One family, many weights: the site's words in DM Sans,
+     its headlines and wordmark in DM Mono. Inside a drawn app window the
+     app's own system face, and its pages in DM Mono, the app's own
+     default (.sheet, .script).
+   - Nothing moves on scroll. Motion is a demo's own, and stops under
+     prefers-reduced-motion.
+   - Light and dark both, from the system, with a data-theme override.
+   ========================================================================== */
+
+/* 1. Fonts. The DM family, Latin only (SIL OFL: fonts/OFL-DMMono.txt, fonts/OFL-DMSans.txt):
+   DM Sans, every weight from 100 to 1000 in one variable file, for what the site says; DM Mono
+   Medium for the headlines, Medium Italic for the wordmark; DM Mono Regular and Italic are also
+   the face a script page is set in, as the app sets it. */
+@font-face{font-family:"DM Sans";font-style:normal;font-weight:100 1000;font-display:swap;src:url("fonts/DMSans-Variable.woff2") format("woff2")}
+@font-face{font-family:"DM Sans";font-style:italic;font-weight:100 1000;font-display:swap;src:url("fonts/DMSans-Italic-Variable.woff2") format("woff2")}
+@font-face{font-family:"DM Mono";font-style:normal;font-weight:400;font-display:swap;src:url("fonts/DMMono-Regular.woff2") format("woff2")}
+@font-face{font-family:"DM Mono";font-style:italic;font-weight:400;font-display:swap;src:url("fonts/DMMono-Italic.woff2") format("woff2")}
+@font-face{font-family:"DM Mono";font-style:normal;font-weight:500;font-display:swap;src:url("fonts/DMMono-Medium.woff2") format("woff2")}
+@font-face{font-family:"DM Mono";font-style:italic;font-weight:500;font-display:swap;src:url("fonts/DMMono-MediumItalic.woff2") format("woff2")}
+/* A bold asked of DM Mono is its Medium, never a browser's fake: the app's bold is the Medium too,
+   with its stroke on top (.sheet b, the slug classes below). */
+@font-face{font-family:"DM Mono";font-style:normal;font-weight:600 900;font-display:swap;src:url("fonts/DMMono-Medium.woff2") format("woff2")}
+
+/* 2. Tokens ---------------------------------------------------------------- */
+:root{
+  /* faces */
+  --ui:"DM Sans",-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;   /* everything the site says */
+  --display:"DM Mono",ui-monospace,Menlo,monospace;                             /* headlines and the wordmark */
+  --app-ui:-apple-system,BlinkMacSystemFont,"SF Pro","Helvetica Neue",sans-serif; /* the app's own face, in a drawn window */
+  --script:"DM Mono",ui-monospace,Menlo,monospace;                             /* a script page: the app's own face */
+
+  /* type scale, fixed: display 40/46, h2 28/34, h3 20/26, body 17, caption 14, small 13 */
+  --fs-display:2.5rem;--lh-display:2.875rem;
+  --fs-h2:1.75rem;--lh-h2:2.125rem;
+  --fs-h3:1.25rem;--lh-h3:1.625rem;
+  --fs-body:1.0625rem;--lh-body:1.5;
+  --fs-cap:.875rem;--lh-cap:1.45;
+  --fs-small:.8125rem;
+
+  /* columns and room */
+  --col:760px;            /* the text column */
+  --header-stuck:3.875rem; /* the pinned header's height, so a jump lands below it; two rows on a phone */
+  --col-demo:1100px;      /* the demo column */
+  --gutter:clamp(16px,4vw,48px);
+  --sp-1:.25rem;--sp-2:.5rem;--sp-3:.75rem;--sp-4:1rem;--sp-5:1.5rem;--sp-6:2rem;--sp-7:3rem;--sp-8:4rem;
+  --sp-section:clamp(3.5rem,8vw,6rem);   /* between sections */
+  --sp-block:clamp(1.25rem,3vw,2rem);    /* heading to words to frame */
+
+  /* shape: the app's */
+  --r-card:10px;--r-ctl:8px;--r-key:5px;
+
+  /* motion: a demo's own glide, nothing else */
+  --ease:cubic-bezier(.4,0,.2,1);--dur-1:140ms;--dur-2:280ms;--dur-3:520ms;
+
+  /* colour: Newsprint (PaperTheme.newsprint) */
+  --well:#D9D5CB;      /* the body: what the page sits on */
+  --page:#E9E6DF;      /* the paper: a script page */
+  --card:#FFFFFF;      /* a card, a frame, a window */
+  --ink:#2E2C28;
+  --faded:#8A857A;     /* the app's faded ink: labels, the frame's strip, hairlines. Not body text */
+  --accent:#B5432F;    /* red pencil: links, ⌘K, where you are */
+  --hl:#E9FF1F;--hl-ink:#1E1C14;   /* the app's highlighter and the ink that reads on it */
+  --device:#161616;--device-edge:#3A3A3A;
+  color-scheme:light;
+}
+/* Ink black (DarkPaperTheme.inkBlack) has two tones and no third: desk #000000, page #0E0E0E.
+   So the frame (--card) is the page tone, and inside a frame the app's own desk (--app-well) is
+   the desk tone again, with its cards in the page tone: page on desk, as the app draws it. A
+   sheet inside a frame is the same tone as the frame; its hairline keeps it legible.
+   Repeated for [data-theme="dark"] below: keep in sync. */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --well:#000000;--page:#0E0E0E;--card:#0E0E0E;--ink:#D9D4C7;--faded:#7F7C74;--accent:#FF4A3D;
+    --app-well:var(--well);
+    --device:#1A1A1A;--device-edge:#333333;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --well:#000000;--page:#0E0E0E;--card:#0E0E0E;--ink:#D9D4C7;--faded:#7F7C74;--accent:#FF4A3D;
+  --app-well:var(--well);
+  --device:#1A1A1A;--device-edge:#333333;
+  color-scheme:dark;
+}
+/* Derived, so both themes get them */
+:root{
+  --quiet:color-mix(in srgb,var(--ink) 45%,var(--faded));     /* secondary text that still passes AA */
+  --hair:color-mix(in srgb,var(--faded) 30%,transparent);     /* the app's hairline: faded ink, thin */
+  --hair-soft:color-mix(in srgb,var(--faded) 16%,transparent);
+  --tile:color-mix(in srgb,var(--ink) 6%,transparent);        /* a soft tile under a control */
+  --tile-on:color-mix(in srgb,var(--ink) 15%,transparent);    /* the one that is on */
+  --focus:var(--ink);
+  /* the app's parts, drawn inside a frame, follow the paper (dark sets --app-well to the desk above) */
+  --app-well:var(--page);--app-card:var(--card);--app-ink:var(--ink);--app-faded:var(--faded);
+  --app-rule:var(--hair);--app-chip:var(--well);
+}
+
+/* Aliases for the interim page styles (home.css, screenplay.css, novel.css, article.css,
+   commandk.css) until each is rewritten to the names above. New work uses the names above;
+   this block goes when the last page does. */
+:root{
+  --desk:var(--well);--rule:var(--hair);--rule-page:var(--hair);--hair-page:var(--hair-soft);--coral:var(--accent);
+  --red:var(--accent);--teal:var(--quiet);--faint:var(--faded);--hand:var(--ui);
+  --fs--2:var(--fs-small);--fs--1:var(--fs-cap);--fs-0:var(--fs-body);--fs-1:var(--fs-h3);--fs-2:var(--fs-h3);
+  --fs-3:var(--fs-h2);--fs-4:var(--fs-display);--fs-5:var(--fs-display);
+  --ease-glide:var(--ease);--ease-out:var(--ease);--dur-4:900ms;--col-gap:var(--sp-5);--margin-col:0px;
+  --r-s:4px;--r-m:6px;--r-btn:var(--r-ctl);--r-win:var(--r-card);--max:var(--col-demo);--max-wide:var(--col-demo);
+  --measure:60ch;--header-h:3.5rem;--sp-9:6rem;--lh-tight:1.1
+}
+
+/* Production revision colours, the real order: eleven, then back to white.
+   --rev-* marks a changed line, --rev-paper-* is the stock a page is printed on. */
+:root{
+  --rev-white:#9C9482;   --rev-paper-white:#FFFFFF;
+  --rev-blue:#7AA3D8;    --rev-paper-blue:#DCE8F5;
+  --rev-pink:#E89BC4;    --rev-paper-pink:#F7DFE3;
+  --rev-yellow:#E8C547;  --rev-paper-yellow:#F8F0BE;
+  --rev-green:#7CC18C;   --rev-paper-green:#DDEBD6;
+  --rev-goldenrod:#D9A441;--rev-paper-goldenrod:#F1D98E;
+  --rev-buff:#C9A982;    --rev-paper-buff:#F1E2C2;
+  --rev-salmon:#E89B83;  --rev-paper-salmon:#F6D4C6;
+  --rev-cherry:#C45661;  --rev-paper-cherry:#F2C9CB;
+  --rev-tan:#B89B7A;     --rev-paper-tan:#E8D6B8;
+  --rev-ivory:#B5AE96;   --rev-paper-ivory:#F6F1E3;
+  /* the Pencil's six marker colours */
+  --hand-aqua:#5EC0CC;--hand-pink:#F26AA8;--hand-lime:#C2D936;
+  --hand-coral:#FA8E8E;--hand-limeade:#93C84C;--hand-lavender:#B6A0D9;
+}
+
+/* 3. Reset and base ---------------------------------------------------------- */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:calc(var(--header-stuck) + 1rem)}
+body{margin:0;background:var(--well);color:var(--ink);font:400 var(--fs-body)/var(--lh-body) var(--ui);font-optical-sizing:auto;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;
+  overflow-x:clip;min-height:100vh}
+img,svg,video,canvas{display:block;max-width:100%;height:auto}
+h1,h2,h3,h4,h5,p,figure,blockquote,dl,dd,ul,ol{margin:0}
+ul,ol{padding:0;list-style:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+a{color:var(--accent);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.18em;
+  text-decoration-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+a:hover{text-decoration-color:var(--accent)}
+em{font-style:normal}                 /* no italics for flavour; the sheet sets its own */
+.sheet em,.script em{font-style:italic}
+::selection{background:var(--hl);color:var(--hl-ink)}
+hr{border:0;border-top:1px solid var(--hair);margin:var(--sp-6) 0}
+[hidden]{display:none!important}
+:focus{outline:none}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:2px}
+.skip{position:absolute;left:var(--sp-4);top:-4rem;z-index:100;background:var(--ink);color:var(--well);
+  padding:.7rem 1rem;border-radius:var(--r-ctl);text-decoration:none;font-weight:600}
+.skip:focus{top:var(--sp-3)}
+.vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);
+  white-space:nowrap;border:0}
+
+/* 4. Type ---------------------------------------------------------------------- */
+/* The headlines in DM Mono Medium, its heaviest cut: the size carries the order. */
+h1,h2,h3{font-family:var(--display);text-wrap:balance;color:var(--ink)}
+h1,.t-display{font-size:var(--fs-display);line-height:var(--lh-display);font-weight:500;letter-spacing:-.035em}
+h2,.t-h2{font-size:var(--fs-h2);line-height:var(--lh-h2);font-weight:500;letter-spacing:-.03em}
+h3,.t-h3{font-size:var(--fs-h3);line-height:var(--lh-h3);font-weight:500;letter-spacing:-.02em}
+/* Inside an app window the app's own face, as the app draws it. */
+:is(.win,.ipad,.frame,.stage){--ui:var(--app-ui)}
+:is(.win,.ipad,.frame,.stage) :is(h1,h2,h3){font-family:var(--ui);font-weight:600;letter-spacing:-.012em}
+h4{font:600 var(--fs-body)/1.35 var(--ui)}
+p{text-wrap:pretty}
+.lede{font-size:var(--fs-h3);line-height:var(--lh-h3);color:var(--quiet);max-width:36ch;text-wrap:balance}
+.quiet{color:var(--quiet)}
+.small{font-size:var(--fs-cap);line-height:var(--lh-cap)}
+.cap{max-width:60ch;font:400 var(--fs-cap)/var(--lh-cap) var(--ui);color:var(--quiet)}
+.cap b,.cap__title{display:block;font-weight:600;font-size:var(--fs-body);line-height:1.35;color:var(--ink);margin-bottom:.1em}
+.script{font-family:var(--script)}
+.num{font-variant-numeric:tabular-nums}
+/* a key or a combo, in the system face (⌘ ⌥ ⇧ live there) */
+kbd{font:500 .8em/1 var(--ui);letter-spacing:.02em;display:inline-block;padding:.28em .5em;
+  border:1px solid var(--hair);border-radius:var(--r-key);background:var(--card);color:var(--ink);
+  white-space:nowrap;vertical-align:.08em;font-variant-numeric:tabular-nums}
+.keys{display:inline-flex;gap:.2em;align-items:center}
+/* the ⌘K mark, in the accent, wherever ⌘K is named */
+.ck{color:var(--accent);font-weight:600;white-space:nowrap}
+/* the marker: the app's highlighter over the words it marks */
+.hl{background:var(--hl);color:var(--hl-ink);padding:.04em .1em;margin:0 -.1em;border-radius:2px;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone}
+@media (max-width:639.98px){
+  :root{--fs-display:1.875rem;--lh-display:2.25rem;--fs-h2:1.375rem;--lh-h2:1.75rem;--fs-h3:1.125rem;--lh-h3:1.45rem;--header-stuck:6.375rem}
+}
+
+/* 5. Layout: two columns of width, one of flow ------------------------------------------ */
+.col{width:min(100% - 2*var(--gutter),var(--col));max-width:none;margin-inline:auto}
+.col--demo{width:min(100% - 2*var(--gutter),var(--col-demo))}
+.stack>*+*{margin-top:var(--stack,var(--sp-4))}
+.cluster{display:flex;flex-wrap:wrap;gap:var(--sp-3) var(--sp-4);align-items:center}
+.center{text-align:center;margin-inline:auto}
+/* a section: heading, one or two sentences, one frame */
+.sec{padding-block:var(--sp-section) 0}
+.sec:last-of-type{padding-bottom:var(--sp-section)}
+.sec>.col>h1+*,.sec>.col>h2+*,.sec>.col>h3+*,.sec>.col>p+*{margin-top:var(--sp-3)}
+.sec>.col+.col,.sec>.col+.frame,.sec>.col+.demo,.sec>.frame+.col,.sec>.demo+.col,
+.sec>.col+.rows,.sec>.rows+.col{margin-top:var(--sp-block)}
+.sec>.col>h2+p,.sec>.col>h3+p{margin-top:var(--sp-2)}
+/* the hero: the one line, the sentence under it, the three ways */
+.hero{padding-block:clamp(3rem,9vw,6.5rem) 0}
+.hero h1{max-width:20ch}
+.hero .lede{margin-top:var(--sp-4)}
+.hero__note{margin-top:var(--sp-5);font:400 var(--fs-cap)/var(--lh-cap) var(--ui);color:var(--quiet)}
+.hero>.col+.ways,.hero>.ways+.frame,.hero>.ways+.demo,.hero>.col+.frame,.hero>.col+.demo{margin-top:var(--sp-block)}
+.ways{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-5) var(--sp-6);
+  border-top:1px solid var(--hair);padding-top:var(--sp-5)}
+.ways h3{font-size:var(--fs-body);line-height:1.4}
+.ways p{margin-top:var(--sp-1);font-size:var(--fs-cap);line-height:var(--lh-cap);color:var(--quiet)}
+@media (max-width:639.98px){.ways{grid-template-columns:minmax(0,1fr);gap:var(--sp-4)}}
+
+/* 6. Header and footer -------------------------------------------------------------------- */
+/* The header stays where it is while the page scrolls: the wordmark and the menu
+   always to hand. A hairline shows under it once the page has moved beneath it (base.js). */
+.site-header{background:var(--well);position:sticky;top:0;z-index:30;border-bottom:1px solid transparent}
+.site-header.is-scrolled{border-bottom-color:var(--hair)}
+.site-header__in{width:min(100% - 2*var(--gutter),var(--col-demo));margin-inline:auto;display:grid;
+  grid-template-columns:auto 1fr auto;grid-template-areas:"brand actions actions" "nav nav nav";
+  align-items:center;column-gap:var(--sp-5);min-height:3.5rem;padding-block:.5rem}
+.brand{grid-area:brand;display:inline-flex;align-items:center;font:italic 500 1.375rem/1 var(--display);letter-spacing:-.02em;text-transform:lowercase;
+  text-decoration:none;color:var(--ink);padding-block:.6rem;min-height:44px}
+.site-nav{grid-area:nav;display:flex;gap:var(--sp-5);font:400 var(--fs-cap)/1 var(--ui);padding-bottom:.25rem}
+.site-nav a{display:inline-flex;align-items:center;min-height:36px;text-decoration:none;color:var(--quiet)}
+.site-nav a:hover{color:var(--ink)}
+.site-nav a[aria-current="page"]{color:var(--accent)}       /* where you are */
+.site-actions{grid-area:actions;display:flex;align-items:center;justify-content:flex-end;gap:var(--sp-4)}
+.site-actions a{font:400 var(--fs-cap)/1 var(--ui);text-decoration:none;color:var(--ink);min-height:44px;display:inline-flex;align-items:center}
+.site-actions a:hover{color:var(--accent)}
+.site-actions .btn{font-weight:400;background:none;border:0;color:var(--ink);padding:0;min-height:44px}
+.site-actions .btn:hover{background:none;color:var(--accent)}
+@media (min-width:640px){
+  .site-header__in{grid-template-areas:"brand nav actions"}
+  .site-nav{padding:0;justify-content:center;gap:var(--sp-6)}
+}
+/* the theme toggle: a disc, half filled on auto, open for light, filled for dark */
+.theme-toggle{width:36px;height:36px;display:inline-grid;place-items:center;border-radius:var(--r-ctl);color:var(--quiet)}
+.theme-toggle:hover{background:var(--tile);color:var(--ink)}
+.theme-toggle__icon{position:relative;width:14px;height:14px;border-radius:50%;border:1.5px solid currentColor;overflow:hidden}
+.theme-toggle__icon::after{content:"";position:absolute;inset:0;background:currentColor;clip-path:inset(0 0 0 50%)}
+.theme-toggle[data-mode="light"] .theme-toggle__icon::after{display:none}
+.theme-toggle[data-mode="dark"] .theme-toggle__icon::after{clip-path:none}
+
+/* the footer: one line */
+.site-footer{border-top:1px solid var(--hair);margin-top:var(--sp-section);padding-block:var(--sp-5) var(--sp-7)}
+.site-footer__in{width:min(100% - 2*var(--gutter),var(--col-demo));margin-inline:auto;display:flex;flex-wrap:wrap;
+  align-items:baseline;gap:var(--sp-2) var(--sp-5);font:400 var(--fs-cap)/var(--lh-cap) var(--ui);color:var(--quiet)}
+.site-footer .brand{padding:0;min-height:0;font-size:1.125rem;color:var(--ink)}
+/* The caret after the wordmark: the paper's accent, as the app draws its caret on the page. Drawn, so no reader hears it. */
+.brand::after{content:"";flex:none;width:.1em;height:1.15em;margin-left:.06em;border-radius:.03em;background:var(--accent)}
+/* Typed in once a visit (base.js): the name waits unseen, keeping its room, until the m and its caret
+   are drawn; the caret then rides in the flow before the letters still to come, which stay hidden. */
+.wordmark-to-type .site-header .brand:not(.is-typing){color:transparent}
+.wordmark-to-type .site-header .brand:not(.is-typing)::after,.brand.is-typing::after{visibility:hidden}
+.brand.is-typing::after{content:none}
+.brand-caret{flex:none;width:.1em;height:1.15em;margin-left:.06em;border-radius:.03em;background:var(--accent)}
+.brand-caret.on{animation:caret 1.05s steps(1) infinite}
+.brand-rest{visibility:hidden}
+/* The header's caret behaves as a real one: it blinks while it waits, holds steady while a letter
+   goes in, and goes on blinking after. The footer's is a mark, and stays still. */
+.site-header .brand::after{animation:caret 1.05s steps(1) infinite}
+.site-footer p,.site-footer ul,.site-footer nav{display:contents}
+.site-footer li{display:inline}
+.site-footer a{color:var(--quiet);text-decoration:none}
+.site-footer a:hover{color:var(--accent)}
+
+/* 7. Buttons and controls ------------------------------------------------------------------ */
+.btn,.cta{display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:44px;
+  font:600 var(--fs-cap)/1 var(--ui);color:var(--well);background:var(--ink);padding:.9em 1.4em;
+  border-radius:var(--r-ctl);text-decoration:none;border:1px solid var(--ink);
+  transition:background-color var(--dur-1) var(--ease),color var(--dur-1) var(--ease)}
+.btn:hover,.cta:hover{background:color-mix(in srgb,var(--ink) 86%,var(--well))}
+.btn--quiet{background:transparent;color:var(--ink);border-color:var(--hair)}
+.btn--quiet:hover{background:var(--tile)}
+.btn[aria-disabled="true"],.cta[aria-disabled="true"]{background:var(--tile);color:var(--quiet);border-color:transparent;pointer-events:none}
+.link{font:400 var(--fs-body)/1.3 var(--ui);color:var(--accent);text-decoration:none}
+.link:hover{text-decoration:underline}
+/* a small control inside a frame: replay, a lens, a view. A soft tile, as the app's icons sit on. */
+.ctl{display:inline-flex;align-items:center;justify-content:center;gap:.45em;min-height:28px;padding:.35em .75em;
+  border:0;border-radius:var(--r-ctl);font:500 var(--fs-small)/1 var(--ui);color:var(--quiet);background:var(--tile);
+  transition:background-color var(--dur-1),color var(--dur-1)}
+.ctl:hover{color:var(--ink);background:var(--tile-on)}
+.ctl[aria-pressed="true"],.ctl.on{background:var(--ink);color:var(--well)}
+.ctl--icon{width:28px;padding:0}
+.seg{display:inline-flex;flex-wrap:wrap;gap:.25rem}
+@media (pointer:coarse){.ctl{min-height:40px;padding-inline:1em}.ctl--icon{width:40px}}
+/* a Settings switch, as the app draws it: <button class="tg" role="switch" aria-checked="true"> */
+.tg{appearance:none;-webkit-appearance:none;position:relative;flex:none;width:2.55em;height:1.5em;padding:0;border:0;
+  border-radius:999px;cursor:pointer;background:var(--tile-on);transition:background-color var(--dur-2) var(--ease)}
+.tg::after{content:"";position:absolute;top:3px;left:3px;width:calc(1.5em - 6px);height:calc(1.5em - 6px);border-radius:50%;
+  background:var(--card);transition:transform var(--dur-2) var(--ease)}
+/* on: an ink track with a card-coloured knob, ink on paper as the app's controls sit. Never the accent. */
+.tg[aria-checked="true"]{background:var(--ink)}
+.tg[aria-checked="true"]::after{transform:translateX(1.05em)}
+
+/* 8. The frame: a white card on the well, like an app window ------------------------------------
+   <figure class="frame col col--demo" data-loop="board-moves">
+     <div class="frame__bar">Board</div>
+     <div class="frame__body">…the demo…</div>
+   </figure>
+   .stage / .stage__bar / .stage__body are the same thing under the older name, so the interim
+   demos keep working. data-loop names the recorded loop that will replace the demo inside. */
+.frame,.stage{position:relative;background:var(--card);border-radius:var(--r-card);overflow:hidden;min-width:0;color:var(--ink)}
+.frame__bar,.stage__bar{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;
+  min-height:28px;padding:0 .75rem;font:500 var(--fs-small)/1 var(--ui);color:var(--faded);font-variant-numeric:tabular-nums}
+.frame__bar>:first-child,.stage__bar>:first-child{grid-column:2;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  letter-spacing:0;text-transform:none}
+.frame__bar>:nth-child(2),.stage__bar>:nth-child(2){grid-column:3;justify-self:end;display:inline-flex;gap:.25rem}
+.frame__bar .ctl,.stage__bar .ctl{min-height:22px;padding:.2em .6em;font-size:.75rem}
+@media (pointer:coarse){.frame__bar .ctl,.stage__bar .ctl{min-height:36px}.frame__bar,.stage__bar{min-height:44px}}
+/* on a phone a bar that carries controls puts the name at the left and lets the controls take the
+   rest of the row, wrapping if they must, so a group never slides under the name. One rule for
+   every page: a page needs no bar variant of its own. */
+@media (max-width:639.98px){
+  .frame__bar:has(>:nth-child(2):not(:empty)),.stage__bar:has(>:nth-child(2):not(:empty)){
+    grid-template-columns:auto minmax(0,1fr);column-gap:.5rem;padding-block:.3rem}
+  .frame__bar:has(>:nth-child(2):not(:empty))>:first-child,.stage__bar:has(>:nth-child(2):not(:empty))>:first-child{grid-column:1;text-align:left}
+  .frame__bar:has(>:nth-child(2):not(:empty))>:nth-child(2),.stage__bar:has(>:nth-child(2):not(:empty))>:nth-child(2){grid-column:2;flex-wrap:wrap;justify-content:flex-end}
+}
+.frame__body,.stage__body{padding:clamp(.75rem,2vw,1.5rem);min-width:0}
+.frame__body--flush,.stage__body--flush{padding:0}
+.frame--bare,.stage--bare{background:transparent;border-radius:0;overflow:visible}
+.stage--desk{background:var(--card)}
+.stage--center .stage__body{display:grid;place-items:center}
+.stage--wide .stage__body{min-height:clamp(18rem,40vw,34rem)}
+.stage--tall .stage__body{min-height:clamp(22rem,54vw,40rem)}
+/* a figure around a frame, with its caption under it */
+.demo>.cap,.demo>figcaption{margin-top:var(--sp-3)}
+figure.demo>figcaption.cap:first-child{margin-top:0;margin-bottom:var(--sp-3)}
+
+/* 9. Rows: the short things, one line each, a hairline between --------------------------------------
+   <ul class="rows"><li><b>Read a PDF</b> A scan becomes a script.</li></ul>
+   <ul class="rows rows--links"><li><a href="screenplay.html"><b>Screenplay</b> The page sets itself.</a></li></ul> */
+.rows{border-top:1px solid var(--hair)}
+.rows>li{display:flex;flex-wrap:wrap;align-items:baseline;gap:.25rem .75rem;padding:.8rem 0;
+  border-bottom:1px solid var(--hair);color:var(--quiet);font-size:var(--fs-body);line-height:var(--lh-body)}
+.rows b{font-weight:600;color:var(--ink)}
+.rows kbd,.rows .keys{margin-left:auto}
+.rows--links>li{padding:0}
+.rows--links a{display:flex;flex:1 1 auto;flex-wrap:wrap;align-items:baseline;gap:.25rem .75rem;padding:.9rem 0;
+  color:inherit;text-decoration:none}
+.rows--links a::after{content:"\203A";margin-left:auto;color:var(--accent);font-weight:600;align-self:center}
+.rows--links a:hover b{color:var(--accent)}
+
+/* 10. App recreations: a Mac window, an iPad, pure CSS. Everything inside is sized in em from
+   the screen's font-size, which follows the device's width, so it keeps its proportions. -------- */
+.win,.ipad{container-type:inline-size;color:var(--app-ink);font-family:var(--ui)}
+.win{background:var(--app-well);border:1px solid var(--hair);border-radius:var(--r-card);overflow:hidden;width:100%}
+.frame__body--flush>.win,.stage__body--flush>.win{border:0;border-radius:0}
+/* the bar is the page's own paper, the document's name in the middle and no line under it */
+.win__bar{display:grid;grid-template-columns:minmax(max-content,1fr) minmax(0,auto) minmax(max-content,1fr);align-items:center;
+  column-gap:.9em;height:2.6em;padding:0 .9em;font-size:clamp(var(--ui-min,9px),1.5cqw,var(--ui-max,19px));
+  background:var(--app-well);color:var(--app-faded)}
+/* no traffic lights: they are the Mac's, not Margin's. The window is the name over the page and the
+   rail. The span is hidden here so a page that still carries one draws nothing; the span can go. */
+.win__lights{display:none}
+.win__title{grid-column:2;text-align:center;font-weight:600;font-size:.92em;color:var(--app-ink);min-width:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win__sub{font-weight:400;color:var(--app-faded)}
+.win__tools{grid-column:3;justify-self:end;display:inline-flex;gap:.9em;justify-content:flex-end;font-size:.92em}
+.win__screen,.ipad__screen{background:var(--app-well);font-size:clamp(var(--ui-min,9px),1.5cqw,var(--ui-max,19px));line-height:1.4;
+  position:relative;overflow:hidden}
+.win__screen{padding:0}
+/* iPad, landscape; .ipad--portrait for the other way */
+.ipad{aspect-ratio:4/3;padding:1.9%;background:var(--device);border:1px solid var(--device-edge);border-radius:3.2%/4.3%;width:100%}
+.ipad--portrait{aspect-ratio:3/4;border-radius:4.3%/3.2%;max-width:34rem}
+.ipad__screen{height:100%;border-radius:2%/2.7%;color:var(--app-ink)}
+.ipad--portrait .ipad__screen{border-radius:2.7%/2%}
+/* The quiet icons: a rail of soft tiles down the window's edge. Projects; Notes, Board, People;
+   Drafts, Team, the Room; at its foot Read, Goals, Settings, Share. The open panel's tile is a
+   step darker. .win--rail lays the window out as bar over rail + screen; .win--rail-r puts the
+   rail down the right, .win--rail-t along the top; on a phone-width page every rail goes along
+   the top unless the window has .win--rail-keep.
+   <div class="rail" aria-hidden="true"><div class="rail__in"><span class="rail__g">…tiles…</span>
+   <span class="rail__g">…foot…</span></div></div>   tile: <i class="rail__t" data-k="notes"><svg><use href="#r-notes"/></svg></i> */
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+.win.win--rail{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto var(--rail-rows,minmax(0,1fr))}
+.win--rail>*{grid-column:2;min-width:0}
+.win--rail>.win__bar{grid-column:1/-1}
+.win--rail>.rail{grid-column:1;grid-row:2/-1}
+.win.win--rail-r{grid-template-columns:minmax(0,1fr) auto}
+.win--rail-r>*{grid-column:1}
+.win--rail-r>.rail{grid-column:2;border-right:0;border-left:1px solid var(--hair-soft)}
+.rail{position:relative;flex:none;width:2.7em;font-size:clamp(var(--ui-min,9px),1.5cqw,var(--ui-max,19px));
+  background:var(--app-well);border-right:1px solid var(--hair-soft)}
+.rail__in{position:absolute;inset:0;container-type:size;display:flex;flex-direction:column;align-items:center;
+  justify-content:space-between;padding:.6em 0;overflow:hidden}
+.rail__g{--tile:min(1.9em,6.8cqh);display:flex;flex-direction:column;align-items:center;gap:min(.3em,.8cqh)}
+.rail__t{display:grid;place-items:center;width:var(--tile);height:var(--tile);border-radius:20%;
+  background:var(--tile);color:var(--app-faded);transition:background-color var(--dur-2),color var(--dur-2)}
+.rail__t svg{width:calc(var(--tile) * .56);height:calc(var(--tile) * .56);fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
+.rail__t.is-open{background:var(--tile-on);color:var(--app-ink)}
+.rail__r{display:block;width:calc(var(--tile) * .5);height:1px;margin:min(.15em,.5cqh) 0;background:var(--hair)}
+.win.win--rail-t{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto var(--rail-rows,minmax(0,1fr))}
+.win--rail-t>*{grid-column:1}
+.win--rail-t>.rail{grid-column:1;grid-row:2;width:auto;height:2.5em;border:0;border-bottom:1px solid var(--hair-soft)}
+.win--rail-t .rail__in{flex-direction:row;padding:0 .7em}
+.win--rail-t .rail__g{--tile:min(1.75em,6.4cqw);flex-direction:row;gap:min(.3em,1cqw)}
+.win--rail-t .rail__r{width:1px;height:calc(var(--tile) * .5);margin:0 min(.15em,.5cqw)}
+@media (max-width:640px){
+  .win.win--rail:not(.win--rail-keep){grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto var(--rail-rows,minmax(0,1fr))}
+  .win--rail:not(.win--rail-keep)>*{grid-column:1}
+  .win--rail:not(.win--rail-keep)>.rail{grid-column:1;grid-row:2;width:auto;height:2.5em;border:0;border-bottom:1px solid var(--hair-soft)}
+  .win--rail:not(.win--rail-keep) .rail__in{flex-direction:row;padding:0 .7em}
+  .win--rail:not(.win--rail-keep) .rail__g{--tile:min(1.75em,6.4cqw);flex-direction:row;gap:min(.3em,1cqw)}
+  .win--rail:not(.win--rail-keep) .rail__r{width:1px;height:calc(var(--tile) * .5);margin:0 min(.15em,.5cqw)}
+}
+/* a few of the app's own parts: a card on the well, a label, a chip */
+.app-card{background:var(--app-card);border-radius:var(--r-card);padding:.9em 1em;color:var(--app-ink)}
+.app-eyebrow{font:500 .78em/1.2 var(--ui);color:var(--app-faded)}
+.app-chip{display:inline-block;font:500 .78em/1 var(--ui);padding:.4em .75em;border:1px solid var(--app-rule);
+  border-radius:99px;color:var(--app-faded);background:transparent;white-space:nowrap}
+.app-chip.on{background:var(--app-ink);color:var(--app-card);border-color:var(--app-ink)}
+.app-faded{color:var(--app-faded)}
+.app-rule{border-top:1px solid var(--app-rule)}
+
+/* 11. The page sheet: a script page exactly as the app sets it (ScriptStyling). The app
+   works in points at 12pt; here every measure is the same number in em of the script size, so it is
+   the app's page at any size. The 6in column is 36em inside a 51em page (9em left, 6em right), and
+   every indent is a share of that column, so a narrow page keeps the app's own proportions:
+     cue 13.2em (36.667%), parenthetical 9.6em (26.667%) and 15em wide, speech 6em (16.667%) and
+     21em wide, transitions set right.
+   Lines step 1.5em (DM Mono's 16pt line and the app's 2pt line spacing). Every paragraph has .5em
+   after it and a blank line between elements is 1.333em; a cue and a transition take .5em more
+   before, a later scene heading 1.167em more. Measured off the app's own layout of a scene; the
+   numbers are held to ScriptStyling by SiteSheetTests. The face is the app's default, DM Mono; its
+   bold is the Medium under the app's 2.4% stroke, a parenthetical is in faded ink, and the scene
+   number is the app's: "1." in the system face, faded, flush with the column's right edge and 4.5em
+   out on the left. Wrap a sheet in .sheet-wrap (the size container). ---------------------------- */
+.sheet-wrap{container:sheet/inline-size;width:100%}
+.sheet{--sc-line:1.5em;--sc-after:.5em;--sc-blank:1.3333em;--sheet-star:2.64em;
+  position:relative;width:51em;max-width:100%;margin-inline:auto;background:var(--page);color:var(--ink);
+  border:1px solid var(--hair-soft);font:400 min(var(--sheet-max,.95rem),1.96cqw)/var(--sc-line) var(--script);
+  font-synthesis:none;padding:4.2em 6em 4.2em 9em;min-height:var(--sheet-min,0)}
+.win .sheet{border:0}
+/* In a drawn app window the script is the window's own paper, as the app draws it: no card and no
+   edge, the paper's page tone right to the window's sides (the app's editor is the page tone,
+   E9E6DF on Newsprint, 0E0E0E on Ink black). A printed page keeps its stock. */
+:is(.win,.ipad) .sheet:not(.is-printed){background:transparent;border:0;border-radius:0}
+:is(.win__screen,.ipad__screen):has(.sheet:not(.is-printed)){background:var(--page)}
+.sheet--left{margin-inline:0}
+:where(.sheet) :where(p,div){margin:0}
+.sc-act{margin-top:calc(var(--sc-after) + var(--sc-blank))}
+.sc-slug{margin-top:calc(var(--sc-after) + var(--sc-blank) + 1.1667em);position:relative;text-transform:uppercase;
+  font-weight:500;-webkit-text-stroke:.024em currentColor}
+.sc-cue{margin:calc(2 * var(--sc-after) + var(--sc-blank)) 0 0 36.6667%;text-transform:uppercase}
+.sc-par{margin:var(--sc-after) 0 0 26.6667%;max-width:41.6667%;color:var(--faded)}
+.sc-dlg{margin:var(--sc-after) 0 0 16.6667%;max-width:58.3333%}
+.sc-tr{margin-top:calc(2 * var(--sc-after) + var(--sc-blank));text-align:right;text-transform:uppercase}
+.sheet>:first-child,.sheet>.sc-pno+*{margin-top:0}
+.sheet :is(b,strong){font-weight:500;-webkit-text-stroke:.024em currentColor}
+/* the board's, the outline's and the lens's slugs: the app's bold, Medium under its stroke */
+:is(.rg__slug,.bcard__slug,.ol__slug,.bd-slug,.ol-slug,.ls-shead){font-weight:500;-webkit-text-stroke:.024em currentColor}
+.sc-pno{position:absolute;top:2.4em;right:6em;color:var(--faded);letter-spacing:.02em}
+.sc-slug[data-n]::before,.sc-slug[data-n]::after{content:attr(data-n) ".";position:absolute;top:0;font:400 1em/var(--sc-line) var(--app-ui);
+  -webkit-text-stroke:0;text-transform:none;color:color-mix(in srgb,var(--faded) 45%,transparent)}
+.sc-slug[data-n]::before{left:-4.5em}
+.sc-slug[data-n]::after{right:0}
+/* a changed line: its asterisk rides the right margin in the pass's colour, as a real revision does */
+.rv::after{content:"*";position:absolute;right:var(--sheet-star);color:var(--rev,var(--faded));font-weight:500;-webkit-text-stroke:0}
+.sc-slug.rv::after{right:var(--sheet-star)}
+.sc-slug[data-n].rv::after{content:"*"}
+/* the caret, in the accent */
+.caret{display:inline-block;width:.12em;height:1.05em;background:var(--accent);vertical-align:-.17em;margin-left:1px}
+.caret.on{animation:caret 1.05s steps(1) infinite}
+@keyframes caret{50%{opacity:0}}
+/* a printed page wears the stock it was printed on */
+.sheet.is-printed{background:var(--rev-paper,var(--rev-paper-white));color:#2E2C28;border-color:rgba(36,26,11,.18)}
+.sheet.is-printed .sc-pno,.sheet.is-printed .sc-par,.sheet.is-printed .sc-slug[data-n]::before,.sheet.is-printed .sc-slug[data-n]::after{color:#5F5B52}
+.blank{display:inline-block;background:var(--faded);opacity:.28;border-radius:1px;height:.62em;vertical-align:middle}
+.redrule{color:var(--accent);border-bottom:1.5px solid var(--accent);display:inline-block}
+/* A narrow page, as the app sets a script on a phone: the same column, the cue capped at 30% of it
+   and the parenthetical at 22%, the scene numbers off. */
+@container sheet (max-width:33rem){
+  .sheet{width:100%;font-size:clamp(10px,3.4cqw,13.5px);padding:2.4em 1.8em 2.4em 1.8em;--sheet-star:.3em}
+  .sc-cue{margin-left:30%}.sc-par{margin-left:22%;max-width:46.3333%}
+  .sc-slug[data-n]::before,.sc-slug[data-n]::after{display:none}
+  .sc-pno{right:1.8em;top:1.3em}
+}
+
+/* 12. Colour that means something: the production passes, the Pencil's markers --------------------- */
+[data-rev="white"]{--rev:var(--rev-white);--rev-paper:var(--rev-paper-white)}
+[data-rev="blue"]{--rev:var(--rev-blue);--rev-paper:var(--rev-paper-blue)}
+[data-rev="pink"]{--rev:var(--rev-pink);--rev-paper:var(--rev-paper-pink)}
+[data-rev="yellow"]{--rev:var(--rev-yellow);--rev-paper:var(--rev-paper-yellow)}
+[data-rev="green"]{--rev:var(--rev-green);--rev-paper:var(--rev-paper-green)}
+[data-rev="goldenrod"]{--rev:var(--rev-goldenrod);--rev-paper:var(--rev-paper-goldenrod)}
+[data-rev="buff"]{--rev:var(--rev-buff);--rev-paper:var(--rev-paper-buff)}
+[data-rev="salmon"]{--rev:var(--rev-salmon);--rev-paper:var(--rev-paper-salmon)}
+[data-rev="cherry"]{--rev:var(--rev-cherry);--rev-paper:var(--rev-paper-cherry)}
+[data-rev="tan"]{--rev:var(--rev-tan);--rev-paper:var(--rev-paper-tan)}
+[data-rev="ivory"]{--rev:var(--rev-ivory);--rev-paper:var(--rev-paper-ivory)}
+/* the eleven as a strip: <ol class="passes"><li class="pass" data-rev="blue">Blue</li>… */
+.passes{display:flex;flex-wrap:wrap;border-radius:var(--r-card);overflow:hidden}
+.pass{flex:1 1 4.6rem;min-width:4.6rem;padding:.8rem .4rem .6rem;text-align:center;background:var(--rev-paper);
+  border-bottom:3px solid var(--rev);font:500 var(--fs-small)/1.3 var(--ui);color:#3A2E18}
+/* the six markers */
+.hands{display:flex;gap:.5rem;flex-wrap:wrap}
+.hand-dot{width:1.1rem;height:1.1rem;border-radius:50%;background:var(--c)}
+[data-hand="aqua"]{--c:var(--hand-aqua)}[data-hand="pink"]{--c:var(--hand-pink)}[data-hand="lime"]{--c:var(--hand-lime)}
+[data-hand="coral"]{--c:var(--hand-coral)}[data-hand="limeade"]{--c:var(--hand-limeade)}[data-hand="lavender"]{--c:var(--hand-lavender)}
+
+/* 13. Get the beta (ids and classes beta.js depends on: .way .here .cta .meta .sum) -------------------- */
+.get{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:var(--sp-5) var(--sp-6)}
+.get .way{min-width:0;border-top:1px solid var(--hair);padding-top:var(--sp-4)}
+.get .way.here{border-top:2px solid var(--accent)}            /* the visitor's own device: where you are */
+.get .way h3{margin-bottom:.35rem}
+.get .meta{font:400 var(--fs-cap)/var(--lh-cap) var(--ui);color:var(--quiet);margin:0 0 var(--sp-4);font-variant-numeric:tabular-nums}
+.get ol{margin:var(--sp-4) 0 0;padding-left:1.25rem;list-style:decimal;font-size:var(--fs-cap);line-height:var(--lh-cap);color:var(--quiet)}
+.get ol li{margin:.4rem 0;padding-left:.2rem}
+.get ol b{color:var(--ink);font-weight:600}
+.get .sum{margin-top:var(--sp-4);padding-top:var(--sp-3);border-top:1px solid var(--hair)}
+.get .sum code{display:block;font:400 var(--fs-small)/1.5 var(--script);word-break:break-all;color:var(--ink);margin:.3rem 0 .6rem}
+.get .sum button{font:500 var(--fs-small)/1 var(--ui);background:var(--tile);border-radius:var(--r-ctl);padding:.6em 1em;min-height:32px}
+.get .sum button:hover{background:var(--tile-on)}
+.get .cap{margin-top:var(--sp-3)}
+.safe{display:grid;gap:.35rem;font:400 var(--fs-cap)/var(--lh-cap) var(--ui);color:var(--quiet);max-width:60ch}
+.pricing{font-size:var(--fs-body);color:var(--ink)}
+
+/* 14. Privacy: plain pairs ------------------------------------------------------------------------- */
+.policy-list dt{font-weight:600;padding-top:var(--sp-3);border-top:1px solid var(--hair)}
+.policy-list dd{font-size:var(--fs-cap);line-height:var(--lh-cap);color:var(--quiet);padding:.25rem 0 var(--sp-3);max-width:60ch}
+.stamp{font:400 var(--fs-cap)/var(--lh-cap) var(--ui);color:var(--quiet);margin-top:var(--sp-5)}
+
+/* 15. Motion: none of the site's own. A theme change fades; motion off drops everything. ----------- */
+@media (prefers-reduced-motion:no-preference){
+  body,.frame,.stage,.sheet,.site-header{transition:background-color var(--dur-3) var(--ease),color var(--dur-3) var(--ease),border-color var(--dur-3) var(--ease)}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .caret.on{opacity:1}
+}
+
+/* 16. Print: the words, not the chrome ------------------------------------------------------------ */
+@media print{
+  .site-header,.site-footer,.ctl,.theme-toggle{display:none!important}
+  body{background:#fff;color:#000}
+  .frame,.stage{border:1px solid #ccc}
+}

@@ -1,0 +1,108 @@
+/* Margin site: the ⌘K page. Tokens from site.css only. Reference: DESIGN-NOTES.md.
+   ⌘K is drawn as the app draws it: a band set into the page under the caret's line, in the
+   page's own face, its kind labels (Draft, View, Note) in sentence case in the page's margin,
+   and the keys for what you are doing at its foot. Everything else on this page is the kit's. */
+
+/* ---- the hero window: a script page on the paper. ⌘K open is the page alone, as in the app: no rail
+   ------------------------------------------------------------------------------------ */
+.ck-win{--ui-min:12px;--ui-max:18px}
+.ck-win .rail{display:none}
+.ck-sprint{font:500 .92em/1 var(--ui);color:var(--app-faded);white-space:nowrap}
+.ck-sprint b{color:var(--app-ink);font-weight:600;font-variant-numeric:tabular-nums}
+.ck-body{height:clamp(25rem,40vw,30rem);overflow:hidden}
+.ck-page,.ck-sheet{--eye:4.4rem;--gap:1rem;--pr:2rem}
+.ck-page{margin:0 auto;max-width:38rem;min-height:100%;padding:2.2rem var(--pr) 2rem calc(var(--eye) + var(--gap));
+  font:400 clamp(.78rem,.72rem + .25vw,.9rem)/1.5 var(--script);color:var(--ink)}
+/* The script here is the app's page (site.css, section 11): a line steps 1.5em, a paragraph has .5em
+   after it and a blank line 1.333em; a cue takes .5em more before; the columns are the app's shares. */
+.ck-page>p,.ck-sheet>p{margin:1.8333em 0 0;max-width:none}
+.ck-page>p:first-child,.ck-sheet>p:first-child{margin-top:0}
+:is(.ck-page,.ck-sheet) .ck-sl{font-weight:500;-webkit-text-stroke:.024em currentColor;text-transform:uppercase}
+:is(.ck-page,.ck-sheet) .ck-cue{margin:2.3333em 0 0 36.6667%;text-transform:uppercase}
+:is(.ck-page,.ck-sheet) .ck-dl{margin:.5em 0 0 16.6667%;max-width:58.3333%}
+.ck-page [data-name]{transition:background-color var(--dur-2) var(--ease)}
+/* what ⌘K just did, shown on the page in the app's highlighter */
+.ck-page .is-lit,.ck-page .is-found{background:var(--hl);color:var(--hl-ink);border-radius:2px;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone}
+
+/* ---- the band: ⌘K across the page, hairlines above and below ------------------------------------- */
+.ck-pal{margin:0 calc(-1 * var(--pr)) 1.2em calc(-1 * (var(--eye) + var(--gap)));border-block:1px solid var(--hair);
+  font-family:var(--script);color:var(--ink);animation:ck-open var(--dur-1) var(--ease) both}
+@keyframes ck-open{from{opacity:0;transform:translateY(-.25rem)}}
+.ck-field{display:grid;grid-template-columns:var(--eye) minmax(0,1fr) auto;align-items:baseline;column-gap:var(--gap);
+  padding:.65rem var(--pr) .6rem 0;border-bottom:1px solid var(--hair-soft)}
+.ck-k{grid-column:1;grid-row:1;justify-self:end;font:400 .76rem/1 var(--script);color:var(--faded);display:inline-flex;align-items:center}
+.ck-typed{grid-column:2;grid-row:1;font:400 1.02rem/1.35 var(--script);color:var(--ink);min-height:1.35em;min-width:0;overflow-wrap:anywhere}
+.ck-typed.is-title{font-weight:700}
+.ck-ph{grid-column:2;grid-row:1;font:400 1.02rem/1.35 var(--script);color:var(--faded);pointer-events:none}
+.ck-typed:not(:empty)+.ck-ph{visibility:hidden}
+.ck-who{grid-column:3;grid-row:1;font:400 .74rem/1.3 var(--script);color:var(--faded);text-align:right;white-space:nowrap}
+.ck-rows{list-style:none;margin:0;padding:.35rem 0}
+.ck-rows li{display:grid;grid-template-columns:var(--eye) minmax(0,1fr) auto;align-items:baseline;column-gap:var(--gap);
+  padding:.32rem var(--pr) .32rem 0;font-size:.95rem}
+.ck-eye{justify-self:end;font:400 .76rem/1 var(--script);color:var(--faded)}
+.ck-t{color:var(--ink);min-width:0}
+.ck-rows li.is-on{background:var(--tile)}                 /* the row return will take */
+.ck-rows li.is-on .ck-t{font-weight:700}
+.ck-rows li.is-added .ck-t{color:var(--quiet)}
+.ck-rows li.is-hint .ck-t{color:var(--faded)}
+.ck-d{color:var(--faded);font-size:.78rem;white-space:nowrap}
+.ck-foot{margin:0;padding:.5rem var(--pr) .6rem calc(var(--eye) + var(--gap));border-top:1px solid var(--hair-soft);
+  font:400 .72rem/1.5 var(--script);color:var(--faded);max-width:none;word-spacing:.05em}
+.ck-write{margin:0;padding:.75rem var(--pr) .9rem calc(var(--eye) + var(--gap));font:400 .98rem/1.5 var(--script);color:var(--ink);
+  white-space:pre-wrap;min-height:4.4em;max-width:none}
+
+/* ---- the note and the question: a slice of the page filling the frame, the band across it ----------- */
+.ck-sheet{--pr:1.2rem;background:var(--app-well);padding:clamp(1.4rem,3vw,2.2rem) var(--pr) clamp(1.2rem,3vw,2rem) calc(var(--eye) + var(--gap));
+  font:400 clamp(.82rem,.76rem + .25vw,.92rem)/1.5 var(--script);color:var(--ink)}
+.ck-sheet .ck-pal{margin-top:1em}
+.ck-line{font-family:var(--script)}
+
+/* ---- the question: yours on a soft tile at the right, the answer on a card at the left -------------- */
+.ck-glyph{width:1.15rem;height:1.15rem;fill:none;stroke:var(--faded);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.ck-convo{display:flex;flex-direction:column;gap:.8rem;padding:.9rem var(--pr) .9rem calc(var(--eye) + var(--gap));min-height:13rem}
+.ck-ex{display:flex;flex-direction:column;gap:.5rem}
+.ck-q{margin:0;max-width:none;display:flex;justify-content:flex-end}
+.ck-q span{max-width:80%;padding:.35rem .7rem;border-radius:var(--r-card);background:var(--tile);
+  font:400 .95rem/1.45 var(--script);color:var(--ink)}
+.ck-a{margin:0;max-width:88%;align-self:flex-start;padding:.45rem .75rem;border-radius:var(--r-card);
+  background:var(--card);font:400 .95rem/1.5 var(--script);color:var(--ink)}
+.ck-aw:empty{display:none}
+.ck-chips{display:inline-flex;flex-wrap:wrap;gap:.2rem .5rem;margin-left:.5rem}
+.ck-chips:empty{display:none}
+.ck-chip{font:500 .72rem/1 var(--ui);padding:.35em .7em;border:1px solid var(--hair);border-radius:99px;color:var(--faded);white-space:nowrap}
+.ck-dots{display:inline-flex;align-items:center;gap:.3rem;height:1.5em;padding:0 .1rem;vertical-align:middle}
+.ck-dots i{width:.38rem;height:.38rem;border-radius:50%;background:var(--faded);animation:ck-dot 1.2s ease-in-out infinite}
+.ck-dots i:nth-child(2){animation-delay:.15s}
+.ck-dots i:nth-child(3){animation-delay:.3s}
+@keyframes ck-dot{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+.ck-cur{display:inline-block;width:2px;height:1em;margin-left:2px;background:var(--accent);vertical-align:-.15em;animation:caret 1.05s steps(1) infinite}
+
+/* ---- what to type: the typed thing in the page's own face, a plain gloss beside it ------------------- */
+.ck-list>li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.25rem 1rem;align-items:baseline;
+  padding:.7rem 0;border-bottom:1px solid var(--hair)}
+.ck-list>li:last-child{border-bottom:0}
+.ck-list code{font:400 .95rem/1.4 var(--script);color:var(--ink);overflow-wrap:anywhere}
+.ck-list span{font:400 var(--fs-cap)/var(--lh-cap) var(--ui);color:var(--quiet)}
+
+/* ---- the keys: the kit's rows, a combo at the right of each ------------------------------------------ */
+.ck-keys .keys{gap:.3em}
+
+@media (max-width:640px){
+  .ck-page,.ck-sheet{--eye:3.3rem;--gap:.7rem;--pr:.9rem}
+  .ck-page{padding-top:1.6rem}
+  .ck-who{grid-column:2;grid-row:2;text-align:left;white-space:normal}
+  .ck-rows li{grid-template-columns:var(--eye) minmax(0,1fr)}
+  .ck-rows .ck-d{grid-column:2;white-space:normal}
+  .ck-rows .ck-d:empty{display:none}
+  .ck-line.ck-cue{margin-left:30%}
+  .ck-line.ck-dl{margin-left:10%;max-width:80%}
+  .ck-q span{max-width:92%}
+  .ck-a{max-width:100%}
+  .ck-d{font-size:.7rem}
+  .ck-list>li{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){
+  .ck-pal,.ck-page [data-name]{transition:none;animation:none}
+  .ck-dots i,.ck-cur{animation:none;opacity:.8}
+}

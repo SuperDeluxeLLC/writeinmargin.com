@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#D9D5CB" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<title>Margin</title>
+<meta name="description" content="Margin is a writing app for Mac and iPad. Screenplays first, novels and articles too. Every draft kept, read beside the last, any moment put back.">
+<link rel="canonical" href="https://writeinmargin.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Margin">
+<meta property="og:title" content="Margin">
+<meta property="og:description" content="Margin is a writing app for Mac and iPad. Screenplays first, novels and articles too. Every draft kept, read beside the last, any moment put back.">
+<meta property="og:url" content="https://writeinmargin.com/">
+<meta property="og:image" content="https://writeinmargin.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Margin. Three ways to write. One quiet page.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Margin">
+<meta name="twitter:description" content="Margin is a writing app for Mac and iPad. Screenplays first, novels and articles too. Every draft kept, read beside the last, any moment put back.">
+<meta name="twitter:image" content="https://writeinmargin.com/og.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icon.png" sizes="512x512" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="fonts/DMMono-MediumItalic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="home.css">
+<script src="base.js"></script>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false" width="0" height="0"><defs>
+<symbol id="i-clock" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.6"/><path d="M8 5v3.2l2.1 1.4"/></symbol>
+<symbol id="i-plus" viewBox="0 0 16 16"><path d="M8 3v10M3 8h10"/></symbol>
+<symbol id="i-split" viewBox="0 0 16 16"><rect x="2" y="3" width="5.4" height="10" rx="1"/><rect x="8.6" y="3" width="5.4" height="10" rx="1"/></symbol>
+<symbol id="i-pencil" viewBox="0 0 16 16"><path d="M3 13l.8-3L11 2.8 13.2 5 6 12.2z"/></symbol>
+<symbol id="r-projects" viewBox="0 0 16 16"><path d="M2 3h3v10H2zM6 3h3v10H6zM10.5 3.5l2.6-.6 2 9.6-2.6.6z"/></symbol><symbol id="r-notes" viewBox="0 0 16 16"><rect x="2.5" y="3" width="11" height="10" rx="1.5"/><path d="M5 6.5h6M5 9h6"/></symbol><symbol id="r-board" viewBox="0 0 16 16"><rect x="2.5" y="2.5" width="4.5" height="4.5" rx="1"/><rect x="9" y="2.5" width="4.5" height="4.5" rx="1"/><rect x="2.5" y="9" width="4.5" height="4.5" rx="1"/><rect x="9" y="9" width="4.5" height="4.5" rx="1"/></symbol><symbol id="r-people" viewBox="0 0 16 16"><circle cx="5.5" cy="6" r="2"/><circle cx="11" cy="6" r="2"/><path d="M2 13c.5-2.5 2-3.5 3.5-3.5S8.5 10.5 9 13M8 13c.5-2.5 1.6-3.5 3-3.5s2.5 1 3 3.5"/></symbol><symbol id="r-drafts" viewBox="0 0 16 16"><path d="M5 2.5h5.5l2.5 2.5v8.5H5z"/><path d="M3 4.5v9.5h7"/></symbol><symbol id="r-room" viewBox="0 0 16 16"><path d="M3.5 3h9a1.5 1.5 0 0 1 1.5 1.5v6A1.5 1.5 0 0 1 12.5 12H7l-3 2.5V12h-.5A1.5 1.5 0 0 1 2 10.5v-6A1.5 1.5 0 0 1 3.5 3z"/><path d="M8 5.2c.2 1 .8 1.6 1.8 1.8-1 .2-1.6.8-1.8 1.8-.2-1-.8-1.6-1.8-1.8 1-.2 1.6-.8 1.8-1.8z"/></symbol><symbol id="r-read" viewBox="0 0 16 16"><circle cx="4.5" cy="9.5" r="2.5"/><circle cx="11.5" cy="9.5" r="2.5"/><path d="M7 9.2c.6-.5 1.4-.5 2 0M2 9 3 4.5M14 9l-1-4.5"/></symbol><symbol id="r-goals" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="2.5"/></symbol><symbol id="r-settings" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.8v2M8 12.2v2M1.8 8h2M12.2 8h2M3.6 3.6l1.4 1.4M11 11l1.4 1.4M3.6 12.4 5 11M11 5l1.4-1.4"/></symbol><symbol id="r-share" viewBox="0 0 16 16"><path d="M8 2v8M5.3 4.6 8 2l2.7 2.6M4 7.5H3v6.5h10V7.5h-1"/></symbol>
+</defs></svg>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="site-header__in">
+    <a class="brand" href="index.html" aria-label="Margin, home">Margin</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="screenplay.html">Screenplay</a>
+      <a href="novel.html">Novel</a>
+      <a href="article.html">Article</a>
+      <a href="commandk.html">⌘K</a>
+    </nav>
+    <div class="site-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Theme"><span class="theme-toggle__icon" aria-hidden="true"></span></button>
+      <a href="index.html#beta">Get the beta</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- The hero: the one line, the three ways, the keyboard window opened out from bare to split -->
+<section class="hero sec" aria-labelledby="hero-h">
+  <div class="col">
+    <h1 id="hero-h">Three ways to write. One quiet page.</h1>
+    <p class="lede">A writing app for Mac and iPad. Screenplays first, novels and articles too.</p>
+    <p class="hero__note">No account. Nothing collected.</p>
+  </div>
+  <div class="ways col">
+    <div><h3>A quiet page</h3><p>It formats itself as you type.</p></div>
+    <div><h3><span class="ck">⌘K</span></h3><p>Type what you want. It is done, asked or made.</p></div>
+    <div><h3>The panels</h3><p>Board, people, notes, beside the page.</p></div>
+  </div>
+
+  <figure class="frame col col--demo" id="ways" data-loop="home-hero" aria-label="A quiet page that sets itself, ⌘K under the line, and a panel beside the page">
+    <div class="frame__body frame__body--flush">
+      <div hidden>
+        <div id="ways-tabs" role="tablist" hidden>
+          <button type="button" role="tab" id="tab-kb" aria-controls="way-kb" aria-selected="true">Keyboard</button>
+          <button type="button" role="tab" id="tab-menu" aria-controls="way-menu" aria-selected="false" tabindex="-1">Menus</button>
+          <button type="button" role="tab" id="tab-touch" aria-controls="way-touch" aria-selected="false" tabindex="-1">Touch</button>
+        </div>
+        <button type="button" id="ways-replay" hidden>Replay</button>
+      </div>
+
+      <div class="wy" id="way-kb" data-way="kb">
+        <div class="win win--rail hw rg" id="rg" data-stop="1" data-a="1" data-b="0" inert>
+          <div class="win__bar"><span class="win__title">The Lighter</span></div>
+          <div class="rail" aria-hidden="true"><div class="rail__in"><span class="rail__g"><i class="rail__t" data-k="projects"><svg><use href="#r-projects"/></svg></i><i class="rail__r"></i><i class="rail__t" data-k="notes"><svg><use href="#r-notes"/></svg></i><i class="rail__t" data-k="board"><svg><use href="#r-board"/></svg></i><i class="rail__t" data-k="people"><svg><use href="#r-people"/></svg></i><i class="rail__r"></i><i class="rail__t" data-k="drafts"><svg><use href="#r-drafts"/></svg></i><i class="rail__t" data-k="room"><svg><use href="#r-room"/></svg></i></span><span class="rail__g"><i class="rail__t" data-k="read"><svg><use href="#r-read"/></svg></i><i class="rail__t" data-k="goals"><svg><use href="#r-goals"/></svg></i><i class="rail__t" data-k="settings"><svg><use href="#r-settings"/></svg></i><i class="rail__t" data-k="share"><svg><use href="#r-share"/></svg></i></span></div></div>
+          <div class="win__screen rg__screen" aria-hidden="true">
+            <aside class="rg__side rg__board">
+              <h3 class="hw__h">Board</h3>
+              <div class="rg__cards">
+                <div class="app-card rg__card"><p class="app-eyebrow">1 &middot; Act one</p><p class="rg__slug">Int. bar - night</p><span class="rg__ring is-half"></span></div>
+                <div class="app-card rg__card"><p class="app-eyebrow">2 &middot; Act one</p><p class="rg__slug">Ext. pier - dawn</p><span class="rg__ring is-done"></span></div>
+                <div class="app-card rg__card"><p class="app-eyebrow">3 &middot; Act two</p><p class="rg__slug">Int. Tom&rsquo;s kitchen - morning</p><span class="rg__ring"></span></div>
+              </div>
+            </aside>
+            <aside class="rg__side rg__notes">
+              <h3 class="hw__h">Notes</h3>
+              <div class="rg__cards rg__cards--one">
+                <div class="app-card rg__note rg__note--blue"><p class="app-eyebrow">For readers</p><p>Hold on the thumb. One flick, no flame.</p></div>
+                <div class="app-card rg__note rg__note--red"><p class="app-eyebrow">To myself</p><p>Cut the gulls?</p></div>
+              </div>
+            </aside>
+            <div class="wy__pages rg__pages">
+              <div class="wy__pg wy__pg--a"><p class="hw__name"><span>Draft 2</span></p><div class="sheet-wrap"><div class="sheet"><div class="sc-slug" data-n="1">Int. Bar - Night</div><div class="sc-act">Rain on the window. TOM sets a brass lighter on the bar and does not look at it.</div><div class="sc-cue">May</div><div class="sc-dlg">You kept it.</div><div class="sh" aria-hidden="true"><div class="sh__q"><i>⌘K</i><span class="sh__field"><span class="sh__typed">new draft</span><span class="sh__ph">Jump to a scene, or do something…</span><span class="caret on"></span></span></div><div class="sh__row is-on" data-k="new draft"><i>Draft</i><b>New draft off Draft 2</b><em></em></div><div class="sh__row" hidden data-k="split"><i>Draft</i><b>Split with The Lighter</b><em><kbd>⌥⌘\</kbd></em></div><div class="sh__row" hidden data-k="history"><i>Draft</i><b>History</b><em>every moment kept</em></div><div class="sh__row" hidden data-k="board"><i>View</i><b>Board</b><em><kbd>⌥⌘2</kbd></em></div><p class="sh__foot">↑↓ move &nbsp; return takes it &nbsp; esc back to the page</p></div><div class="sc-cue">Tom</div><div class="sc-dlg">I kept everything.</div></div></div></div>
+              <div class="wy__pg wy__pg--b"><p class="hw__name is-here"><svg class="ic"><use href="#i-pencil"/></svg><span>Draft 2a</span></p><div class="sheet-wrap"><div class="sheet"><div class="sc-slug" data-n="1">Int. Bar - Night</div><div class="sc-act">Rain on the window. TOM sets a brass lighter on the bar and does not look at it.</div><div class="sc-cue">May</div><div class="sc-dlg">You kept it.</div><div class="sc-cue">Tom</div><div class="sc-dlg rv wash">I did. It’s yours.</div></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- the other two routes are not shown on this page; the script still walks them -->
+      <div class="wy" id="way-menu" data-way="menu" data-a="1" data-b="1" data-panel="0" data-new="1" data-menu="0" hidden aria-hidden="true"></div>
+      <div class="wy" id="way-touch" data-way="touch" data-a="1" data-b="1" data-panel="0" data-new="1" hidden aria-hidden="true">
+        <span class="finger"></span>
+        <div class="wy__voice"><span id="dv-slug">Int. Kitchen - Morning</span><span id="dv-cue">Tom</span><span id="dv-dlg">I know what it was.</span><p id="dv-said">&ldquo;Tom. I know what it was.&rdquo;</p></div>
+      </div>
+    </div>
+  </figure>
+  <div class="col col--demo rg__row">
+    <div class="seg rg__ctl" id="rg-ctl" role="radiogroup" aria-label="How much is open around the page" aria-describedby="rg-cap" hidden>
+      <button class="ctl" type="button" role="radio" aria-checked="false" tabindex="-1" data-i="0">Bare page</button>
+      <button class="ctl" type="button" role="radio" aria-checked="true" tabindex="0" data-i="1">⌘K</button>
+      <button class="ctl" type="button" role="radio" aria-checked="false" tabindex="-1" data-i="2">Board <kbd>⌥⌘2</kbd></button>
+      <button class="ctl" type="button" role="radio" aria-checked="false" tabindex="-1" data-i="3">Notes <kbd>⌥⌘0</kbd></button>
+      <button class="ctl" type="button" role="radio" aria-checked="false" tabindex="-1" data-i="4">Split <kbd>⌥⌘\</kbd></button>
+    </div>
+    <p class="vh" id="rg-cap" hidden>The page itself never moves.</p>
+  </div>
+</section>
+
+<!-- Three kinds: each to its page -->
+<section class="sec" id="kinds" aria-labelledby="kinds-h">
+  <div class="col">
+    <h2 id="kinds-h">Three kinds of writing</h2>
+    <p>Screenplay, novel or article. Say which once; the page does the rest.</p>
+  </div>
+  <ul class="rows rows--links col">
+    <li><a href="screenplay.html"><b>Screenplay</b> Film and television.</a></li>
+    <li><a href="novel.html"><b>Novel</b> Fiction and nonfiction.</a></li>
+    <li><a href="article.html"><b>Article</b> Features, essays, newsletters.</a></li>
+  </ul>
+</section>
+
+<!-- What only Margin has: six things, each on the page itself -->
+<section class="sec sec--group" id="only" aria-labelledby="only-h">
+  <div class="col">
+    <h2 id="only-h">What only Margin has</h2>
+  </div>
+</section>
+
+<section class="sec sec--in" id="move" aria-labelledby="move-h">
+  <div class="col">
+    <h2 id="move-h">The page follows the board</h2>
+    <p>Pick up a card and drop it in another act. The script moves with it.</p>
+  </div>
+  <figure class="frame col col--demo board" id="board-demo" data-loop="home-board" aria-label="A board of six scenes in two acts, which you can move">
+    <div class="frame__bar"><span>Board</span></div>
+    <div class="frame__body frame__body--flush">
+      <div hidden>
+        <div class="seg" id="bd-views" role="group" aria-label="Look at it as" hidden>
+          <button class="ctl" type="button" data-view="board" aria-pressed="true">Board</button>
+          <button class="ctl" type="button" data-view="outline" aria-pressed="false">Outline</button>
+          <button class="ctl" type="button" data-view="script" aria-pressed="false">Script</button>
+        </div>
+      </div>
+      <div class="win win--rail hw bd">
+        <div class="win__bar"><span class="win__title">The Lighter</span></div>
+        <div class="rail" aria-hidden="true"><div class="rail__in"><span class="rail__g"><i class="rail__t" data-k="projects"><svg><use href="#r-projects"/></svg></i><i class="rail__r"></i><i class="rail__t" data-k="notes"><svg><use href="#r-notes"/></svg></i><i class="rail__t is-open" data-k="board"><svg><use href="#r-board"/></svg></i><i class="rail__t" data-k="people"><svg><use href="#r-people"/></svg></i><i class="rail__r"></i><i class="rail__t" data-k="drafts"><svg><use href="#r-drafts"/></svg></i><i class="rail__t" data-k="room"><svg><use href="#r-room"/></svg></i></span><span class="rail__g"><i class="rail__t" data-k="read"><svg><use href="#r-read"/></svg></i><i class="rail__t" data-k="goals"><svg><use href="#r-goals"/></svg></i><i class="rail__t" data-k="settings"><svg><use href="#r-settings"/></svg></i><i class="rail__t" data-k="share"><svg><use href="#r-share"/></svg></i></span></div></div>
+        <div class="win__screen bd__screen" id="bd-screen">
+          <div class="bd__pane" id="bd-pane-board">
+            <div class="bd__acts" id="bd-acts"><section class="bd__act" data-act="0" aria-label="Act one"><p class="app-eyebrow bd__ah">Act one</p><div class="bd__cards"><div class="bcard" data-id="1" tabindex="0" aria-label="Scene 1, Int. bar - night. Arrow keys move it."><div class="bcard__top"><span class="bcard__grip" aria-hidden="true"></span><span class="app-eyebrow bcard__n">1</span><span class="bcard__len">1 6/8</span><button type="button" class="bring" data-ring="2" aria-label="Scene 1, good. Press to change."></button></div><p class="bcard__slug">Int. bar - night</p><p class="bcard__beat">He is given something he does not want.</p><div class="bcard__who"><span class="app-chip">Tom</span><span class="app-chip">May</span></div><p class="bcard__th">plants the lighter</p></div><div class="bcard" data-id="2" data-c="pink" tabindex="0" aria-label="Scene 2, Ext. pier - dawn. Arrow keys move it."><div class="bcard__top"><span class="bcard__grip" aria-hidden="true"></span><span class="app-eyebrow bcard__n">2</span><span class="bcard__len">4/8</span><button type="button" class="bring" data-ring="1" aria-label="Scene 2, rough. Press to change."></button></div><p class="bcard__slug">Ext. pier - dawn</p><p class="bcard__beat">May almost lets it go.</p><div class="bcard__who"><span class="app-chip">May</span></div><p class="bcard__th">pays off the lighter</p></div><div class="bcard" data-id="3" tabindex="0" aria-label="Scene 3, Int. Tom’s kitchen - morning. Arrow keys move it."><div class="bcard__top"><span class="bcard__grip" aria-hidden="true"></span><span class="app-eyebrow bcard__n">3</span><span class="bcard__len">7/8</span><button type="button" class="bring" data-ring="2" aria-label="Scene 3, good. Press to change."></button></div><p class="bcard__slug">Int. Tom’s kitchen - morning</p><p class="bcard__beat">The kettle screams and he lets it.</p><div class="bcard__who"><span class="app-chip">Tom</span></div></div></div></section><section class="bd__act" data-act="1" aria-label="Act two"><p class="app-eyebrow bd__ah">Act two</p><div class="bd__cards"><div class="bcard" data-id="4" tabindex="0" aria-label="Scene 4, Int. car - day. Arrow keys move it."><div class="bcard__top"><span class="bcard__grip" aria-hidden="true"></span><span class="app-eyebrow bcard__n">4</span><span class="bcard__len">2</span><button type="button" class="bring" data-ring="0" aria-label="Scene 4, nothing yet. Press to change."></button></div><p class="bcard__slug">Int. car - day</p><p class="bcard__beat">Neither of them mentions it.</p><div class="bcard__who"><span class="app-chip">Tom</span><span class="app-chip">May</span></div></div><div class="bcard" data-id="5" tabindex="0" aria-label="Scene 5, Ext. pier - night. Arrow keys move it."><div class="bcard__top"><span class="bcard__grip" aria-hidden="true"></span><span class="app-eyebrow bcard__n">5</span><span class="bcard__len">1 1/8</span><button type="button" class="bring" data-ring="0" aria-label="Scene 5, nothing yet. Press to change."></button></div><p class="bcard__slug">Ext. pier - night</p><p class="bcard__beat">He waits. She is late.</p><div class="bcard__who"><span class="app-chip">Tom</span></div></div><div class="bcard" data-id="6" tabindex="0" aria-label="Scene 6, Int. bar - night. Arrow keys move it."><div class="bcard__top"><span class="bcard__grip" aria-hidden="true"></span><span class="app-eyebrow bcard__n">6</span><span class="bcard__len">1</span><button type="button" class="bring" data-ring="1" aria-label="Scene 6, rough. Press to change."></button></div><p class="bcard__slug">Int. bar - night</p><p class="bcard__beat">The lighter, finally lit.</p><div class="bcard__who"><span class="app-chip">Tom</span><span class="app-chip">May</span></div></div></div></section></div>
+            <p class="bd__order"><span class="app-eyebrow">The script follows</span> <span id="bd-order">1 bar · 2 pier · 3 Tom’s kitchen · 4 car · 5 pier · 6 bar</span></p>
+            <p class="hw__hint" id="bd-hint" hidden>Move a card to another act.</p>
+          </div>
+          <div class="bd__pane" id="bd-pane-outline" hidden></div>
+          <div class="bd__pane" id="bd-pane-script" hidden></div>
+        </div>
+      </div>
+    </div>
+    <p class="vh" id="bd-live" aria-live="polite"></p>
+  </figure>
+</section>
+
+<section class="sec sec--in" id="drafts" aria-labelledby="drafts-h">
+  <div class="col">
+    <h2 id="drafts-h">Every draft kept</h2>
+    <p>A new draft off any draft, read beside the last. History puts any moment back.</p>
+  </div>
+  <figure class="frame col col--demo" id="hero" data-loop="home-drafts" aria-label="Drafts: a new draft off Draft 3, read beside it, and History">
+    <div class="frame__bar frame__bar--ctls"><span>Drafts</span><span><span class="seg" id="hero-seg" role="group" aria-label="What to look at" hidden><button class="ctl" type="button" data-view="branch" aria-pressed="true">Drafts</button><button class="ctl" type="button" data-view="compare" aria-pressed="false">Compare</button><button class="ctl" type="button" data-view="history" aria-pressed="false">History</button></span><button class="ctl" type="button" id="hero-replay" hidden>Replay</button></span></div>
+    <div class="frame__body frame__body--flush">
+      <div class="win win--rail hw" id="hw" data-view="branch">
+        <div class="win__bar"><span class="win__title">The Lighter</span></div>
+        <div class="rail" aria-hidden="true"><div class="rail__in"><span class="rail__g"><i class="rail__t" data-k="projects"><svg><use href="#r-projects"/></svg></i><i class="rail__r"></i><i class="rail__t" data-k="notes"><svg><use href="#r-notes"/></svg></i><i class="rail__t" data-k="board"><svg><use href="#r-board"/></svg></i><i class="rail__t" data-k="people"><svg><use href="#r-people"/></svg></i><i class="rail__r"></i><i class="rail__t is-open" data-k="drafts"><svg><use href="#r-drafts"/></svg></i><i class="rail__t" data-k="room"><svg><use href="#r-room"/></svg></i></span><span class="rail__g"><i class="rail__t" data-k="read"><svg><use href="#r-read"/></svg></i><i class="rail__t" data-k="goals"><svg><use href="#r-goals"/></svg></i><i class="rail__t" data-k="settings"><svg><use href="#r-settings"/></svg></i><i class="rail__t" data-k="share"><svg><use href="#r-share"/></svg></i></span></div></div>
+        <div class="win__screen hw__screen">
+          <div class="hw__pane" id="pane-branch" data-pane="branch">
+            <aside class="hw__panel" aria-label="Drafts">
+              <div class="hw__ptitle"><h3 class="hw__h">Drafts</h3><button class="hw__h2" type="button" data-view="history" hidden>History</button></div>
+              <div class="app-card dr" id="dr"><div class="dr__body" id="dr-body"><svg class="dr__svg" viewBox="0 0 40 104" style="width:4em;height:10.4em" aria-hidden="true" focusable="false"><line class="g-lane" x1="8" y1="13" x2="8" y2="52"/><line class="g-lane" x1="20" y1="65" x2="20" y2="78"/><path class="g-fork" pathLength="1" d="M8 26 C8 32.5 20 32.5 20 39"/><path class="g-fork" pathLength="1" d="M8 52 C8 58.5 20 58.5 20 65"/><path class="g-fork" pathLength="1" d="M20 78 C20 84.5 32 84.5 32 91"/><circle class="g-dot" data-id="s" cx="8" cy="13" r="3"/><circle class="g-dot" data-id="d2" cx="20" cy="39" r="3"/><circle class="g-dot" data-id="d3" cx="20" cy="65" r="3"/><circle class="g-dot is-open" data-id="d3a" cx="32" cy="91" r="3"/></svg><div class="dr__rows" style="margin-left:4em"><div class="dr__row" data-id="s"><button type="button" class="dr__name" data-open="s"><span class="dr__n">The Lighter</span></button><span class="dr__acts"><button type="button" class="dr__act" data-act="history" aria-label="History of The Lighter" title="History"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg></button><button type="button" class="dr__act" data-act="plus" aria-label="New draft off The Lighter" title="New draft off The Lighter"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button></span></div><div class="dr__row" data-id="d2"><button type="button" class="dr__name" data-open="d2"><span class="dr__n">Draft 2</span><span class="dr__pill">from The Lighter</span></button><span class="dr__acts"><button type="button" class="dr__act" data-act="history" aria-label="History of Draft 2" title="History"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg></button><button type="button" class="dr__act" data-act="plus" aria-label="New draft off Draft 2" title="New draft off Draft 2"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button><button type="button" class="dr__act" data-act="split" aria-label="Split with The Lighter" title="Split with The Lighter"><svg class="ic" aria-hidden="true"><use href="#i-split"/></svg></button></span></div><div class="dr__row" data-id="d3"><button type="button" class="dr__name" data-open="d3"><span class="dr__n">Draft 3</span><span class="dr__pill">from The Lighter</span></button><span class="dr__acts"><button type="button" class="dr__act" data-act="history" aria-label="History of Draft 3" title="History"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg></button><button type="button" class="dr__act" data-act="plus" aria-label="New draft off Draft 3" title="New draft off Draft 3"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button><button type="button" class="dr__act" data-act="split" aria-label="Split with The Lighter" title="Split with The Lighter"><svg class="ic" aria-hidden="true"><use href="#i-split"/></svg></button></span></div><div class="dr__row is-open" data-id="d3a"><button type="button" class="dr__name" data-open="d3a" aria-current="true"><span class="dr__n">Draft 3a</span><span class="dr__pill">from Draft 3</span></button><span class="dr__acts"><button type="button" class="dr__act" data-act="history" aria-label="History of Draft 3a" title="History"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg></button><button type="button" class="dr__act" data-act="plus" aria-label="New draft off Draft 3a" title="New draft off Draft 3a"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button><button type="button" class="dr__act" data-act="split" aria-label="Split with Draft 3" title="Split with Draft 3"><svg class="ic" aria-hidden="true"><use href="#i-split"/></svg></button></span></div></div></div></div>
+              <p class="hw__hint" id="hw-hint" hidden>Press a draft.</p>
+            </aside>
+            <div class="hw__page">
+              <p class="hw__name" id="hw-name"><span>Draft 3a</span></p>
+              <div id="hw-sheet"><div class="sheet-wrap"><div class="sheet"><div class="sc-slug" data-n="1" id="hs-slug">Int. Bar - Night</div><div class="sc-act" id="hs-act">Rain on the window. TOM sets a brass lighter on the bar and does not look at it.</div><div class="sc-cue" id="hs-c1">May</div><div class="sc-dlg" id="hs-d1">You kept it.</div><div class="sc-cue" id="hs-c2">Tom</div><div class="sc-dlg rv" id="hs-d2">I did. It’s yours.</div></div></div></div>
+            </div>
+          </div>
+          <div class="hw__pane" id="pane-compare" data-pane="compare" hidden></div>
+          <div class="hw__pane" id="pane-history" data-pane="history" hidden></div>
+        </div>
+      </div>
+    </div>
+  </figure>
+</section>
+
+<section class="sec sec--in" id="notes" aria-labelledby="notes-h">
+  <div class="col">
+    <h2 id="notes-h">Notes on the line</h2>
+    <p>A note sits on the line it is about: red for you, blue for readers. A plant and its payoff draw a thread down the outline.</p>
+  </div>
+  <figure class="frame col col--demo" id="notes-mac" data-loop="home-notes" aria-label="Two notes typed onto the page, and the thread they make down the outline">
+    <div class="frame__bar"><span>Notes</span><span><button class="ctl" type="button" id="notes-replay" hidden>Replay</button></span></div>
+    <div class="frame__body frame__body--flush">
+      <div class="win win--rail hw nt__win has-plant has-pay">
+        <div class="win__bar"><span class="win__title">The Lighter</span></div>
+        <div class="rail" aria-hidden="true"><div class="rail__in"><span class="rail__g"><i class="rail__t" data-k="projects"><svg><use href="#r-projects"/></svg></i><i class="rail__r"></i><i class="rail__t" data-k="notes"><svg><use href="#r-notes"/></svg></i><i class="rail__t is-open" data-k="board"><svg><use href="#r-board"/></svg></i><i class="rail__t" data-k="people"><svg><use href="#r-people"/></svg></i><i class="rail__r"></i><i class="rail__t" data-k="drafts"><svg><use href="#r-drafts"/></svg></i><i class="rail__t" data-k="room"><svg><use href="#r-room"/></svg></i></span><span class="rail__g"><i class="rail__t" data-k="read"><svg><use href="#r-read"/></svg></i><i class="rail__t" data-k="goals"><svg><use href="#r-goals"/></svg></i><i class="rail__t" data-k="settings"><svg><use href="#r-settings"/></svg></i><i class="rail__t" data-k="share"><svg><use href="#r-share"/></svg></i></span></div></div>
+        <div class="win__screen nt__screen">
+          <aside class="hw__panel nt__side" aria-label="Outline">
+            <h3 class="hw__h">Outline</h3>
+            <div class="app-card nt__card">
+              <ol class="ol ol--nt">
+                <i class="ol__thread nt__thread"></i>
+                <li class="ol__row"><span class="ol__knot is-plant nt__k1"></span><span class="ol__n">1</span><span class="ol__slug">Int. bar - night<em class="ol__th nt__t1">plants the lighter</em></span></li>
+                <li class="ol__row"><span class="ol__knot is-payoff nt__k2"></span><span class="ol__n">2</span><span class="ol__slug">Ext. pier - dawn<em class="ol__th nt__t2">pays off the lighter</em></span></li>
+                <li class="ol__row"><span class="ol__knot"></span><span class="ol__n">3</span><span class="ol__slug">Int. Tom&rsquo;s kitchen - morning</span></li>
+              </ol>
+            </div>
+          </aside>
+          <div class="hw__page">
+            <p class="hw__name"><span>The Lighter</span></p>
+            <div class="sheet-wrap"><div class="sheet">
+              <div class="sc-slug" data-n="1">Int. Bar - Night</div>
+              <div class="sc-cue">Tom</div>
+              <div class="sc-dlg">I did.</div>
+              <div class="sc-act nt-m nt-m--red" data-label="To myself" id="nt-plant">{{plant: the lighter}}</div>
+              <div class="sc-cue">May</div>
+              <div class="sc-dlg">Light it.</div>
+              <div class="sc-act nt-m nt-m--blue" data-label="For readers" id="nt-note">[[Hold on the thumb. One flick, no flame.]]</div>
+              <div class="sc-slug" data-n="2">Ext. Pier - Dawn</div>
+              <div class="sc-act">Grey water. May at the rail, the brass lighter in her fist.</div>
+              <div class="sc-act nt-m nt-m--red" data-label="To myself" id="nt-pay">{{payoff: the lighter}}</div>
+            </div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </figure>
+</section>
+
+<section class="sec sec--in" id="pencil" aria-labelledby="pencil-h">
+  <div class="col">
+    <h2 id="pencil-h">Apple Pencil on the page</h2>
+    <p>Ink on the printed page stays with its line. Add a scene above; the ink moves down.</p>
+  </div>
+  <figure class="frame col col--demo" id="notes-pencil" data-loop="home-pencil" aria-label="An iPad reading the printed page, with ink on two of its lines">
+    <div class="frame__bar"><span>Read, on an iPad</span><span><button class="ctl" type="button" id="pen-add" aria-pressed="false" hidden>Add a scene above</button></span></div>
+    <div class="frame__body">
+      <div class="pen-wrap">
+        <div class="ipad ipad--portrait hw pen">
+          <div class="ipad__screen pen__screen">
+            <div class="pen__bar" aria-hidden="true"><span class="pen__tools"><b>Pen</b><span>Marker</span><span>Eraser</span></span><span class="pen__inks"><i></i><i></i><i></i></span></div>
+            <div class="pen__page">
+              <div class="sheet-wrap"><div class="sheet is-printed" data-rev="white">
+                <div class="pen__new" id="pen-new" aria-hidden="true"><div class="sc-slug">Int. Hospital - Night</div><div class="sc-act">Dev has been here since the rain began.</div></div>
+                <div class="sc-slug" data-n="1">Int. Bar - Night</div>
+                <div class="sc-act">Rain on the window. TOM sets a brass lighter on the bar and does not look at it.</div>
+                <div class="sc-cue">May</div>
+                <div class="sc-dlg pen__l">You kept it.<i class="ink ink-mk" aria-hidden="true"></i></div>
+                <div class="sc-cue">Tom</div>
+                <div class="sc-dlg pen__l">I did.
+                  <svg class="ink ink-ul" viewBox="0 0 60 8" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M1 5 C 8 2, 14 7, 22 4 S 38 3, 48 5"/></svg>
+                  <svg class="ink ink-hand" viewBox="0 0 80 30" aria-hidden="true"><path pathLength="1" d="M8 16 C 6 6, 30 3, 52 5 S 78 12, 72 20 S 40 29, 18 26 S 4 20, 10 13"/></svg>
+                </div>
+                <div class="sc-cue">May</div>
+                <div class="sc-dlg">Light it.</div>
+                <div class="sc-act">The flame stands up. Leans. Holds.</div>
+              </div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </figure>
+</section>
+
+<section class="sec sec--in" id="pdf" aria-labelledby="pdf-h">
+  <div class="col">
+    <h2 id="pdf-h">A scan becomes a script</h2>
+    <p>Hand it someone else's PDF, even a scan. It comes back as a script, page by page.</p>
+  </div>
+  <figure class="frame col col--demo" data-loop="home-pdf" aria-label="Their scanned page beside the script it read as">
+    <div class="frame__bar"><span>Read a PDF</span></div>
+    <div class="frame__body pdf">
+      <div class="pdf__col">
+        <p class="pdf__tag">Their PDF</p>
+        <div class="scan" aria-hidden="true">
+          <p class="scan__l scan__l--corner">27.</p>
+          <p class="scan__l">27 &nbsp; INT. BAR - NIGHT &nbsp; 27</p>
+          <p class="scan__l">Rain on the window. TOM sets a<br>brass lighter on the bar and does<br>not look at it.</p>
+          <p class="scan__l scan__l--cue">MAY</p>
+          <p class="scan__l scan__l--dlg">You kept it.</p>
+          <p class="scan__l scan__l--cue">TOM</p>
+          <p class="scan__l scan__l--dlg">I did.</p>
+          <p class="scan__l scan__l--cont">(CONTINUED)</p>
+        </div>
+      </div>
+      <div class="pdf__col">
+        <p class="pdf__tag">The script it read as</p>
+        <div class="sheet-wrap"><div class="sheet">
+          <div class="sc-pno" aria-hidden="true">27.</div>
+          <div class="sc-slug" data-n="27">Int. Bar - Night</div>
+          <div class="sc-act">Rain on the window. TOM sets a brass lighter on the bar and does not look at it.</div>
+          <div class="sc-cue">May</div>
+          <div class="sc-dlg">You kept it.</div>
+          <div class="sc-cue">Tom</div>
+          <div class="sc-dlg">I did.</div>
+        </div></div>
+      </div>
+    </div>
+  </figure>
+</section>
+
+<section class="sec sec--in" id="ask" aria-labelledby="ask-h">
+  <div class="col">
+    <h2 id="ask-h"><span class="ck">⌘K</span> asks and makes</h2>
+    <p>Type under the line you are on; return does it. A ? first asks the reader you choose.</p>
+  </div>
+  <figure class="frame col col--demo" data-loop="home-commandk" aria-label="A question asked under the line with a ? first, and the answer">
+    <div class="frame__bar"><span>⌘K, under the line</span></div>
+    <div class="frame__body ask">
+      <div class="sheet-wrap"><div class="sheet">
+        <div class="sc-slug" data-n="1">Int. Bar - Night</div>
+        <div class="sc-act">Rain on the window. TOM sets a brass lighter on the bar and does not look at it.</div>
+        <div class="sc-cue">May</div>
+        <div class="sc-dlg">You kept it.</div>
+        <div class="sh sh--room" aria-hidden="true"><div class="sh__q"><i><svg class="ic"><use href="#r-room"/></svg></i><span class="sh__field"><span class="sh__typed">? where is the lighter now</span></span><em class="sh__who">This Mac</em></div><div class="sh__a"><p>In May&rsquo;s fist, at the rail. Tom left it on the bar in scene 1; she has it at dawn in scene 2.</p><p class="sh__ref">Scenes 1, 2</p></div><p class="sh__foot">return asks &nbsp; ⇧return asks in a new room &nbsp; esc back to the page</p></div>
+        <div class="sc-cue">Tom</div>
+        <div class="sc-dlg">I kept everything.</div>
+      </div></div>
+    </div>
+  </figure>
+  <p class="col cap">Nothing leaves your Mac unless you choose a reader. Your private notes never go. <a href="commandk.html">Everything ⌘K does</a></p>
+</section>
+
+<!-- Underneath: plain files -->
+<section class="sec" id="underneath" aria-labelledby="under-h">
+  <div class="col">
+    <h2 id="under-h">Plain files underneath</h2>
+    <p>Each project is a package with a plain .fountain inside. Your notes are plain .md files.</p>
+  </div>
+  <div class="col col--demo under">
+    <ul class="rows">
+      <li><b>Export all projects</b> Every script as a .fountain any editor opens.</li>
+      <li><b>Native</b> Built for Mac and iPad.</li>
+      <li><b>iPhone</b> Later.</li>
+    </ul>
+    <figure class="frame" data-loop="home-files" aria-label="A Finder window on the Margin folder: two projects and the notes folder">
+      <div class="frame__bar"><span>Finder</span></div>
+      <div class="frame__body frame__body--flush">
+        <div class="win fw">
+          <div class="win__bar"><span class="win__title">Margin</span></div>
+          <div class="win__screen fw__screen">
+            <div class="fw__head" aria-hidden="true"><span>Name</span><span>Kind</span><span>Date modified</span></div>
+            <ul class="fw__list">
+              <li><i class="fw__doc" aria-hidden="true"></i><b>The Lighter.margin</b><span>Margin project</span><span class="num">Today, 14:02</span></li>
+              <li><i class="fw__doc" aria-hidden="true"></i><b>Low water at Skerry.margin</b><span>Margin project</span><span class="num">Yesterday, 18:30</span></li>
+              <li><i class="fw__dir" aria-hidden="true"></i><b>Loose notes</b><span>Folder</span><span class="num">Today, 09:12</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- Get the beta: beta.js fills the ids from release.js and testflight.js -->
+<section class="sec" id="beta" aria-labelledby="beta-h">
+  <div class="col">
+    <h2 id="beta-h">Get the beta</h2>
+    <p>Mac and iPad. It needs people who will open it, get annoyed and say so.</p>
+  </div>
+  <div class="get col">
+    <div class="way" id="way-mac">
+      <h3>Mac</h3>
+      <p class="meta" id="mac-meta">The first Mac build is on its way.</p>
+      <a class="cta" id="mac-get" href="#beta" aria-disabled="true">Download for Mac</a>
+      <ol id="mac-steps">
+        <li>Open the downloaded file. Margin appears beside it.</li>
+        <li>Drag Margin into your Applications folder.</li>
+        <li id="mac-gate">The first time, macOS will stop it. Open System Settings › Privacy &amp; Security and press <b>Open Anyway</b>.</li>
+      </ol>
+      <div class="sum" id="mac-sum" hidden>
+        <span class="cap">Its fingerprint (SHA-256):</span>
+        <code id="mac-sha"></code>
+        <button type="button" id="mac-copy">Copy</button>
+      </div>
+    </div>
+    <div class="way" id="way-ios">
+      <h3>iPad</h3>
+      <p class="meta" id="ios-meta">Through Apple's TestFlight</p>
+      <a class="cta" id="ios-get" href="#beta" aria-disabled="true">Join on TestFlight</a>
+      <p class="cap">Install TestFlight, then open the link on your iPad.</p>
+      <p class="cap" id="ios-wait"><a href="mailto:hello@writeinmargin.com?subject=Margin%20beta">Ask to be told</a> when it opens.</p>
+    </div>
+  </div>
+  <div class="col stack">
+    <p class="pricing">One purchase, no subscription for the app. Team mode, when it ships, by subscription.</p>
+    <p class="cap">Not in this beta: syncing between your devices, and notes from other people.</p>
+    <ul class="safe">
+      <li>Every download comes over an encrypted connection from GitHub.</li>
+      <li>Each build carries its fingerprint, so you can check the file.</li>
+    </ul>
+    <p class="hero__note">No account. Nothing collected.</p>
+  </div>
+</section>
+
+<!-- Privacy -->
+<section class="sec" id="privacy" aria-labelledby="privacy-h">
+  <div class="col">
+    <h2 id="privacy-h">Margin collects nothing</h2>
+    <p>No analytics, no server of ours. It goes online only where you choose: a reader, a blog, a picture.</p>
+    <details class="policy" id="policy">
+      <summary>Read the full policy</summary>
+      <p class="cap policy__date">Last updated 8 October 2026. Covers Margin for Mac and iPad.</p>
+      <dl class="policy-list">
+        <dt>Nothing is collected</dt>
+        <dd>Margin has no accounts, no sign-in and no analytics. It does not track you or keep any record of how you use it. No advertising or analytics code is in the app.</dd>
+        <dt>Your writing stays on your device</dt>
+        <dd>Everything you write is a file on the Mac or iPad you wrote it on. Margin has no server. Nothing you write is ever sent to us.</dd>
+        <dt>When Margin goes online</dt>
+        <dd>Only where you choose: a reader, a blog you connect, and a picture you put on a page by its web address. Each talks straight to that service, never through us. Dictation goes to Apple&rsquo;s speech service only where the device cannot hear.</dd>
+        <dt>Asking about your script</dt>
+        <dd>Nothing leaves your Mac unless you choose a reader. Your private notes never go. The reader is Apple&rsquo;s on-device model unless you say otherwise, and it sends nothing anywhere. Apple&rsquo;s model needs macOS 26 or iPadOS 26 with Apple Intelligence. Without it nobody reads until you choose a reader. You can choose Ollama on your own machine instead, or Claude, ChatGPT, Gemini or another address you give, with your own key, kept in the keychain. Every request is logged in the project, so you can see what went and when.</dd>
+        <dt>Publishing</dt>
+        <dd>Connect a blog and press Publish, and that piece goes to that service with the key you gave it, kept in the keychain. Nothing is sent until you press Publish.</dd>
+        <dt>A picture by its web address</dt>
+        <dd>Put a picture on a page by its web address and Margin fetches it from there to draw the page.</dd>
+        <dt>Microphone</dt>
+        <dd>Dictation uses the microphone only while you speak, and no recording is kept. Voice memos are heard on the device. So is dictation, where the device can. Where it cannot, Apple&rsquo;s speech service hears it.</dd>
+        <dt>Tell us</dt>
+        <dd>Tell us sends nothing by itself. It opens your own mail app with a message ready, addressed to <a href="mailto:hello@writeinmargin.com">hello@writeinmargin.com</a>, and you decide whether to send it.</dd>
+        <dt>Files you export</dt>
+        <dd>PDF, Fountain, Final Draft, Word, ePub, Markdown, HTML or your whole library go wherever you put them. From there they are in your hands.</dd>
+        <dt>Third parties</dt>
+        <dd>The only third party is a reader or a blog you choose. There is no data to sell or share, and none is.</dd>
+        <dt>Children</dt>
+        <dd>Margin collects no personal information from anyone, including children.</dd>
+        <dt>Changes</dt>
+        <dd>If a feature ever sends anything off the device, this policy changes first, in plain words.</dd>
+        <dt>Contact</dt>
+        <dd><a href="mailto:hello@writeinmargin.com">hello@writeinmargin.com</a></dd>
+      </dl>
+      <p class="stamp">Margin is made by Super Deluxe LLC.</p>
+    </details>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__in">
+    <a class="brand" href="index.html">Margin</a>
+    <a href="index.html#privacy">Privacy</a>
+    <a href="mailto:hello@writeinmargin.com">Contact</a>
+  </div>
+</footer>
+
+<script src="testflight.js"></script>
+<script src="release.js"></script>
+<script src="beta.js"></script>
+<script src="demo-home-hero.js"></script>
+<script src="demo-home-way.js"></script>
+<script src="demo-home-story.js"></script>
+<script src="demo-home-notes.js"></script>
+<script src="demo-home-out.js"></script>
+<script src="home.js"></script>
+</body>
+</html>

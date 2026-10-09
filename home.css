@@ -1,0 +1,336 @@
+/* Margin home page: home.css. Tokens only; every colour comes from site.css.
+   What is here is what the interim demos inside the frames need, and the three static frames
+   (a scan read as a script, a ? asked under the line, a Finder window). Reference: DESIGN-NOTES.md.
+   Interim: the hidden controls the demo scripts un-hide (ways-tabs, ways-replay, rg-ctl, rg-cap,
+   bd-views, hero-seg, hw-hint, notes-replay, pen-add, way-menu, way-touch) go when the recorded
+   loops land; none of them is the design. */
+
+/* 0. Shared ------------------------------------------------------------------------------- */
+:root{
+  --note-blue:#3B6FB5;          /* a [[note]] for readers, as the app colours it (RevisionPaper blue) */
+  --note-red:#B8323E;           /* a {{note}} to yourself, as the app colours it (RevisionPaper cherry) */
+  --pen-blue:#2F55C8;--pen-red:#C0392B;   /* the Pencil's pen inks */
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--note-blue:#7FA7E0;--note-red:#E0606A}}
+:root[data-theme="dark"]{--note-blue:#7FA7E0;--note-red:#E0606A}
+
+.ic{display:inline-block;width:1.1em;height:1.1em;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;
+  stroke-linejoin:round;flex:none;vertical-align:-.2em}
+
+/* a line while it is still being typed: shown as typed, until it snaps into place */
+.sheet .sc-slug.raw,.sheet .sc-cue.raw{text-transform:none;font-weight:400;-webkit-text-stroke:0;margin-left:0}
+.sheet .raw{text-transform:none}
+.wash{background:color-mix(in srgb,var(--hl) 45%,transparent)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .wash{background:var(--hl);color:var(--hl-ink)}}
+:root[data-theme="dark"] .wash{background:var(--hl);color:var(--hl-ink)}
+
+/* the app's window: the page is a white card on the well, as the app draws it */
+.hw{--ui-min:11px;--ui-max:17px}
+.hw .sheet{color:var(--app-ink);--rev:var(--app-ink);--sheet-min:0}
+.hw .sheet .sc-pno,.hw .sheet .sc-slug[data-n]::before,.hw .sheet .sc-slug[data-n]::after{color:var(--app-faded)}
+.hw .sheet [id^="hs-"]{min-height:1.38em}
+.hw .ctl{color:var(--app-ink)}
+.hw .ctl:hover{background:var(--tile-on)}
+.hw .ctl[aria-pressed="true"],.hw .ctl[aria-selected="true"],.hw .ctl.is-solid{background:var(--app-ink);color:var(--app-card)}
+.hw__h{font:600 1.4em/1.15 var(--ui);letter-spacing:-.015em;color:var(--app-ink);margin:0}
+.hw__hint{font-size:.82em;color:var(--app-faded);min-height:1.4em}
+.hw__name{display:flex;justify-content:center;align-items:center;gap:.5em;margin:.1em 0 .7em;font:600 .82em/1.2 var(--ui);color:var(--app-faded);text-align:center}
+.hw__name.is-here{color:var(--app-ink)}
+.hw__name .ic{width:1.2em;height:1.2em}
+/* the window bar carries the name; a page is named only when two stand side by side */
+.rg:not([data-b="1"]) .wy__pg--a .hw__name{display:none}
+/* the frame bar can carry a group of controls; on a phone they take a row of their own */
+@media (max-width:639.98px){
+  .frame__bar--ctls{height:auto;grid-template-columns:minmax(0,1fr);padding-block:.35rem;row-gap:.35rem}
+  .frame__bar--ctls>:first-child{grid-column:1}
+  .frame__bar--ctls>:nth-child(2){grid-column:1;justify-self:center;flex-wrap:wrap;justify-content:center}
+}
+
+/* 1. The hero: the keyboard window, opened out from bare to split ----------------------------- */
+#way-menu,#way-touch{display:none!important}
+.rg__screen{display:grid;grid-template-columns:minmax(0,1fr);gap:1.1em;padding:1.1em;align-items:start;min-height:22em;
+  transition:grid-template-columns var(--dur-3) var(--ease)}
+.rg[data-stop="2"] .rg__screen,.rg[data-stop="3"] .rg__screen{grid-template-columns:minmax(0,.5fr) minmax(0,1fr)}
+.rg__side{display:none;min-width:0}
+.rg[data-stop="2"] .rg__board,.rg[data-stop="3"] .rg__notes{display:block;animation:slide-in var(--dur-3) var(--ease) both}
+@keyframes slide-in{from{transform:translateX(-1.2em);opacity:0}}
+.rg__side .hw__h{margin:.1em .1em .5em}
+.rg__cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6em}
+.rg__cards--one{grid-template-columns:minmax(0,1fr)}
+.rg__card{position:relative;padding:.7em .8em;min-height:6em}
+.rg__slug{font:700 .78em/1.3 var(--script);text-transform:uppercase;margin:.4em 1.6em 0 0;color:var(--app-ink)}
+.rg__ring{position:absolute;right:.7em;top:.7em;width:1.1em;height:1.1em;border-radius:50%;border:1.5px solid var(--app-faded);overflow:hidden}
+.rg__ring.is-half::after{content:"";position:absolute;inset:0;background:var(--app-ink);clip-path:inset(0 50% 0 0)}
+.rg__ring.is-half,.rg__ring.is-done{border-color:var(--app-ink)}
+.rg__ring.is-done{background:var(--app-ink)}
+.rg__note{font-size:.9em;padding:.7em .85em}
+.rg__note p:last-child{margin-top:.3em}
+.rg__note--blue{border-left:3px solid var(--note-blue)}
+.rg__note--red{border-left:3px solid var(--accent)}
+.wy__pages{display:grid;grid-template-columns:minmax(0,1fr);gap:1.2em;min-width:0}
+.wy__pg{display:none;min-width:0}
+.rg .wy__pg--a{display:block}
+.rg[data-a="0"] .wy__pg--a{display:none}
+.rg[data-b="1"] .wy__pg--b{display:block;animation:page-in var(--dur-3) var(--ease) both}
+@keyframes page-in{from{transform:translateX(1.2em);opacity:0}}
+.rg[data-a="1"][data-b="1"] .rg__pages{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+/* the bare page and ⌘K are the page alone, as in the app: no rail. With a panel out the
+   rail is back, and the panel's tile is lit. */
+.rg:is([data-stop="0"],[data-stop="1"]) .rail{display:none}
+.rg[data-stop="2"] .rail__t[data-k="board"],.rg[data-stop="3"] .rail__t[data-k="notes"]{background:var(--tile-on);color:var(--app-ink)}
+@container (max-width:36rem){
+  .rg__screen{padding:.8em;min-height:0}
+  .rg[data-stop="2"] .rg__screen,.rg[data-stop="3"] .rg__screen{grid-template-columns:minmax(0,1fr)}
+  .rg[data-a="1"][data-b="1"] .rg__pages{grid-template-columns:minmax(0,1fr)}
+}
+/* how much is open around the page: a row of controls under the frame */
+.rg__row{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-3) var(--sp-5);margin-top:var(--sp-3)}
+.rg__ctl .ctl[aria-checked="true"]{background:var(--ink);color:var(--well)}
+.rg__ctl kbd{border:0;background:none;padding:0;font:inherit;color:inherit;opacity:.7}
+
+/* ⌘K, set into the page under the line, in the page's own face */
+.sh{display:none;margin:1em -4ch .2em -9ch;border-block:1px solid var(--hair);font-size:.95em}
+.rg[data-stop="1"] .sh,.ask .sh{display:block}
+.sh__q,.sh__row{display:grid;grid-template-columns:9ch minmax(0,1fr) auto;align-items:baseline;padding:.28em 0}
+.sh__q{padding:.45em 0;border-bottom:1px solid var(--hair-soft)}
+.sh i{font-family:inherit;font-size:.82em;font-weight:400;line-height:1;font-style:normal;color:var(--app-faded);text-align:right;padding-right:1.4ch}
+.sh__q i{font:600 .8em/1 var(--ui);color:var(--accent)}
+.sh__field{grid-column:2/-1;min-width:0;white-space:nowrap}
+.sh__ph{color:var(--app-faded)}
+.sh__typed:not(:empty)+.sh__ph{display:none}
+.sh__field .caret{height:1em;vertical-align:-.12em}
+.sh__row b{font-weight:400;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sh__row.is-on b{font-weight:700;border-bottom:1.5px solid var(--accent)}
+.sh__row em{font-style:normal;color:var(--app-faded);font-size:.82em;padding-right:1ch;white-space:nowrap}
+.sh kbd{border:0;background:none;padding:0;font:inherit;color:inherit}
+.sh__foot{margin:.35em 0 .2em 9ch;font-size:.76em;color:var(--app-faded)}
+/* a ? first: the Room's icon where ⌘K stood, who reads at the right, the answer in a faint bubble */
+.sh--room .sh__field{grid-column:2}
+.sh__who{font-style:normal;font-size:.82em;color:var(--app-faded);white-space:nowrap;padding-left:1ch}
+.sh__a{display:grid;gap:.35em;justify-items:start;margin:.6em 0 .3em 9ch}
+.sh__a p{max-width:44ch;padding:.5em .9em;border-radius:var(--r-card);background:var(--tile)}
+.sh__a .sh__ref{background:none;padding:0;font-size:.82em;color:var(--app-faded)}
+@container sheet (max-width:33rem){
+  .sh{margin:1em -1em .2em -1em}
+  .sh__q,.sh__row{grid-template-columns:6ch minmax(0,1fr) auto}
+  .sh__foot,.sh__a{margin-left:6ch}
+}
+
+/* 3. The board: cards you move, the script following ------------------------------------------ */
+.bd__screen{padding:1.1em}
+.bd__pane[hidden]{display:none}
+.bd__acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9em;align-items:start;max-width:44em}
+.bd__act{min-width:0;padding:.45em;border-radius:var(--r-card);min-height:9em;transition:background-color var(--dur-2)}
+.bd__act.is-over{background:var(--tile)}
+.bd__ah{margin:0 0 .6em .3em}
+.bd__cards{display:grid;gap:.6em;min-height:4em;align-content:start}
+.bcard{position:relative;background:var(--app-card);border-radius:var(--r-card);padding:.75em .85em .8em 1.55em;
+  color:var(--app-ink);cursor:grab;-webkit-user-select:none;user-select:none;min-width:0}
+.bcard[data-c="aqua"]{--cc:var(--hand-aqua)}.bcard[data-c="lavender"]{--cc:var(--hand-lavender)}.bcard[data-c="pink"]{--cc:var(--hand-pink)}.bcard[data-c="lime"]{--cc:var(--hand-lime)}
+.bcard[data-c] .bcard__n::after{content:"";display:inline-block;width:.62em;height:.62em;margin-left:.6em;border-radius:50%;background:var(--cc);vertical-align:-.02em}
+.bcard:focus-visible{outline:2px solid var(--app-ink);outline-offset:2px}
+.bcard.is-drag{position:absolute;z-index:20;cursor:grabbing;outline:2px solid var(--app-ink);margin:0}
+.bcard--ph{background:transparent;border:1.5px dashed var(--hair);padding:0;min-height:3.4em}
+.bcard__grip{position:absolute;left:.5em;top:.7em;width:.7em;height:1.5em;touch-action:none;cursor:grab;opacity:.5;
+  border-left:2px dotted var(--app-faded);border-right:2px dotted var(--app-faded)}
+.bcard__top{display:flex;align-items:center;justify-content:space-between}
+.bcard__n{margin:0}
+.bcard__len{margin:0 .75em 0 auto;font:500 .78em/1 var(--ui);font-variant-numeric:tabular-nums;color:var(--app-faded)}
+.bcard__slug{font:700 .76em/1.3 var(--script);text-transform:uppercase;margin:.5em 0 .25em;overflow-wrap:anywhere}
+.bcard__beat{font-size:.86em;line-height:1.35}
+.bcard__who{display:flex;gap:.35em;margin-top:.55em;flex-wrap:wrap}
+.bcard__th{font-size:.76em;color:var(--app-faded);margin-top:.5em}
+.bring{display:inline-block;position:relative;width:1.15em;height:1.15em;padding:0;border-radius:50%;border:1.5px solid var(--app-faded);flex:none;overflow:hidden;
+  transition:background-color var(--dur-1)}
+.bring[data-ring="1"],.bring[data-ring="2"]{border-color:var(--app-ink)}
+.bring[data-ring="1"]::before{content:"";position:absolute;inset:0;background:var(--app-ink);clip-path:inset(0 50% 0 0)}
+.bring[data-ring="2"]{background:var(--app-ink)}
+.bring[data-ring="2"]::after{content:"";position:absolute;left:32%;top:14%;width:26%;height:50%;border:solid var(--app-card);border-width:0 1.6px 1.6px 0;transform:rotate(40deg)}
+button.bring{cursor:pointer;min-width:24px;min-height:24px}
+.bd__order{margin-top:1em;font-size:.8em;line-height:1.6;color:var(--app-faded)}
+.bd__order .app-eyebrow{margin-right:.5em}
+.bd__order #bd-order{overflow-wrap:anywhere}
+.bd__pane .hw__hint{margin-top:.3em}
+/* the outline, as the board can also be read: a thread as knots down its edge */
+.ol{position:relative;display:block;padding:.2em .2em}
+.ol__thread{position:absolute;left:1.2em;width:1.5px;background:var(--app-ink);opacity:.6;margin-top:.2em}
+.ol__row{display:grid;grid-template-columns:2em 1.6em minmax(8em,.9fr) minmax(0,1.7fr) 2.6em 1.4em;align-items:center;gap:.6em;height:2.8em;
+  border-bottom:1px solid var(--hair);font-size:.92em;min-width:0}
+.ol__knot{justify-self:center;position:relative;z-index:1;width:.7em;height:.7em;border-radius:50%;border:1.5px solid var(--app-faded);background:var(--app-well)}
+.ol__knot.is-plant{width:.95em;height:.95em;border-color:var(--app-ink);background:var(--app-well)}
+.ol__knot.is-payoff{width:.95em;height:.95em;border-color:var(--app-ink);background:var(--app-ink)}
+.ol__n{font:400 .85em var(--script);color:var(--app-faded)}
+.ol__slug{font:700 .78em/1.3 var(--script);text-transform:uppercase}
+.ol__beat{color:var(--app-ink);font-size:.92em;line-height:1.3}
+.ol__beat em{color:var(--app-faded);margin-left:.4em}
+.ol__len{font:500 .8em var(--ui);font-variant-numeric:tabular-nums;color:var(--app-faded);text-align:right}
+.bring.is-static{cursor:default}
+@container (max-width:36rem){
+  .bd__screen{padding:.8em}
+  .bd__acts{grid-template-columns:minmax(0,1fr)}
+  .bd__act{min-height:0}
+  .ol__row{grid-template-columns:1.6em 1.4em minmax(0,1fr) 2.4em 1.4em}
+  .ol__beat{display:none}
+}
+
+/* 4. Drafts: the graph, a page that writes itself, Compare and History ----------------------------- */
+.hw__screen{min-height:24em}
+.hw__pane{display:grid;grid-template-columns:minmax(0,.55fr) minmax(0,1fr);gap:1.2em;padding:1.1em;align-items:start}
+.hw__pane[hidden]{display:none}
+.hw__panel{display:grid;gap:.7em;align-content:start;min-width:0}
+.hw__panel>*{min-width:0}
+.hw__ptitle{display:flex;align-items:baseline;gap:.9em;padding:.1em .2em 0}
+.hw__h2{font:500 1em/1.1 var(--ui);color:var(--app-faded);padding:.2em .1em;border-radius:var(--r-ctl);min-height:24px}
+.hw__h2:hover{color:var(--app-ink)}
+.hw__page{min-width:0}
+.dr{padding:.6em .7em .6em .5em}
+.dr__body{position:relative}
+.dr__svg{position:absolute;left:0;top:0;overflow:visible;max-width:none}
+.g-lane,.g-fork{fill:none;stroke:var(--app-faded);stroke-opacity:.6;stroke-width:.8;stroke-linecap:round}
+.g-fork.is-new{stroke:var(--app-ink);stroke-opacity:1;stroke-width:1.3;stroke-dasharray:1;animation:g-draw 900ms var(--ease) both}
+@keyframes g-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.g-dot{fill:var(--app-faded);fill-opacity:.75;transition:r var(--dur-2) var(--ease)}
+.g-dot.is-open{fill:var(--app-ink);fill-opacity:1;r:4.2}
+.dr__rows{position:relative;min-width:0}
+.dr__row{display:flex;align-items:center;gap:.3em;height:2.6em;min-width:0}
+.dr__name{flex:1;min-width:0;display:flex;align-items:baseline;gap:.6em;text-align:left;padding:.25em .35em;border-radius:var(--r-ctl);min-height:24px;
+  font:500 .96em/1.2 var(--ui);color:var(--app-faded)}
+.dr__name:hover{background:var(--tile);color:var(--app-ink)}
+.dr__row.is-open .dr__name{font-weight:700;color:var(--app-ink)}
+.dr__n{white-space:nowrap}
+.dr__pill{font:500 .78em/1.2 var(--ui);color:var(--app-faded);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  background:var(--app-chip);padding:.22em .65em;border-radius:99px;min-width:0}
+.dr__acts{display:none;gap:.05em;flex:none}
+.dr__row.is-open .dr__acts{display:inline-flex}
+.dr__act{width:1.9em;height:1.9em;min-width:24px;min-height:24px;display:grid;place-items:center;border-radius:var(--r-ctl);color:var(--app-faded)}
+.dr__act:hover{background:var(--tile);color:var(--app-ink)}
+.dr__act.is-press{background:var(--app-ink);color:var(--app-card);transform:scale(.9)}
+.dr__knob{display:none}                 /* the dot is pressed, not dragged, on this page */
+/* Compare: the two pages level */
+.hw__pane>.hw__cmp{grid-column:1/-1}
+.hw__cmp{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.4em 1.2em}
+.hw__keys{grid-column:1/-1;text-align:center;font-size:.85em;color:var(--app-faded);margin:0 0 .2em}
+.hw__keys .keys{margin-right:.4em}
+.hw__keys kbd{background:var(--app-card);border-color:var(--hair);color:var(--app-ink)}
+.hw__cmpcol{min-width:0}
+/* History: every moment kept */
+.hx__lead,.hx__day{padding:.75em .95em}
+.hx__title{font:600 1.1em/1.25 var(--ui);margin:.3em 0 0;color:var(--app-ink)}
+.hx__txt{font-size:.88em;line-height:1.45;color:var(--app-ink);margin:.5em 0 .8em}
+.hx__day{display:grid;gap:.1em}
+.hx__m{display:grid;grid-template-columns:3.4em .8em minmax(0,1fr);align-items:center;gap:.2em;width:100%;text-align:left;min-height:24px;
+  padding:.32em .4em;border-radius:var(--r-ctl);font:500 .94em/1.3 var(--ui);color:var(--app-ink)}
+.hx__m time{font:400 .86em var(--script);color:var(--app-faded)}
+.hx__m i{width:.48em;height:.48em;border-radius:50%;background:var(--app-ink)}
+.hx__m:hover,.hx__m.is-on{background:var(--tile)}
+.hx__put{border:1.5px solid var(--app-ink)}
+.hx__btns{display:flex;gap:.5em;flex-wrap:wrap}
+@container (max-width:36rem){
+  .hw__pane{grid-template-columns:minmax(0,1fr);gap:1em;padding:.8em}
+  .hw__cmp{grid-template-columns:minmax(0,1fr)}
+  .hw__screen{min-height:0}
+}
+
+/* 5. Notes on the line, and the thread down the outline ------------------------------------------ */
+.nt__screen{display:grid;grid-template-columns:minmax(0,.46fr) minmax(0,1fr);gap:1em;padding:1.1em;align-items:start}
+.nt__card{padding:.5em .6em}
+.ol--nt .ol__row{height:4.1em;grid-template-columns:1.6em 1.4em minmax(0,1fr)}
+.ol--nt .ol__slug{display:grid;gap:.15em;font-size:.84em}
+.ol--nt .ol__n{font-size:.84em}
+.ol__th{font:500 .92em var(--ui);text-transform:none;color:var(--app-faded);letter-spacing:0}
+.ol--nt .ol__thread{left:.8em;top:2.05em;height:4.1em;transform-origin:top}
+.ol--nt .ol__knot,.ol--nt .ol__th,.ol--nt .ol__thread{transition:opacity var(--dur-3) var(--ease)}
+.nt__win:not(.has-plant) .nt__k1,.nt__win:not(.has-plant) .nt__t1{opacity:0}
+.nt__win:not(.has-pay) .nt__k2,.nt__win:not(.has-pay) .nt__t2,.nt__win:not(.has-pay) .nt__thread{opacity:0}
+.nt__win.has-pay .nt__thread{animation:nt-line 900ms var(--ease) both}
+@keyframes nt-line{from{transform:scaleY(0)}to{transform:none}}
+/* a note on the page, as the app sets it: in the script's own italic, red to yourself, blue for
+   readers, on the line it is about and nothing round it */
+.nt-m{font-style:italic}
+.nt-m--red{color:var(--note-red)}
+.nt-m--blue{color:var(--note-blue)}
+@container (max-width:30rem){.nt__screen{grid-template-columns:minmax(0,1fr);padding:.8em}}
+
+/* the Pencil: a printed page, ink anchored to its lines */
+.pen-wrap{max-width:30rem;margin-inline:auto}
+.pen{--ui-min:11.5px;--ui-max:15px;max-width:none;margin-inline:0;width:100%}
+.pen.ipad--portrait{aspect-ratio:3/4.05}
+.pen__screen{display:flex;flex-direction:column}
+.pen__bar{display:flex;align-items:center;justify-content:space-between;gap:.6em;padding:.6em .8em;flex:none;background:var(--app-card);border-bottom:1px solid var(--hair-soft);font-size:.9em}
+.pen__tools{display:inline-flex;gap:.2em;padding:.2em;border-radius:99px;background:var(--app-chip);color:var(--app-faded)}
+.pen__tools>*{padding:.3em .8em;border-radius:99px;font-weight:500}
+.pen__tools b{background:var(--app-ink);color:var(--app-card);font-weight:600}
+.pen__inks{display:inline-flex;gap:.45em}
+.pen__inks i{width:1.05em;height:1.05em;border-radius:50%;background:var(--c);border:1.5px solid var(--app-card);outline:1px solid var(--hair)}
+.pen__inks i:nth-child(1){--c:var(--app-ink)}.pen__inks i:nth-child(2){--c:var(--pen-blue)}.pen__inks i:nth-child(3){--c:var(--pen-red)}
+.pen__page{flex:1;min-height:0;padding:.7em;overflow:hidden}
+.pen__page .sheet-wrap{height:100%}
+.pen .sheet{min-height:100%;font-size:clamp(11px,3.9cqw,14.5px);--rev:var(--rev-white)}
+.pen .sheet>div{position:relative}
+.pen__new{overflow:hidden;max-height:0;margin:0!important;transition:max-height 900ms var(--ease)}
+.pen.is-added .pen__new{max-height:9em}
+.pen__new .sc-slug{margin-top:0}
+.ink{position:absolute;pointer-events:none}
+.ink-mk{left:-.3em;top:.05em;width:calc(100% - 3ch);max-width:14ch;height:1.2em;background:var(--hand-lime);mix-blend-mode:multiply;opacity:.6;border-radius:2px}
+.ink-ul{left:0;bottom:-.35em;width:7ch;height:.5em;overflow:visible}
+.ink-ul path{fill:none;stroke:var(--pen-blue);stroke-width:1.6;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:0}
+.ink-hand{left:-1.2ch;top:-.45em;width:8.2ch;height:2em;overflow:visible}
+.ink-hand path{fill:none;stroke:var(--pen-red);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:0}
+.pen.is-drawing .ink-mk{animation:pen-mk .55s var(--ease) both;animation-delay:.2s}
+.pen.is-drawing .ink-ul path{animation:pen-draw .7s var(--ease) both;animation-delay:.9s}
+.pen.is-drawing .ink-hand path{animation:pen-draw .9s var(--ease) both;animation-delay:1.8s}
+@keyframes pen-draw{from{stroke-dashoffset:1}}
+@keyframes pen-mk{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+
+/* 6. A scan read as a script ------------------------------------------------------------------- */
+.pdf{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--sp-5);align-items:start}
+.pdf__col{min-width:0;container-type:inline-size}
+.pdf__tag{font:500 var(--fs-small)/1.3 var(--ui);color:var(--quiet);margin:0 0 .6rem}
+.scan{position:relative;background:#F4F1EA;color:#5C584F;border:1px solid var(--hair);border-radius:var(--r-card);padding:2.4em 2.2em 2.4em 3.2em;
+  font:400 min(.9rem,2.1cqw) "Courier New",Courier,monospace;line-height:1.38;letter-spacing:.02em;min-height:100%}  /* somebody else's typewritten page, not Margin's */
+.scan__l{margin:0 0 1.38em}
+.scan__l--corner{position:absolute;right:2.2em;top:1.2em;margin:0}
+.scan__l--cue{margin:0 0 0 22ch}
+.scan__l--dlg{margin:0 15ch 1.38em 10ch}
+.scan__l--cont{text-align:right;margin:2em 0 0}
+.pdf .sheet{--sheet-min:0}
+/* under about 33rem both halves reflow to the narrow page together, as the sheet does */
+@container (max-width:33rem){
+  .scan{padding:1.6em 1.4em;font-size:clamp(10px,3.4cqw,13.5px)}
+  .scan__l--cue{margin-left:11ch}.scan__l--dlg{margin:0 3ch 1.38em 4ch}
+  .scan__l--corner{right:1.4em;top:.9em}
+}
+@media (max-width:719.98px){.pdf{grid-template-columns:minmax(0,1fr)}}
+
+/* 7. A ? asked under the line ----------------------------------------------------------------------------- */
+.ask .sheet{--sheet-min:0}
+
+/* 8. Underneath: three rows beside a Finder window ------------------------------------------------- */
+.under{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:var(--sp-5) var(--sp-6);align-items:start}
+.under .rows{margin-top:-.8rem}
+.fw{--ui-min:11px;--ui-max:15px}
+.fw__screen{padding:.6em 0 1.4em}
+.fw__head,.fw__list li{display:grid;grid-template-columns:1.4em minmax(0,1.6fr) minmax(0,1fr) minmax(0,1fr);gap:.8em;align-items:center;padding:.45em 1em}
+.fw__head{font-size:.78em;color:var(--app-faded);border-bottom:1px solid var(--hair-soft)}
+.fw__head span:first-child{grid-column:1/3}
+.fw__list li{font-size:.92em;color:var(--app-faded)}
+.fw__list li:nth-child(odd){background:var(--tile)}
+.fw__list b{font-weight:500;color:var(--app-ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fw__doc{display:block;width:.95em;height:1.2em;border:1.5px solid var(--app-faded);border-radius:2px;background:var(--app-card)}
+.fw__dir{display:block;width:1.2em;height:.95em;border:1.5px solid var(--app-faded);border-radius:2px 2px 2px 2px;background:var(--app-card);margin-top:.1em}
+@media (max-width:719.98px){
+  .under{grid-template-columns:minmax(0,1fr)}
+  .fw__head,.fw__list li{grid-template-columns:1.4em minmax(0,1fr) minmax(0,1fr)}
+  .fw__head span:last-child,.fw__list .num{display:none}
+}
+
+/* 9. The group heading, the beta, the policy ------------------------------------------------------- */
+.sec--group+.sec--in{padding-top:var(--sp-block)}
+.sec--in{padding-top:calc(var(--sp-section) * .75)}
+.policy{margin-top:var(--sp-4)}
+.policy summary{cursor:pointer;color:var(--accent);font-size:var(--fs-cap);line-height:var(--lh-cap);list-style:none;display:inline-block}
+.policy summary::-webkit-details-marker{display:none}
+.policy summary:hover{text-decoration:underline}
+.policy[open] summary{margin-bottom:var(--sp-3)}
+.policy__date{margin-bottom:var(--sp-3)}
+.stack>.hero__note{margin-top:var(--sp-4)}
